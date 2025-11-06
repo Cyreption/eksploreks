@@ -21,6 +21,10 @@ Route::get('/events/{id}', function ($id) { return view('events.show.show', ['id
 Route::get('/hangout', function () { return view('hangout.index'); })->name('hangout');
 Route::get('/hangout/{id}', function ($id) { return view('hangout.detail', ['id' => $id]); })->name('hangout.detail');
 
+// Fitur di Connect
+Route::get('/chat', function () { return view('connect.chat'); })->name('chat');
+Route::get('/addfriend', function () { return view('connect.addfriend'); })->name('addfriend');
+
 
 // Recruitment (quick closures, ready to plug views)
 Route::prefix('/recruitments')->name('recruitments.')->group(function () {
