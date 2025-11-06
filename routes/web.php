@@ -52,3 +52,23 @@ Route::prefix('/recruitments')->name('recruitments.')->group(function () {
     })->name('show');
 });
 
+// Calendar routes
+Route::prefix('/calendar')->name('calendar.')->group(function () {
+    Route::get('/', function () {
+        return view('calendar.index'); // index.blade.php
+    })->name('index');
+
+    Route::get('/create', function () {
+        return view('calendar.create'); // create.blade.php
+    })->name('create');
+
+    Route::get('/{id}', function ($id) {
+        return view('calendar.show', ['id' => $id]); // show.blade.php
+    })->name('show');
+
+    Route::get('/{id}/edit', function ($id) {
+        return view('calendar.edit', ['id' => $id]); // edit.blade.php
+    })->name('edit');
+});
+
+
