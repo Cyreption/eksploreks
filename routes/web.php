@@ -24,3 +24,25 @@ Route::get('/hangout/{id}', function ($id) { return view('hangout.detail', ['id'
 // Fitur di Connect
 Route::get('/chat', function () { return view('connect.chat'); })->name('chat');
 Route::get('/addfriend', function () { return view('connect.addfriend'); })->name('addfriend');
+
+
+// Recruitment (quick closures, ready to plug views)
+Route::prefix('/recruitments')->name('recruitments.')->group(function () {
+    // List positions
+    Route::get('/', function () {
+        // sementara: biarin view handle empty state
+        return view('recruitments.index');
+    })->name('index');
+
+    // Create form
+    Route::get('/create', function () {
+        return view('recruitments.create');
+    })->name('create');
+
+    // Detail position
+    Route::get('/{id}', function ($id) {
+        // nanti ganti dengan model binding, untuk sekarang cukup kirim id
+        return view('recruitments.show', ['id' => $id]);
+    })->name('show');
+});
+
