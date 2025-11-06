@@ -1,0 +1,102 @@
+/* BACKGROUND PINK PUDAR */
+.bg-gradient {
+    background: linear-gradient(135deg, #fdf2fb 0%, #f3e8ff 50%, #e0c3fc 100%) !important;
+}
+
+/* HEADER UNGU MUDA (HANGOUT & EVENT) */
+.bg-purple-light {
+    background: linear-gradient(135deg, #e0c3fc 0%, #c8b6ff 100%) !important;
+}
+
+/* WARNA UTAMA */
+.text-purple { color: #9333ea !important; }
+.bg-purple { background-color: #9333ea !important; }
+.border-purple { border-color: #9333ea !important; }
+
+/* BUTTON */
+.btn-purple {
+    background-color: #9333ea !important;
+    border-color: #9333ea !important;
+    color: white !important;
+    border-radius: 9999px !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    transition: all 0.3s ease;
+}
+.btn-purple:hover {
+    background-color: #7c2ad6 !important;
+    border-color: #7c2ad6 !important;
+}
+
+/* BUTTON OUTLINE */
+.btn-outline-purple {
+    border-color: #9333ea !important;
+    color: #9333ea !important;
+    border-radius: 9999px !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    transition: all 0.3s ease;
+}
+.btn-outline-purple:hover {
+    background-color: #9333ea !important;
+    color: white !important;
+}
+
+/* CARD & SHADOW */
+.rounded-3 { border-radius: 1rem !important; }
+.shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) !important; }
+
+/* NAVBAR */
+.navbar .nav-link {
+    color: #6b7280 !important;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+    color: #9333ea !important;
+}
+.navbar .nav-link.active .bi,
+.navbar .nav-link:hover .bi {
+    color: #9333ea !important;
+}
+.navbar .bi {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+/* INPUT */
+.form-control:focus {
+    border-color: #9333ea !important;
+    box-shadow: 0 0 0 0.2rem rgba(147, 51, 234, 0.25) !important;
+}
+
+/* PADDING */
+.pb-6 { padding-bottom: 6rem !important; }
+
+/* RATING */
+.text-warning { color: #fbbf24 !important; }
+
+/* KOMENTAR */
+.space-y-4 > * + * { margin-top: 1rem !important; }
+.bg-white.p-4.rounded-3.shadow-sm:hover {
+    transform: translateY(-2px);
+}
+
+/* EVENT CARD */
+.card {
+    transition: transform 0.2s ease;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(147, 51, 234, 0.15) !important;
+}
+
+.hover-shadow-lg:hover {
+    box-shadow: 0 10px 25px rgba(147, 51, 234, 0.2) !important;
+    transform: translateY(-3px);
+}
+.transition {
+    transition: all 0.3s ease;
+}
