@@ -30,7 +30,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label fw-bold">Registration Link:</label>
+            <label class="form-label fw-bold">Registration Links:</label>
             <input type="url" class="form-control rounded-pill" placeholder="https://...">
         </div>
 
