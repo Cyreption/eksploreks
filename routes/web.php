@@ -20,3 +20,25 @@ Route::get('/events/{id}', function ($id) { return view('events.show.show', ['id
 
 Route::get('/hangout', function () { return view('hangout.index'); })->name('hangout');
 Route::get('/hangout/{id}', function ($id) { return view('hangout.detail', ['id' => $id]); })->name('hangout.detail');
+
+
+// Recruitment (quick closures, ready to plug views)
+Route::prefix('/recruitments')->name('recruitments.')->group(function () {
+    // List positions
+    Route::get('/', function () {
+        // sementara: biarin view handle empty state
+        return view('recruitments.index');
+    })->name('index');
+
+    // Create form
+    Route::get('/create', function () {
+        return view('recruitments.create');
+    })->name('create');
+
+    // Detail position
+    Route::get('/{id}', function ($id) {
+        // nanti ganti dengan model binding, untuk sekarang cukup kirim id
+        return view('recruitments.show', ['id' => $id]);
+    })->name('show');
+});
+
