@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 // Splash & Auth
 Route::get('/', function () { return view('welcome'); });
 Route::get('/login', function () { return view('auth.login'); })->name('login');
@@ -54,21 +55,16 @@ Route::prefix('/recruitments')->name('recruitments.')->group(function () {
 
 // Calendar routes
 Route::prefix('/calendar')->name('calendar.')->group(function () {
-    Route::get('/', function () {
-        return view('calendar.index'); // index.blade.php
-    })->name('index');
+    Route::get('/', fn () => view('calendar.index'))->name('index');
+    Route::get('/create', fn () => view('calendar.create'))->name('create');
 
-    Route::get('/create', function () {
-        return view('calendar.create'); // create.blade.php
-    })->name('create');
+    // POST form create -> 
+    Route::post('/', function (Request $request) {
+        // return redirect()->route('calendar.index')->with('success', 'Event created!');
+        return back()->with('success', 'Mock: event created!');
+    })->name('store');
 
-    Route::get('/{id}', function ($id) {
-        return view('calendar.show', ['id' => $id]); // show.blade.php
-    })->name('show');
-
-    Route::get('/{id}/edit', function ($id) {
-        return view('calendar.edit', ['id' => $id]); // edit.blade.php
-    })->name('edit');
+    Route::get('/{id}', fn ($id) => view('calendar.show', ['id' => $id]))->name('show');
+    Route::get('/{id}/edit', fn ($id) => view('calendar.edit', ['id' => $id]))->name('edit');
 });
-
 
