@@ -1,0 +1,172 @@
+/* BACKGROUND PINK PUDAR */
+.bg-gradient {
+    background: linear-gradient(135deg, #fdf2fb 0%, #f3e8ff 50%, #e0c3fc 100%) !important;
+    min-height: 100vh;
+}
+
+/* HEADER UNGU MUDA */
+.bg-purple-light {
+    background: linear-gradient(135deg, #e0c3fc 0%, #c8b6ff 100%) !important;
+}
+
+/* WARNA UTAMA */
+.text-purple { color: #9333ea !important; }
+.bg-purple { background-color: #9333ea !important; }
+.border-purple { border-color: #9333ea !important; }
+
+/* BUTTON */
+.btn-purple {
+    background-color: #9333ea !important;
+    border-color: #9333ea !important;
+    color: white !important;
+    border-radius: 9999px !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    transition: all 0.3s ease;
+}
+.btn-purple:hover {
+    background-color: #7c2ad6 !important;
+    border-color: #7c2ad6 !important;
+}
+
+/* BUTTON OUTLINE */
+.btn-outline-purple {
+    border-color: #9333ea !important;
+    color: #9333ea !important;
+    background: transparent !important;
+    border-radius: 9999px !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    transition: all 0.3s ease;
+}
+.btn-outline-purple:hover {
+    background-color: #9333ea !important;
+    color: white !important;
+}
+
+/* CARD & SHADOW */
+.rounded-3 { border-radius: 1rem !important; }
+.shadow-purple { 
+    box-shadow: 0 1px 3px rgba(147, 51, 234, 0.12), 0 1px 2px rgba(147, 51, 234, 0.24) !important; 
+}
+.shadow-purple-hover:hover {
+    box-shadow: 0 4px 6px rgba(147, 51, 234, 0.15) !important;
+    transform: translateY(-2px);
+}
+
+/* CHAT CARD */
+.chat-item {
+    background: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 1px 3px rgba(147, 51, 234, 0.12);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+}
+.chat-item:hover {
+    box-shadow: 0 4px 6px rgba(147, 51, 234, 0.15);
+    transform: translateY(-2px);
+}
+
+/* AVATAR */
+.avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* BADGE UNGU */
+.badge-purple {
+    background-color: #9333ea !important;
+    color: white !important;
+    border-radius: 9999px !important;
+    padding: 0.25rem 0.625rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+}
+
+/* SEARCH BAR */
+.search-bar {
+    position: relative;
+    margin: 1.5rem 0;
+}
+.search-bar input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1.25rem;
+    background: rgba(224, 195, 252, 0.3);
+    border: none;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+.search-bar input:focus {
+    outline: none;
+    background: rgba(224, 195, 252, 0.5);
+    box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.2);
+}
+.search-bar i {
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9333ea;
+}
+
+/* HEADER */
+.chat-header {
+    background: linear-gradient(135deg, #e0c3fc 0%, #c8b6ff 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0 0 1.5rem 1.5rem;
+    box-shadow: 0 4px 6px rgba(147, 51, 234, 0.15);
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(224, 195, 252, 0.5);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(147, 51, 234, 0.1);
+    padding: 0.75rem 0;
+}
+.bottom-nav .nav-item {
+    flex: 1;
+    text-align: center;
+    color: #6b7280;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+}
+.bottom-nav .nav-item:hover,
+.bottom-nav .nav-item.active {
+    color: #9333ea;
+}
+.bottom-nav .nav-item i {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+.bottom-nav .nav-item span {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* CONTAINER */
+.chat-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}
+
+/* PADDING */
+.pb-6 { padding-bottom: 6rem !important; }
