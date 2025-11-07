@@ -1,0 +1,140 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+@layer base {
+  :root {
+    --background: 270 35% 95%;
+    --foreground: 270 10% 15%;
+
+    --card: 270 40% 98%;
+    --card-foreground: 270 10% 15%;
+
+    --popover: 270 40% 98%;
+    --popover-foreground: 270 10% 15%;
+
+    --primary: 265 45% 52%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 270 35% 90%;
+    --secondary-foreground: 270 10% 15%;
+
+    --muted: 270 30% 92%;
+    --muted-foreground: 270 8% 45%;
+
+    --accent: 265 50% 62%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --approve: 265 45% 52%;
+    --approve-foreground: 0 0% 100%;
+
+    --reject: 265 45% 52%;
+    --reject-foreground: 0 0% 100%;
+
+    --header: 270 40% 70%;
+    --header-foreground: 0 0% 100%;
+
+    --border: 270 25% 88%;
+    --input: 270 25% 88%;
+    --ring: 265 45% 52%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 270 35% 95%;
+    --sidebar-foreground: 270 10% 20%;
+    --sidebar-primary: 265 45% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 270 30% 92%;
+    --sidebar-accent-foreground: 270 10% 20%;
+    --sidebar-border: 270 25% 88%;
+    --sidebar-ring: 265 45% 52%;
+  }
+
+  .dark {
+    --background: 270 20% 12%;
+    --foreground: 270 10% 95%;
+    --card: 270 20% 15%;
+    --card-foreground: 270 10% 95%;
+    --popover: 270 20% 15%;
+    --popover-foreground: 270 10% 95%;
+    --primary: 265 50% 62%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 20% 20%;
+    --secondary-foreground: 270 10% 95%;
+    --muted: 270 20% 20%;
+    --muted-foreground: 270 8% 65%;
+    --accent: 265 50% 62%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --approve: 265 50% 62%;
+    --approve-foreground: 0 0% 100%;
+    --reject: 265 50% 62%;
+    --reject-foreground: 0 0% 100%;
+    --header: 270 30% 25%;
+    --header-foreground: 0 0% 100%;
+    --border: 270 20% 25%;
+    --input: 270 20% 25%;
+    --ring: 265 50% 62%;
+    --sidebar-background: 270 20% 12%;
+    --sidebar-foreground: 270 10% 90%;
+    --sidebar-primary: 265 50% 62%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 270 20% 20%;
+    --sidebar-accent-foreground: 270 10% 90%;
+    --sidebar-border: 270 20% 25%;
+    --sidebar-ring: 265 50% 62%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

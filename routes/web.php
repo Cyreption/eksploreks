@@ -26,11 +26,12 @@ Route::get('/hangout/{id}', function ($id) { return view('hangout.detail', ['id'
 Route::get('/chat', function () { return view('connect.chat'); })->name('chat');
 Route::get('/addfriend', function () { return view('connect.addfriend'); })->name('addfriend');
 Route::get('/appblade', function () { return view('connect.appblade'); })->name('appblade');
-Route::get('/chatroom', function () { return view('connect.chat'); })->name('chat');
+Route::get('/chatroom', function () { return view('connect.chatroom'); })->name('chatroom');
 Route::get('/connect', function () { return view('connect.connect'); })->name('connect');
 Route::get('/friendprofile', function () { return view('connect.friendprofile'); })->name('friendprofile');
 Route::get('/request', function () { return view('connect.request'); })->name('request');
 Route::get('/strangerprofile', function () { return view('connect.strangerprofile'); })->name('strangerprofile');
+
 
 
 // Recruitment (quick closures, ready to plug views)
