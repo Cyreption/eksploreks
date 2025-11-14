@@ -32,7 +32,7 @@
                 ['icon' => 'bi bi-geo-alt', 'label' => 'Maps', 'route' => '#'],
                 ['icon' => 'bi bi-calendar-event', 'label' => 'Event', 'route' => '/events'],
                 ['icon' => 'bi bi-people', 'label' => 'Connect', 'route' => '/connect'],
-                ['icon' => 'bi bi-briefcase', 'label' => 'Recruitment', 'route' => '/recruitments'],
+                ['icon' => 'bi bi-briefcase', 'label' => 'Recruitment', 'route' => '/recruitment'],
                 ['icon' => 'bi bi-calendar3', 'label' => 'Calendar', 'route' => '/calendar'],
                 ['icon' => 'bi bi-cup-hot', 'label' => 'Hangout', 'route' => '/hangout'],
             

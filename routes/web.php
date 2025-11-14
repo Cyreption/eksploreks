@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+//use App\Http\Controllers\RecruitmentController;
 
 
 // Splash & Auth
@@ -25,38 +26,25 @@ Route::get('/hangout', function () { return view('hangout.index'); })->name('han
 Route::get('/hangout/{id}', function ($id) { return view('hangout.detail', ['id' => $id]); })->name('hangout.detail');
 
 // Connect
-Route::get('/chat', function () { return view('connect.chat'); })->name('chat');
-Route::get('/addfriend', function () { return view('connect.addfriend'); })->name('addfriend');
-Route::get('/appblade', function () { return view('connect.appblade'); })->name('appblade');
-Route::get('/chatroom', function () { return view('connect.chatroom'); })->name('chatroom');
-Route::get('/connect', function () { return view('connect.connect'); })->name('connect');
-Route::get('/friendprofile', function () { return view('connect.friendprofile'); })->name('friendprofile');
-Route::get('/request', function () { return view('connect.request'); })->name('request');
-Route::get('/strangerprofile', function () { return view('connect.strangerprofile'); })->name('strangerprofile');
+Route::get('/recruitment', [RecruitmentController::class, 'index'])->name('recruitment.index');
+Route::get('/recruitment/{recruitment}', [RecruitmentController::class, 'show'])->name('recruitment.show');
 
 
 
-// Recruitment (quick closures, ready to plug views)
-Route::prefix('/recruitments')->name('recruitments.')->group(function () {
-    // List positions
-    Route::get('/', function () {
-        // sementara: biarin view handle empty state
-        return view('recruitments.index');
-    })->name('index');
-
-    // Create form
-    Route::get('/create', function () {
-        return view('recruitments.create');
-    })->name('create');
-
-    // Detail position
-    Route::get('/{id}', function ($id) {
-        // nanti ganti dengan model binding, untuk sekarang cukup kirim id
-        return view('recruitments.show', ['id' => $id]);
-    })->name('show');
+// Created by Aulia Salma Anjani - 5026231063
+// Recruitment
+Route::prefix('recruitment')->name('recruitment.')->group(function () {
+    Route::get('/', [RecruitmentController::class, 'index'])->name('index');
+    Route::get('/create', [RecruitmentController::class, 'create'])->name('create');
+    Route::post('/', [RecruitmentController::class, 'store'])->name('store');
+    Route::get('/{recruitment}', [RecruitmentController::class, 'show'])->name('show');
+    Route::get('/{recruitment}/edit', [RecruitmentController::class, 'edit'])->name('edit');
+    Route::put('/{recruitment}', [RecruitmentController::class, 'update'])->name('update');
+    Route::delete('/{recruitment}', [RecruitmentController::class, 'destroy'])->name('destroy');
+    Route::get('/{recruitment}/download', [RecruitmentController::class, 'downloadFile'])->name('download');
 });
 
-// Calendar routes
+// Calendar routes 
 Route::prefix('/calendar')->name('calendar.')->group(function () {
     Route::get('/', fn () => view('calendar.index'))->name('index');
     Route::get('/create', fn () => view('calendar.create'))->name('create');
