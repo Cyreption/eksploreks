@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-
+// Created by Satria Pinandita - 5026231004
 // Splash & Auth
 Route::get('/', function () { return view('welcome'); });
 Route::get('/login', function () { return view('auth.login'); })->name('login');
 Route::get('/register', function () { return view('auth.register'); })->name('register');
 
+// Created by Satria Pinandita - 5026231004
 // Main Page
 Route::get('/dashboard', function () { return view('dashboard.index'); })->name('dashboard');
 Route::get('/chat', function () { return view('chat.index'); })->name('chat');
@@ -20,6 +21,7 @@ Route::get('/events', function () { return view('events.index'); })->name('event
 Route::get('/events/create', function () { return view('events.create'); })->name('events.create');
 Route::get('/events/{id}', function ($id) { return view('events.show.show', ['id' => $id]); })->name('events.show');
 
+// Created by Satria Pinandita - 5026231004
 // Hangout 
 Route::get('/hangout', function () { return view('hangout.index'); })->name('hangout');
 Route::get('/hangout/{id}', function ($id) { return view('hangout.detail', ['id' => $id]); })->name('hangout.detail');
@@ -36,38 +38,23 @@ Route::get('/strangerprofile', function () { return view('connect.strangerprofil
 
 
 
-// Recruitment (quick closures, ready to plug views)
+// Recruitment
 Route::prefix('/recruitments')->name('recruitments.')->group(function () {
-    // List positions
-    Route::get('/', function () {
-        // sementara: biarin view handle empty state
-        return view('recruitments.index');
-    })->name('index');
-
-    // Create form
-    Route::get('/create', function () {
-        return view('recruitments.create');
-    })->name('create');
-
-    // Detail position
-    Route::get('/{id}', function ($id) {
-        // nanti ganti dengan model binding, untuk sekarang cukup kirim id
-        return view('recruitments.show', ['id' => $id]);
-    })->name('show');
+    Route::get('/', fn() => view('recruitments.index'))->name('index');
+    Route::get('/create', fn() => view('recruitments.create'))->name('create');
+    Route::get('/{id}', fn($id) => view('recruitments.show', ['id' => $id]))->name('show');
 });
 
-// Calendar routes
+// Calendar
 Route::prefix('/calendar')->name('calendar.')->group(function () {
-    Route::get('/', fn () => view('calendar.index'))->name('index');
-    Route::get('/create', fn () => view('calendar.create'))->name('create');
-
-    // POST form create -> 
-    Route::post('/', function (Request $request) {
-        // return redirect()->route('calendar.index')->with('success', 'Event created!');
-        return back()->with('success', 'Mock: event created!');
-    })->name('store');
-
-    Route::get('/{id}', fn ($id) => view('calendar.show', ['id' => $id]))->name('show');
-    Route::get('/{id}/edit', fn ($id) => view('calendar.edit', ['id' => $id]))->name('edit');
+    Route::get('/', fn() => view('calendar.index'))->name('index');
+    Route::get('/create', fn() => view('calendar.create'))->name('create');
+    Route::post('/', fn() => back()->with('success', 'Mock: event created!'))->name('store');
+    Route::get('/{id}', fn($id) => view('calendar.show', ['id' => $id]))->name('show');
+    Route::get('/{id}/edit', fn($id) => view('calendar.edit', ['id' => $id]))->name('edit');
 });
 
+// Created by Satria Pinandita - 5026231004
+// LIKED LIST 
+Route::get('/liked', fn() => view('liked.index'))->name('liked');
+Route::get('/liked/{id}', fn($id) => view('liked.detail', ['id' => $id]))->name('liked.detail');

@@ -100,3 +100,17 @@
 .transition {
     transition: all 0.3s ease;
 }
+
+/* CARD HOVER CEPAT */
+.hover-shadow-lg {
+    transition: all 0.2s ease;
+}
+.hover-shadow-lg:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(147, 51, 234, 0.15) !important;
+}
+
+/* GAMBAR CEPAT */
+img {
+    loading: lazy;
+}
