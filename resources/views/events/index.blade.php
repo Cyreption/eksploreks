@@ -2,7 +2,7 @@
 @section('title', 'Events')
 @section('content')
 
-// created by Hafizhan Yusra Sulistyo - 5026231060
+<!-- created by Hafizhan Yusra Sulistyo - 5026231060 -->
 <!-- Header -->
 <header class="bg-white shadow-sm p-3 sticky-top">
     <div class="container-fluid d-flex justify-content-between align-items-center">
@@ -25,13 +25,14 @@
 </div>
 
 <!-- Event List -->
-<div class="container mt-4 pb-6">
+<div class="container mt-4 pb-6" id="event-list">
     <!-- Event 1 -->
     <a href="{{ route('events.show', 1) }}" class="text-decoration-none d-block mb-3">
         <div class="card border-0 shadow-sm overflow-hidden">
             <div class="row g-0">
                 <div class="col-4">
-                    <img src="https://via.placeholder.com/150/9333ea/ffffff?text=TUG" class="img-fluid rounded-start h-100" style="object-fit: cover;">
+                    <img src="https://via.placeholder.com/150/9333ea/ffffff?text=TUG"
+                         class="img-fluid rounded-start h-100" style="object-fit: cover;">
                 </div>
                 <div class="col-8">
                     <div class="card-body py-3">
@@ -49,7 +50,8 @@
         <div class="card border-0 shadow-sm overflow-hidden">
             <div class="row g-0">
                 <div class="col-4">
-                    <img src="https://via.placeholder.com/150/9333ea/ffffff?text=VALO" class="img-fluid rounded-start h-100" style="object-fit: cover;">
+                    <img src="https://via.placeholder.com/150/9333ea/ffffff?text=VALO"
+                         class="img-fluid rounded-start h-100" style="object-fit: cover;">
                 </div>
                 <div class="col-8">
                     <div class="card-body py-3">
@@ -67,7 +69,8 @@
         <div class="card border-0 shadow-sm overflow-hidden">
             <div class="row g-0">
                 <div class="col-4">
-                    <img src="https://via.placeholder.com/150/9333ea/ffffff?text=SOCCER" class="img-fluid rounded-start h-100" style="object-fit: cover;">
+                    <img src="https://via.placeholder.com/150/9333ea/ffffff?text=SOCCER"
+                         class="img-fluid rounded-start h-100" style="object-fit: cover;">
                 </div>
                 <div class="col-8">
                     <div class="card-body py-3">
@@ -80,9 +83,22 @@
         </div>
     </a>
 
-    <!-- Floating + Button -->
-    <a href="/events/create" class="btn btn-purple rounded-circle shadow-lg position-fixed bottom-0 end-0 m-4 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; z-index: 100;">
-        <i class="bi bi-plus fs-1"></i>
+    <!-- FAB: Centered + Above Navbar -->
+    <a href="{{ route('events.create') }}"
+       class="btn btn-purple rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center fab-button"
+       style="bottom: 90px; right: 16px; width: 60px; height: 60px; z-index: 1040;">
+        <i class="bi bi-plus text-white" style="font-size: 32px;"></i>
     </a>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.location.pathname.includes('/events/create')) {
+            const fab = document.querySelector('.fab-button');
+            if (fab) fab.style.display = 'none';
+        }
+    });
+</script>
+@endpush
 @endsection

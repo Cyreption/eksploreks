@@ -190,7 +190,7 @@
 
     <!-- Bottom Navigation -->
     <div class="bottom-nav">
-        <a href="#" class="nav-item">
+        <a href="/dashboard" class="nav-item">
             <i class="bi bi-house-door"></i>
             <span>Home</span>
         </a>
