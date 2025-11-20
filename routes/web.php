@@ -27,15 +27,30 @@ Route::get('/events/{id}', fn($id) => view('events.show.show', ['id' => $id]))->
 Route::get('/hangout', fn() => view('hangout.index'))->name('hangout');
 Route::get('/hangout/{id}', fn($id) => view('hangout.detail', ['id' => $id]))->name('hangout.detail');
 
-// ====================== FITUR CONNECT (dari dev.satria) ======================
-Route::get('/chat', fn() => view('connect.chat'))->name('chat'); // override biar ke connect.chat
-Route::get('/addfriend', fn() => view('connect.addfriend'))->name('addfriend');
+// ====================== FITUR CONNECT ======================
+Route::prefix('/connect')->name('connect.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\FriendListController::class, 'index'])->name('index');
+    Route::get('/add/{userId}', [\App\Http\Controllers\ConnectController::class, 'showAddFriend'])->name('addFriend');
+    Route::get('/friend/{friendId}', [\App\Http\Controllers\ConnectController::class, 'showFriendProfile'])->name('friendProfile');
+    Route::get('/stranger/{userId}', [\App\Http\Controllers\ConnectController::class, 'showStrangerProfile'])->name('strangerProfile');
+    Route::get('/search', [\App\Http\Controllers\ConnectController::class, 'search'])->name('search');
+});
+
+Route::prefix('/friend-request')->name('friendRequest.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\FriendRequestController::class, 'index'])->name('index');
+    Route::post('/', [\App\Http\Controllers\FriendRequestController::class, 'store'])->name('store');
+    Route::put('/{friendRequest}', [\App\Http\Controllers\FriendRequestController::class, 'update'])->name('update');
+    Route::delete('/{friendRequest}', [\App\Http\Controllers\FriendRequestController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('/friend-list')->name('friendList.')->group(function () {
+    Route::delete('/{friendList}', [\App\Http\Controllers\FriendListController::class, 'destroy'])->name('destroy');
+});
+
+// Backward compatibility routes
+Route::get('/chat', fn() => view('connect.chat'))->name('chat');
 Route::get('/appblade', fn() => view('connect.appblade'))->name('appblade');
 Route::get('/chatroom', fn() => view('connect.chatroom'))->name('chatroom');
-Route::get('/connect', fn() => view('connect.connect'))->name('connect');
-Route::get('/friendprofile', fn() => view('connect.friendprofile'))->name('friendprofile');
-Route::get('/request', fn() => view('connect.request'))->name('request');
-Route::get('/strangerprofile', fn() => view('connect.strangerprofile'))->name('strangerprofile');
 
 // ====================== RECRUITMENT (versi MASTER - yang sudah pake Controller) ======================
 Route::prefix('recruitment')->name('recruitment.')->group(function () {
