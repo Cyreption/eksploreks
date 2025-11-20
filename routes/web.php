@@ -6,8 +6,11 @@ use App\Http\Controllers\RecruitmentController;
 // Created by Satria Pinandita - 5026231004
 // Splash & Auth
 Route::get('/', function () { return view('welcome'); });
-Route::get('/login', function () { return view('auth.login'); })->name('login');
-Route::get('/register', function () { return view('auth.register'); })->name('register');
+Route::get('/login', [\App\Http\Controllers\ProfileController::class, 'showLogin'])->name('login');
+Route::post('/login', [\App\Http\Controllers\ProfileController::class, 'login']);
+Route::get('/logout', [\App\Http\Controllers\ProfileController::class, 'logout'])->name('logout');
+Route::get('/register', [\App\Http\Controllers\ProfileController::class, 'showRegister'])->name('register');
+Route::post('/register', [\App\Http\Controllers\ProfileController::class, 'register']);
 
 // Main Page
 Route::get('/dashboard', fn() => view('dashboard.index'))->name('dashboard');

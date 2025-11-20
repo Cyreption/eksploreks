@@ -13,15 +13,25 @@
             <img src="https://via.placeholder.com/100/9333ea/ffffff?text=Pin" class="mx-auto rounded-full shadow-lg w-24 h-24">
             <h1 class="text-3xl font-bold text-purple-800 mt-5">Register</h1>
         </div>
-        <form action="/dashboard" method="get">
-            <input type="text" placeholder="Name / Username" class="w-full p-3 mb-3 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <input type="email" placeholder="Email" class="w-full p-3 mb-3 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <input type="text" placeholder="Institution" class="w-full p-3 mb-3 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <input type="text" placeholder="Department" class="w-full p-3 mb-3 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <input type="date" placeholder="Birth Date" class="w-full p-3 mb-3 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <input type="password" placeholder="Password" class="w-full p-3 mb-5 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+        @if ($errors->any())
+            <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                @foreach ($errors->all() as $error)
+                    <p class="text-sm">{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
+        <form action="{{ route('register') }}" method="POST">
+            @csrf
+            <input type="text" name="name" placeholder="Name / Username" value="{{ old('name') }}" class="w-full p-3 mb-3 border @error('name') border-red-500 @else border-purple-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+            <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" class="w-full p-3 mb-3 border @error('email') border-red-500 @else border-purple-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+            <input type="text" name="institution" placeholder="Institution" value="{{ old('institution') }}" class="w-full p-3 mb-3 border @error('institution') border-red-500 @else border-purple-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+            <input type="text" name="department" placeholder="Department" value="{{ old('department') }}" class="w-full p-3 mb-3 border @error('department') border-red-500 @else border-purple-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+            <input type="date" name="birth_date" placeholder="Birth Date" value="{{ old('birth_date') }}" class="w-full p-3 mb-3 border @error('birth_date') border-red-500 @else border-purple-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+            <input type="password" name="password" placeholder="Password" class="w-full p-3 mb-3 border @error('password') border-red-500 @else border-purple-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+            <input type="password" name="password_confirmation" placeholder="Confirm Password" class="w-full p-3 mb-5 border @error('password') border-red-500 @else border-purple-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
             <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-bold hover:bg-purple-700 transition shadow-md">Register</button>
         </form>
+        <p class="text-center mt-4 text-gray-600">Sudah punya akun? <a href="{{ route('login') }}" class="text-purple-600 font-bold hover:underline">Login di sini</a></p>
     </div>
 </body>
 </html>
