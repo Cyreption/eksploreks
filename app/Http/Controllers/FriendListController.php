@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\FriendList;
+use App\Models\FriendRequest;
 use Illuminate\Http\Request;
 
 class FriendListController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource (friend list).
      */
     public function index()
     {
-        //
+        $userId = session('user_id');
+        $friends = FriendList::where('user_id', $userId)
+            ->with('friend')
+            ->get();
+        
+        return view('connect.connect', ['friends' => $friends]);
     }
 
     /**
@@ -56,10 +62,11 @@ class FriendListController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from storage (unfriend).
      */
     public function destroy(FriendList $friendList)
     {
-        //
+        $friendList->delete();
+        return back()->with('success', 'Teman dihapus dari daftar');
     }
 }

@@ -13,7 +13,7 @@
                 box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 
         <!-- Back Arrow -->
-        <a href="{{ url('/connect') }}" 
+        <a href="{{ route('connect.index') }}" 
            class="position-absolute start-0 ms-3 text-white"
            style="top: 50%; transform: translateY(-50%);">
             <i class="bi bi-arrow-left fs-5"></i>
@@ -30,26 +30,30 @@
 
             <!-- Profile Image -->
             <div class="d-flex justify-content-center mb-3">
-                <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=LandoNorris"
-                     alt="Lando Norris"
+                <img src="{{ $user->avatar_url ?? 'https://api.dicebear.com/9.x/adventurer/svg?seed=' . urlencode($user->username) }}"
+                     alt="{{ $user->full_name }}"
                      class="rounded-circle"
                      style="width: 80px; height: 80px;">
             </div>
 
             <!-- Profile Info -->
-            <h5 class="fw-bold mb-2">Lando Norris</h5>
+            <h5 class="fw-bold mb-2">{{ $user->full_name }}</h5>
             <p class="text-muted mb-1">
-                The ultimate combo of speed and sass.
+                {{ $user->institution }}
             </p>
             <p class="text-muted mb-4" style="max-width: 300px; margin: 0 auto;">
-                Lando’s the guy who races fast, jokes faster, and always keeps it real.
+                {{ $user->description ?? 'Pengguna baru' }}
             </p>
 
             <!-- Follow Button -->
-            <button class="btn fw-bold px-4 py-2 rounded-pill text-white shadow-sm"
-                    style="background-color: #a16ae8;">
-                Follow
-            </button>
+            <form action="{{ route('friendRequest.store') }}" method="POST" style="display: inline;">
+                @csrf
+                <input type="hidden" name="friend_id" value="{{ $user->user_id }}">
+                <button type="submit" class="btn fw-bold px-4 py-2 rounded-pill text-white shadow-sm"
+                        style="background-color: #a16ae8;">
+                    Follow
+                </button>
+            </form>
         </div>
 
     </div>

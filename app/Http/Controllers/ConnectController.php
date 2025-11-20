@@ -1,0 +1,92 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Models\FriendList;
+use App\Models\FriendRequest;
+use Illuminate\Http\Request;
+
+class ConnectController extends Controller
+{
+    /**
+     * Display connect page with suggestions.
+     */
+    public function index()
+    {
+        $userId = session('user_id');
+        
+        // Get all users except current user and already friends
+        $friends = FriendList::where('user_id', $userId)->pluck('friend_id')->toArray();
+        
+        // Get suggestions (users not in friend list and not the current user)
+        $suggestions = User::where('user_id', '!=', $userId)
+            ->whereNotIn('user_id', $friends)
+            ->limit(10)
+            ->get();
+        
+        return view('connect.connect', ['suggestions' => $suggestions]);
+    }
+    
+    /**
+     * Show add friend page with specific user.
+     */
+    public function showAddFriend($userId)
+    {
+        $user = User::findOrFail($userId);
+        return view('connect.addfriend', ['user' => $user]);
+    }
+    
+    /**
+     * Show friend profile.
+     */
+    public function showFriendProfile($friendId)
+    {
+        $friend = User::findOrFail($friendId);
+        $currentUserId = session('user_id');
+        
+        // Check if they are friends
+        $isFriend = FriendList::where(function($query) use ($currentUserId, $friendId) {
+            $query->where('user_id', $currentUserId)->where('friend_id', $friendId)
+                  ->orWhere('user_id', $friendId)->where('friend_id', $currentUserId);
+        })->exists();
+        
+        return view('connect.friendprofile', ['friend' => $friend, 'isFriend' => $isFriend]);
+    }
+    
+    /**
+     * Show stranger profile (non-friend).
+     */
+    public function showStrangerProfile($userId)
+    {
+        $stranger = User::findOrFail($userId);
+        $currentUserId = session('user_id');
+        
+        // Check if request already sent
+        $requestSent = FriendRequest::where('user_id', $currentUserId)
+            ->where('friend_id', $userId)
+            ->where('status', 'pending')
+            ->exists();
+        
+        return view('connect.strangerprofile', ['stranger' => $stranger, 'requestSent' => $requestSent]);
+    }
+    
+    /**
+     * Search users.
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+        $userId = session('user_id');
+        
+        $users = User::where(function($q) use ($query) {
+            $q->where('username', 'like', '%' . $query . '%')
+              ->orWhere('full_name', 'like', '%' . $query . '%');
+        })
+        ->where('user_id', '!=', $userId)
+        ->limit(20)
+        ->get();
+        
+        return view('connect.search', ['users' => $users, 'query' => $query]);
+    }
+}
