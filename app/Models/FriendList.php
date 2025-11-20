@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class FriendList extends Model
+{
+    protected $table = 'friend_list';
+    protected $primaryKey = 'friend_list_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
+    public $timestamps = false;
+
+    protected $fillable = [
+        'user_id',
+        'friend_id',
+        'created_at',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function friend()
+    {
+        return $this->belongsTo(User::class, 'friend_id');
+    }
+}
