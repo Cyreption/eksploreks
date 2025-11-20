@@ -13,9 +13,9 @@ Route::get('/register', [\App\Http\Controllers\ProfileController::class, 'showRe
 Route::post('/register', [\App\Http\Controllers\ProfileController::class, 'register']);
 
 // Main Page
-Route::get('/dashboard', fn() => view('dashboard.index'))->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\ProfileController::class, 'dashboard'])->name('dashboard');
 Route::get('/chat', fn() => view('chat.index'))->name('chat');
-Route::get('/liked', fn() => view('liked.index'))->name('liked');
+Route::get('/liked', [\App\Http\Controllers\PlaceController::class, 'likedList'])->name('liked');
 Route::get('/profile', fn() => view('profile.index'))->name('profile');
 
 // Events
@@ -24,8 +24,9 @@ Route::get('/events/create', fn() => view('events.create'))->name('events.create
 Route::get('/events/{id}', fn($id) => view('events.show.show', ['id' => $id]))->name('events.show');
 
 // Hangout
-Route::get('/hangout', fn() => view('hangout.index'))->name('hangout');
-Route::get('/hangout/{id}', fn($id) => view('hangout.detail', ['id' => $id]))->name('hangout.detail');
+Route::get('/hangout', [\App\Http\Controllers\PlaceController::class, 'hangout'])->name('hangout');
+Route::get('/hangout/{id}', [\App\Http\Controllers\PlaceController::class, 'hangoutDetail'])->name('hangout.detail');
+Route::post('/hangout/{id}/like', [\App\Http\Controllers\PlaceController::class, 'toggleLike'])->name('hangout.like');
 
 // ====================== FITUR CONNECT ======================
 Route::prefix('/connect')->name('connect.')->group(function () {
@@ -72,7 +73,3 @@ Route::prefix('/calendar')->name('calendar.')->group(function () {
     Route::get('/{id}', fn($id) => view('calendar.show', ['id' => $id]))->name('show');
     Route::get('/{id}/edit', fn($id) => view('calendar.edit', ['id' => $id]))->name('edit');
 });
-
-// ====================== LIKED LIST (dari Satria) ======================
-Route::get('/liked', fn() => view('liked.index'))->name('liked');
-Route::get('/liked/{id}', fn($id) => view('liked.detail', ['id' => $id]))->name('liked.detail');
