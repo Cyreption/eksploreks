@@ -1,112 +1,74 @@
-<!-- Created by Aulia Salma Anjani - 5026231063 -->
+{{-- resources/views/academic-calendar/show.blade.php --}}
 @extends('layouts.app')
 
+@section('title', 'Event Detail')
+
 @section('content')
-<div class="calendar-page">
-    <!-- Header -->
-    <div class="calendar-header">
-        <button class="btn-back" onclick="window.history.back()">
-            <i class="bi bi-chevron-left"></i>
-        </button>
-        <h1 class="header-title">Calendar</h1>
-        <div class="logo-icon">
-            <i class="bi bi-flower1"></i>
+<!-- Header -->
+<div style="background-color: #CDBAE6;" class="text-black">
+    <div class="container py-4 position-relative">
+        <div class="d-flex align-items-center justify-content-center position-relative">
+            <a href="javascript:history.back()" 
+               class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+               style="background-color: #70539A; width: 44px; height: 44px; left: 12px; z-index: 10;">
+                <i class="bi bi-arrow-left fs-4"></i>
+            </a>
+            <h5 class="mb-0 fw-bold">Calendar</h5>
+            <div class="position-absolute end-0" style="right: 12px;">
+                <img src="{{ asset('logo.png') }}" alt="Logo" width="33" height="44">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4 pb-6">
+
+    <!-- Topic -->
+    <div class="bg-white rounded-3 shadow-sm p-4 mb-3 d-flex gap-3">
+        <i class="bi bi-pencil-square text-purple fs-3"></i>
+        <div class="flex-grow-1">
+            <h6 class="fw-bold text-dark mb-2">Topic</h6>
+            <p class="text-muted mb-1">Day Date, Time</p>
+            <p class="text-muted">Lorem Ipsum</p>
         </div>
     </div>
 
-    <!-- Event Details -->
-    <div class="event-details">
-        <!-- Topic Section -->
-        <div class="detail-row">
-            <div class="icon-container">
-                <i class="bi bi-pencil-square"></i>
-            </div>
-            <div class="detail-content">
-                <h6 class="detail-label">Topic</h6>
-                <p class="detail-text">Day Date, Time</p>
-                <p class="detail-text">Lorem Ipsum</p>
-            </div>
+    <!-- Ringbell -->
+    <div class="bg-white rounded-3 shadow-sm p-4 mb-3 d-flex gap-3 align-items-center">
+        <i class="bi bi-bell-fill text-purple fs-3"></i>
+        <div class="flex-grow-1">
+            <h6 class="fw-bold text-dark">Ringbell</h6>
         </div>
+    </div>
 
-        <!-- Ringbell Section -->
-        <div class="detail-row">
-            <div class="icon-container">
-                <i class="bi bi-bell-fill"></i>
-            </div>
-            <div class="detail-content">
-                <h6 class="detail-label">Ringbell</h6>
-            </div>
+    <!-- Places Name -->
+    <div class="bg-white rounded-3 shadow-sm p-4 mb-3 d-flex gap-3 align-items-center">
+        <i class="bi bi-tag-fill text-purple fs-3"></i>
+        <div class="flex-grow-1">
+            <h6 class="fw-bold text-dark">Places Name</h6>
         </div>
+    </div>
 
-        <!-- Places Section -->
-        <div class="detail-row">
-            <div class="icon-container">
-                <i class="bi bi-tag-fill"></i>
-            </div>
-            <div class="detail-content">
-                <h6 class="detail-label">Places Name</h6>
-            </div>
-        </div>
-
-        <!-- Description Section -->
-        <div class="detail-row">
-            <div class="icon-container">
-                <i class="bi bi-text-left"></i>
-            </div>
-            <div class="detail-content">
-                <h6 class="detail-label">Description</h6>
-            </div>
+    <!-- Description -->
+    <div class="bg-white rounded-3 shadow-sm p-4 mb-5 d-flex gap-3">
+        <i class="bi bi-text-left text-purple fs-3"></i>
+        <div class="flex-grow-1">
+            <h6 class="fw-bold text-dark mb-2">Description</h6>
         </div>
     </div>
 
     <!-- Floating Edit Button -->
-    <button class="btn-float" onclick="window.location.href='{{ route('calendar.edit', $event->id) }}'">
-        <i class="bi bi-pencil"></i>
-    </button>
+    <a href="#" class="position-fixed bottom-0 end-0 m-4 d-flex align-items-center justify-content-center rounded-circle shadow-lg text-white"
+       style="background-color: #70539A; width: 60px; height: 60px; z-index: 100;">
+        <i class="bi bi-pencil fs-3"></i>
+    </a>
 
-    <!-- Bottom Navigation -->
-    @include('partials.bottom-nav')
 </div>
-
-<style>
-.event-details {
-    padding: 30px 20px;
-}
-
-.detail-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.icon-container {
-    background: transparent;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    color: #000;
-    flex-shrink: 0;
-}
-
-.detail-content {
-    flex: 1;
-}
-
-.detail-label {
-    font-size: 20px;
-    font-weight: 700;
-    color: #000;
-    margin-bottom: 5px;
-}
-
-.detail-text {
-    font-size: 16px;
-    color: #6B7280;
-    margin-bottom: 3px;
-}
-</style>
 @endsection
+
+@push('scripts')
+<style>
+    .bg-purple-light { background-color: #F3E8FF !important; }
+    .text-purple { color: #70539A !important; }
+</style>
+@endpush
