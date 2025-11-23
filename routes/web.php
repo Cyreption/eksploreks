@@ -37,17 +37,12 @@ Route::get('/friendprofile', fn() => view('connect.friendprofile'))->name('frien
 Route::get('/request', fn() => view('connect.request'))->name('request');
 Route::get('/strangerprofile', fn() => view('connect.strangerprofile'))->name('strangerprofile');
 
-// ====================== RECRUITMENT (versi MASTER - yang sudah pake Controller) ======================
-Route::prefix('recruitment')->name('recruitment.')->group(function () {
-    Route::get('/', [RecruitmentController::class, 'index'])->name('index');
-    Route::get('/create', [RecruitmentController::class, 'create'])->name('create');
-    Route::post('/', [RecruitmentController::class, 'store'])->name('store');
-    Route::get('/{recruitment}', [RecruitmentController::class, 'show'])->name('show');
-    Route::get('/{recruitment}/edit', [RecruitmentController::class, 'edit'])->name('edit');
-    Route::put('/{recruitment}', [RecruitmentController::class, 'update'])->name('update');
-    Route::delete('/{recruitment}', [RecruitmentController::class, 'destroy'])->name('destroy');
-    Route::get('/{recruitment}/download', [RecruitmentController::class, 'downloadFile'])->name('download');
-});
+// === RECRUITMENT ROUTES ===
+Route::get('/recruitment', [RecruitmentController::class, 'index'])
+     ->name('recruitment.index');
+
+Route::get('/recruitment/{recruitment}', [RecruitmentController::class, 'show'])
+     ->name('recruitment.show');
 
 // ====================== CALENDAR ======================
 Route::prefix('/calendar')->name('calendar.')->group(function () {
