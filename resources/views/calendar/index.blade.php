@@ -1,272 +1,116 @@
-<!-- Created by Aulia Salma Anjani - 5026231063 -->
+{{-- resources/views/academic-calendar/index.blade.php --}}
 @extends('layouts.app')
+@section('title', 'Calendar')
 
 @section('content')
-<div class="calendar-page">
-    <!-- Header -->
-    <div class="calendar-header">
-        <button class="btn-back" onclick="window.history.back()">
-            <i class="bi bi-chevron-left"></i>
-        </button>
-        <h1 class="header-title">Calendar</h1>
-        <div class="logo-icon">
-            <i class="bi bi-flower1"></i>
+<!-- Header -->
+<div style="background-color: #CDBAE6;" class="text-black">
+    <div class="container py-4 position-relative">
+        <div class="d-flex align-items-center justify-content-center position-relative">
+            <a href="javascript:history.back()" 
+               class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+               style="background-color: #70539A; width: 44px; height: 44px; left: 12px; z-index: 10;">
+                <i class="bi bi-arrow-left fs-4"></i>
+            </a>
+            <h5 class="mb-0 fw-bold">Calendar</h5>
+            <div class="position-absolute end-0" style="right: 12px;">
+                <img src="{{ asset('logo.png') }}" alt="Logo" width="33" height="44">
+            </div>
         </div>
     </div>
+</div>
 
-    <!-- Mini Calendar Widget -->
-    <div class="mini-calendar-widget">
-        <table class="table table-borderless mini-calendar">
-            <thead>
-                <tr>
-                    <th>Sun</th>
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+<div class="container py-4 pb-6">
+
+    <!-- Mini Calendar -->
+    <div class="bg-white rounded-3 shadow-sm p-3 mb-4">
+        <table class="w-100 text-center small">
+            <thead><tr class="text-muted fw-bold"><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead>
+            <tbody class="fw-semibold">
+                <tr><td class="text-muted">27</td><td class="text-muted">28</td><td class="text-muted">29</td><td class="text-muted">30</td><td>1</td><td>2</td><td>3</td></tr>
+                <tr><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+                <tr><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td></tr>
+                <tr><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td></tr>
+                <tr><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td></tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Search Bar -->
-    <div class="search-container">
-        <input type="text" class="form-control search-input" placeholder="Search ...">
-        <i class="bi bi-search search-icon"></i>
-    </div>
+    <!-- Search Bar — JUGA SOLID #D8B4FE -->
+    <div class="mb-5">
+        <div class="position-relative d-inline-block w-100">
+                    <input type="text"
+                        class="form-control rounded-pill border-0 shadow-sm py-3 text-white placeholder-white fw-medium pe-5"
+                        placeholder="Search ..."
+                        style="height: 56px; padding-left: 20px; padding-right: 50px; background-color: #CDBAE6 !important;">
+                    <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y text-white pe-4"></i>
+                </div>
+            </div>
 
     <!-- Event List -->
-    <div class="event-list">
-        <!-- Event Card 1 -->
-        <div class="event-card">
-            <h5 class="event-title">Data Lake House Class</h5>
-            <p class="event-class">4201 Class</p>
-            <p class="event-desc">Make a Data Lake</p>
-            <div class="event-meta">
-                <span class="color-indicator bg-warning"></span>
-                <span class="color-label">Color Yellow</span>
-            </div>
-            <div class="event-notification">
-                <i class="bi bi-square"></i>
-                <span>Notification</span>
+    <div class="d-flex flex-column gap-4">
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <h6 class="fw-bold text-dark mb-2">Data Lake House Class</h6>
+            <p class="text-muted small mb-2">4201 Class • Make a Data Lake</p>
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle" style="width:12px;height:12px;background:#FFD43B;"></div>
+                    <small>Color Yellow</small>
+                </div>
+                <div class="form-check form-switch ms-auto">
+                    <input class="form-check-input" type="checkbox" checked>
+                </div>
             </div>
         </div>
 
-        <!-- Event Card 2 -->
-        <div class="event-card">
-            <h5 class="event-title">DPP Class</h5>
-            <p class="event-class">1101 Class</p>
-            <p class="event-desc">Making UI/UX</p>
-            <div class="event-meta">
-                <span class="color-indicator bg-danger"></span>
-                <span class="color-label">Color Red</span>
-            </div>
-            <div class="event-notification">
-                <i class="bi bi-square"></i>
-                <span>Notification</span>
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <h6 class="fw-bold text-dark mb-2">DPP Class</h6>
+            <p class="text-muted small mb-2">1101 Class • Making UI/UX</p>
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle" style="width:12px;height:12px;background:#FF6B6B;"></div>
+                    <small>Color Red</small>
+                </div>
+                <div class="form-check form-switch ms-auto">
+                    <input class="form-check-input" type="checkbox">
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Floating Add Button -->
-    <button class="btn-float" onclick="window.location.href='{{ route('calendar.create') }}'">
-        <i class="bi bi-plus"></i>
-    </button>
+    <!-- TOMBOL + — #70539A + GAK KETUTUP NAVBAR -->
+    <a href="{{ route('calendar.create') }}" 
+       class="position-fixed end-0 me-4 d-flex align-items-center justify-content-center rounded-circle shadow-lg text-white z-10"
+       style="bottom: 100px; 
+              background-color: #70539A; 
+              width: 50px; height: 50px; 
+              box-shadow: 0 8px 25px rgba(112, 83, 154, 0.4);">
+        <i class="bi bi-plus-lg fs-1"></i>
+    </a>
 
-    <!-- Bottom Navigation -->
-    @include('partials.bottom-nav')
 </div>
-
-<style>
-.calendar-page {
-    min-height: 100vh;
-    background: linear-gradient(180deg, #E9D5FF 0%, #DDD6FE 100%);
-    padding-bottom: 80px;
-}
-
-.calendar-header {
-    background: linear-gradient(135deg, #9333EA 0%, #A855F7 100%);
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: white;
-}
-
-.btn-back {
-    background: rgba(255, 255, 255, 0.3);
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
-}
-
-.header-title {
-    font-size: 32px;
-    font-weight: 600;
-    margin: 0;
-}
-
-.logo-icon {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-}
-
-.mini-calendar-widget {
-    background: white;
-    margin: 30px 20px;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.mini-calendar th {
-    text-align: center;
-    font-weight: 700;
-    padding: 10px 5px;
-    border-bottom: 2px solid #000;
-}
-
-.mini-calendar td {
-    text-align: center;
-    padding: 15px 5px;
-    border: 1px solid #E5E7EB;
-}
-
-.search-container {
-    position: relative;
-    margin: 0 20px 30px;
-}
-
-.search-input {
-    background: rgba(255, 255, 255, 0.6);
-    border: none;
-    border-radius: 50px;
-    padding: 15px 50px 15px 25px;
-    font-size: 16px;
-}
-
-.search-input::placeholder {
-    color: #9CA3AF;
-}
-
-.search-icon {
-    position: absolute;
-    right: 25px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #9CA3AF;
-    font-size: 20px;
-}
-
-.event-list {
-    padding: 0 20px;
-}
-
-.event-card {
-    background: white;
-    border-radius: 20px;
-    padding: 25px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.event-title {
-    color: #7C3AED;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.event-class, .event-desc {
-    color: #374151;
-    font-size: 16px;
-    margin-bottom: 8px;
-}
-
-.event-meta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 15px 0;
-}
-
-.color-indicator {
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-}
-
-.color-label {
-    font-size: 16px;
-    color: #374151;
-}
-
-.event-notification {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 16px;
-    color: #374151;
-}
-
-.btn-float {
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, #7C3AED 0%, #9333EA 100%);
-    border: none;
-    border-radius: 50%;
-    color: white;
-    font-size: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 16px rgba(124, 58, 237, 0.4);
-}
-</style>
 @endsection
+
+@push('scripts')
+<style>
+    /* Warna solid ungu muda */
+    .bg-purple-light { background-color: #CDBAE6 !important; }
+    
+    /* Hari ini di mini calendar */
+    .bg-purple-light.text-purple.rounded-circle {
+        background-color: #70539A !important;
+        color: white !important;
+    }
+    
+    /* Switch toggle */
+    .form-check-input:checked { 
+        background-color: #70539A; 
+        border-color: #70539A; 
+    }
+    
+    /* Placeholder putih di search */
+    .placeholder-white::placeholder {
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+</style>
+@endpush
