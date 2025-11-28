@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecruitmentController;
+use App\Http\Controllers\EventController;
+
 
 // Created by Satria Pinandita - 5026231004
 // Splash & Auth
@@ -19,9 +21,10 @@ Route::get('/liked', [\App\Http\Controllers\PlaceController::class, 'likedList']
 Route::get('/profile', fn() => view('profile.index'))->name('profile');
 
 // Events
-Route::get('/events', fn() => view('events.index'))->name('events');
-Route::get('/events/create', fn() => view('events.create'))->name('events.create');
-Route::get('/events/{id}', fn($id) => view('events.show.show', ['id' => $id]))->name('events.show');
+
+Route::resource('events', EventController::class);
+Route::get('events/{event}/download-link', [EventController::class, 'downloadLink'])->name('events.downloadLink');
+Route::get('events/{event}/download-file', [EventController::class, 'downloadFile'])->name('events.downloadFile');
 
 // Hangout
 Route::get('/hangout', [\App\Http\Controllers\PlaceController::class, 'hangout'])->name('hangout');

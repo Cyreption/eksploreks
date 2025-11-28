@@ -1,34 +1,41 @@
 <?php
 
+// created by Hafizhan Yusra Sulistyo - 5026231060
+
+
 namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('events.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title'             => 'required|string|max:255',
+            'description'       => 'nullable|string',
+            'organizer'         => 'nullable|string|max:255',
+            'location'          => 'nullable|string|max:255',
+            'registration_link' => 'nullable|url',
+            'file_link'         => 'nullable|url',
+            'start_time'        => 'nullable|date',
+            'end_time'          => 'nullable|date|after_or_equal:start_time',
+        ]);
+
+        // isi user_id dari user yang login (fallback 1 untuk dev)
+        $data['user_id'] = Auth::id() ?? 1;
+
+        $event = Event::create($data);
+
+        return redirect()->route('events.show', $event)->with('success', 'Event berhasil dibuat.');
     }
 
     /**
@@ -36,30 +43,44 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view('events.show.show', compact('event'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Event $event)
+        public function index(\Illuminate\Http\Request $request)
     {
-        //
+        $q = $request->query('q');
+        $events = \App\Models\Event::when($q, function ($query, $q) {
+                    $query->where('title', 'like', "%{$q}%")
+                          ->orWhere('description', 'like', "%{$q}%")
+                          ->orWhere('organizer', 'like', "%{$q}%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate(12)
+                ->appends(['q' => $q]);
+
+        return view('events.index', compact('events', 'q'));
+    }
+        public function downloadLink(Event $event)
+    {
+        $url = $event->registration_link ?? $event->link ?? null;
+
+        if ($url && filter_var($url, FILTER_VALIDATE_URL)) {
+            return redirect()->away($url);
+        }
+
+        return redirect()->route('events.show', $event)
+                         ->with('error', 'Registration link not available or invalid.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Event $event)
+    public function downloadFile(Event $event)
     {
-        //
-    }
+        $url = $event->file_link ?? null;
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Event $event)
-    {
-        //
+        if ($url && filter_var($url, FILTER_VALIDATE_URL)) {
+            return redirect()->away($url);
+        }
+
+        return redirect()->route('events.show', $event)
+                         ->with('error', 'File link not available or invalid.');
     }
 }

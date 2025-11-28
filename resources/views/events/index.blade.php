@@ -16,72 +16,43 @@
 
 <!-- Search -->
 <div class="container mt-3">
-    <div class="input-group rounded-pill shadow-sm overflow-hidden">
-        <input type="text" class="form-control border-0 ps-4" placeholder="Search ...">
-        <span class="input-group-text border-0 bg-transparent">
-            <i class="bi bi-search text-purple"></i>
-        </span>
-    </div>
+    <form action="{{ route('events.index') }}" method="get">
+        <div class="input-group rounded-pill shadow-sm overflow-hidden">
+            <input name="q" type="text" class="form-control border-0 ps-4" placeholder="Search ..." value="{{ old('q', request('q', $q ?? '')) }}">
+            <button class="btn btn-transparent input-group-text border-0 bg-transparent">
+                <i class="bi bi-search text-purple"></i>
+            </button>
+        </div>
+    </form>
 </div>
 
 <!-- Event List -->
 <div class="container mt-4 pb-6" id="event-list">
-    <!-- Event 1 -->
-    <a href="{{ route('events.show', 1) }}" class="text-decoration-none d-block mb-3">
+    @forelse($events as $event)
+    <a href="{{ route('events.show', $event) }}" class="text-decoration-none d-block mb-3">
         <div class="card border-0 shadow-sm overflow-hidden">
             <div class="row g-0">
                 <div class="col-4">
-                    <img src="https://via.placeholder.com/150/9333ea/ffffff?text=TUG"
+                    <img src="{{ $event->file_path ? asset('storage/'.$event->file_path) : 'https://via.placeholder.com/150/9333ea/ffffff?text=EVENT' }}"
                          class="img-fluid rounded-start h-100" style="object-fit: cover;">
                 </div>
                 <div class="col-8">
                     <div class="card-body py-3">
-                        <h6 class="fw-bold mb-1">Diesnat HMSI</h6>
-                        <p class="text-muted small mb-1">Information Systems</p>
-                        <p class="small text-muted">Diesnat HMSI is a lively celebration featuring a series of exciting competitions and activities.</p>
+                        <h6 class="fw-bold mb-1">{{ $event->title }}</h6>
+                        <p class="text-muted small mb-1">{{ $event->organizer }}</p>
+                        <p class="small text-muted">{{ \Illuminate\Support\Str::limit($event->description, 120) }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </a>
+    @empty
+    <div class="text-center text-muted py-5">No events found.</div>
+    @endforelse
 
-    <!-- Event 2 -->
-    <a href="{{ route('events.show', 2) }}" class="text-decoration-none d-block mb-3">
-        <div class="card border-0 shadow-sm overflow-hidden">
-            <div class="row g-0">
-                <div class="col-4">
-                    <img src="https://via.placeholder.com/150/9333ea/ffffff?text=VALO"
-                         class="img-fluid rounded-start h-100" style="object-fit: cover;">
-                </div>
-                <div class="col-8">
-                    <div class="card-body py-3">
-                        <h6 class="fw-bold mb-1">Valo Competition</h6>
-                        <p class="text-muted small mb-1">Informatics</p>
-                        <p class="small text-muted">An intense Valorant tournament where teams compete in strategy, aim, and teamwork.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-
-    <!-- Event 3 -->
-    <a href="{{ route('events.show', 3) }}" class="text-decoration-none d-block mb-3">
-        <div class="card border-0 shadow-sm overflow-hidden">
-            <div class="row g-0">
-                <div class="col-4">
-                    <img src="https://via.placeholder.com/150/9333ea/ffffff?text=SOCCER"
-                         class="img-fluid rounded-start h-100" style="object-fit: cover;">
-                </div>
-                <div class="col-8">
-                    <div class="card-body py-3">
-                        <h6 class="fw-bold mb-1">Mini Soccer</h6>
-                        <p class="text-muted small mb-1">Electro</p>
-                        <p class="small text-muted">A friendly, yet competitive mini soccer match that brings together teams.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
+    <div class="mt-3">
+        {{ $events->links() }}
+    </div>
 
     <!-- FAB: Centered + Above Navbar -->
     <a href="{{ route('events.create') }}"
