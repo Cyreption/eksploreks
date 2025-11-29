@@ -16,7 +16,6 @@ Route::post('/register', [\App\Http\Controllers\ProfileController::class, 'regis
 
 // Main Page
 Route::get('/dashboard', [\App\Http\Controllers\ProfileController::class, 'dashboard'])->name('dashboard');
-Route::get('/chat', fn() => view('chat.index'))->name('chat');
 Route::get('/liked', [\App\Http\Controllers\PlaceController::class, 'likedList'])->name('liked');
 Route::get('/profile', fn() => view('profile.index'))->name('profile');
 
@@ -51,8 +50,16 @@ Route::prefix('/friend-list')->name('friendList.')->group(function () {
     Route::delete('/{friendList}', [\App\Http\Controllers\FriendListController::class, 'destroy'])->name('destroy');
 });
 
+// ====================== CHAT ======================
+Route::prefix('/chat')->name('chat.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\ChatController::class, 'index'])->name('index');
+    Route::get('/search', [\App\Http\Controllers\ChatController::class, 'search'])->name('search');
+    Route::get('/{friendId}', [\App\Http\Controllers\ChatController::class, 'openChat'])->name('open');
+    Route::post('/{friendId}/send', [\App\Http\Controllers\ChatController::class, 'sendMessage'])->name('send');
+});
+
 // Backward compatibility routes
-Route::get('/chat', fn() => view('connect.chat'))->name('chat');
+Route::get('/chat-old', fn() => redirect()->route('chat.index'))->name('chat-old');
 Route::get('/appblade', fn() => view('connect.appblade'))->name('appblade');
 Route::get('/chatroom', fn() => view('connect.chatroom'))->name('chatroom');
 

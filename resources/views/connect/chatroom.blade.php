@@ -21,15 +21,15 @@
     <div class="d-flex align-items-center justify-content-between px-4 mb-3">
         <div class="d-flex align-items-center">
             <!-- Klik foto profil = ke /friendprofile -->
-            <a href="/friendprofile" class="d-inline-block text-decoration-none">
-                <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=TotoWolff"
-                    alt="Profile"
+            <a href="{{ route('connect.friendProfile', $friend->user_id) }}" class="d-inline-block text-decoration-none">
+                <img src="{{ $friend->avatar_url ?? 'https://api.dicebear.com/7.x/avataaars/svg?seed=' . urlencode($friend->username) }}"
+                    alt="{{ $friend->full_name }}"
                     class="rounded-circle me-2"
                     style="width: 45px; height: 45px; object-fit: cover; transition: transform 0.2s ease;">
             </a>
             <div>
-                <h6 class="fw-bold mb-0">Toto Wolff</h6>
-                <small class="text-muted">18.40</small>
+                <h6 class="fw-bold mb-0">{{ $friend->full_name }}</h6>
+                <small class="text-muted">{{ $friend->institution ?? 'User' }}</small>
             </div>
         </div>
     </div>
@@ -38,33 +38,37 @@
     <div id="chat-container-wrapper" style="padding-bottom: 110px;">
         <div id="chat-container" class="px-4 mb-5"
              style="overflow-y: auto; max-height: calc(100vh - 220px);">
-            <div class="d-flex mb-3">
-                <div class="p-2 px-3 rounded-4" style="background-color: #fff; color: #000; max-width: 75%;">
-                    halooo
+            
+            @forelse ($messages as $msg)
+                @php
+                    $isSent = $msg->sender_id == session('user_id');
+                    $msgTime = $msg->created_at ? $msg->created_at->setTimezone('Asia/Jakarta')->format('H:i') : 'now';
+                @endphp
+                
+                @if ($isSent)
+                    <!-- Sent Message (Right) -->
+                    <div class="d-flex justify-content-end mb-3">
+                        <small class="text-muted align-self-end me-2" style="font-size: 12px;">{{ $msgTime }}</small>
+                        <div class="p-2 px-3 rounded-4" style="background-color: #e9d5ff; color: #000; max-width: 75%; word-wrap: break-word;">
+                            {{ $msg->message ?? $msg->content }}
+                        </div>
+                    </div>
+                @else
+                    <!-- Received Message (Left) -->
+                    <div class="d-flex mb-3">
+                        <div class="p-2 px-3 rounded-4" style="background-color: #fff; color: #000; max-width: 75%; word-wrap: break-word;">
+                            {{ $msg->message ?? $msg->content }}
+                        </div>
+                        <small class="text-muted align-self-end ms-2" style="font-size: 12px;">{{ $msgTime }}</small>
+                    </div>
+                @endif
+            @empty
+                <div style="text-align: center; padding: 2rem; color: #9ca3af;">
+                    <i class="bi bi-chat-left-text" style="font-size: 2rem; display: block; margin-bottom: 1rem;"></i>
+                    <p>Mulai percakapan dengan {{ $friend->full_name }}</p>
                 </div>
-                <small class="text-muted align-self-end ms-2" style="font-size: 12px;">18.18</small>
-            </div>
-
-            <div class="d-flex justify-content-end mb-3">
-                <small class="text-muted align-self-end me-2" style="font-size: 12px;">18.20</small>
-                <div class="p-2 px-3 rounded-4" style="background-color: #e9d5ff; color: #000; max-width: 75%;">
-                    y
-                </div>
-            </div>
-
-            <div class="d-flex mb-3">
-                <div class="p-2 px-3 rounded-4" style="background-color: #fff; color: #000; max-width: 75%;">
-                    sendirian bae nih neng??
-                </div>
-                <small class="text-muted align-self-end ms-2" style="font-size: 12px;">18.20</small>
-            </div>
-
-            <div class="d-flex justify-content-end mb-4">
-                <small class="text-muted align-self-end me-2" style="font-size: 12px;">19.44</small>
-                <div class="p-2 px-3 rounded-4" style="background-color: #e9d5ff; color: #000; max-width: 75%;">
-                    byeee
-                </div>
-            </div>
+            @endforelse
+            
         </div>
     </div>
 
@@ -74,15 +78,20 @@
         <div class="d-flex align-items-center bg-white rounded-pill shadow-sm px-3 py-2"
              id="messageBox"
              style="background-color: #d2b6ff;">
-            <input type="text"
-                   id="messageInput"
-                   class="form-control border-0 bg-transparent fw-semibold text-dark"
-                   placeholder="Add Text...."
-                   autocomplete="off"
-                   aria-label="Type a message">
-            <button id="sendBtn" class="btn border-0 p-0 ms-2 text-dark" aria-label="Send message">
-                <i class="bi bi-send-fill fs-5"></i>
-            </button>
+            <form action="{{ route('chat.send', $friendId) }}" method="POST" style="display: flex; width: 100%; gap: 0.5rem;">
+                @csrf
+                <input type="text"
+                       name="message"
+                       id="messageInput"
+                       class="form-control border-0 bg-transparent fw-semibold text-dark"
+                       placeholder="Add Text...."
+                       autocomplete="off"
+                       aria-label="Type a message"
+                       required>
+                <button type="submit" id="sendBtn" class="btn border-0 p-0 text-dark" aria-label="Send message">
+                    <i class="bi bi-send-fill fs-5"></i>
+                </button>
+            </form>
         </div>
     </div>
 
@@ -92,7 +101,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const chatContainer = document.getElementById("chat-container");
     const messageInput = document.getElementById("messageInput");
-    const sendBtn = document.getElementById("sendBtn");
 
     function scrollToBottom() {
         if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -105,62 +113,6 @@ document.addEventListener("DOMContentLoaded", function() {
             scrollToBottom();
         }, 300);
     });
-
-    sendBtn.addEventListener("click", sendMessage);
-    messageInput.addEventListener("keypress", function(e) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
-
-    function sendMessage() {
-        const msg = messageInput.value.trim();
-        if (!msg) return;
-
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2, '0');
-        const mm = String(now.getMinutes()).padStart(2, '0');
-        const time = `${hh}.${mm}`;
-
-        const wrapper = document.createElement("div");
-        wrapper.className = "d-flex justify-content-end mb-3";
-
-        const timeElem = document.createElement("small");
-        timeElem.className = "text-muted align-self-end me-2";
-        timeElem.style.fontSize = "12px";
-        timeElem.textContent = time;
-
-        const bubble = document.createElement("div");
-        bubble.className = "p-2 px-3 rounded-4";
-        bubble.style.backgroundColor = "#e9d5ff";
-        bubble.style.color = "#000";
-        bubble.style.maxWidth = "75%";
-        bubble.innerHTML = escapeHtml(msg);
-
-        wrapper.appendChild(timeElem);
-        wrapper.appendChild(bubble);
-        chatContainer.appendChild(wrapper);
-
-        messageInput.value = "";
-        messageInput.focus();
-        scrollToBottom();
-    }
-
-    function escapeHtml(str) {
-        return str.replace(/[&<>"'`=\/]/g, function (s) {
-            return ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#39;',
-                '/': '&#x2F;',
-                '=': '&#x3D;',
-                '`': '&#x60;'
-            })[s];
-        });
-    }
 
     if (chatContainer) {
         chatContainer.addEventListener('click', () => {

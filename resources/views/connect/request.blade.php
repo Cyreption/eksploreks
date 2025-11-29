@@ -1,10 +1,10 @@
-{{-- resources/views/request.blade.php --}}
+{{-- resources/views/connect/request.blade.php --}}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Request</title>
+  <title>Friend Requests</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -67,6 +67,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      flex: 1;
     }
 
     .profile-info img {
@@ -96,6 +97,7 @@
       border-radius: 0.4rem;
       color: #fff;
       transition: 0.2s;
+      cursor: pointer;
     }
 
     .btn-approve {
@@ -117,31 +119,53 @@
       gap: 6px;
     }
 
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #6b5a91;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: #a38dc9;
+      margin-bottom: 1rem;
+    }
+
     /* NAVBAR */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
-      width: 100%;
-      background: linear-gradient(90deg, #e6d4fa 0%, #d8c2f7 100%);
-      border-top-left-radius: 1rem;
-      border-top-right-radius: 1rem;
+      right: 0;
+      background: white;
+      border-top: 1px solid #e5e7eb;
       display: flex;
       justify-content: space-around;
-      align-items: center;
-      padding: 0.6rem 0;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      padding: 0.5rem 0;
+      z-index: 1000;
     }
 
     .bottom-nav a {
-      color: #5c469c;
-      text-decoration: none;
       text-align: center;
-      font-size: 0.85rem;
-      flex: 1;
+      color: #6b7280;
+      text-decoration: none;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: color 0.3s;
     }
 
-    .bottom-nav a i {
+    .bottom-nav a:hover {
+      color: #8e3efc;
+    }
+
+    .bottom-nav a.active {
+      color: #8e3efc;
+    }
+
+    .bottom-nav i {
       font-size: 1.4rem;
       display: block;
     }
@@ -151,92 +175,83 @@
 <body>
   {{-- HEADER --}}
   <div class="header">
-    <a href="{{ url('/connect') }}" class="back-arrow">
+    <a href="{{ route('connect.index') }}" class="back-arrow">
       <i class="bi bi-arrow-left"></i>
     </a>
-    <h4>Request</h4>
+    <h4>Friend Requests</h4>
   </div>
+
+  {{-- ALERT MESSAGES --}}
+  @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+      <strong>Success!</strong> {{ session('success') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+
+  @if (session('error'))
+    <div class="alert alert-warning alert-dismissible fade show m-3" role="alert">
+      <strong>Info!</strong> {{ session('error') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
 
   {{-- LIST REQUEST --}}
   <div class="mt-3 mb-5">
-    <div class="card-request">
-      <div class="profile-info">
-        <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=Rusdi" alt="Rusdi">
-        <div>
-          <div class="name">Rusdi</div>
-          <p class="desc mb-0">Charismatic and confident, a true trendsetter on and off stage.</p>
+    @forelse ($requests as $request)
+      <div class="card-request">
+        <div class="profile-info">
+          <img src="{{ $request->user->avatar_url ?? 'https://api.dicebear.com/9.x/adventurer/svg?seed=' . urlencode($request->user->username) }}" 
+               alt="{{ $request->user->full_name }}">
+          <div>
+            <div class="name">{{ $request->user->full_name }}</div>
+            <p class="desc mb-0">{{ substr($request->user->description ?? $request->user->institution, 0, 60) }}{{ strlen($request->user->description ?? '') > 60 ? '...' : '' }}</p>
+          </div>
+        </div>
+        <div class="btn-group-req">
+          <form action="{{ route('friendRequest.update', $request->request_id) }}" method="POST" style="display: inline;">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="action" value="accept">
+            <button type="submit" class="btn btn-approve">Accept</button>
+          </form>
+          <form action="{{ route('friendRequest.update', $request->request_id) }}" method="POST" style="display: inline;">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="action" value="reject">
+            <button type="submit" class="btn btn-reject">Reject</button>
+          </form>
         </div>
       </div>
-      <div class="btn-group-req">
-        <button class="btn btn-approve">Approve</button>
-        <button class="btn btn-reject">Reject</button>
+    @empty
+      <div class="empty-state">
+        <i class="bi bi-inbox"></i>
+        <p style="font-size: 1.1rem; font-weight: 600;">No Friend Requests</p>
+        <p>You don't have any pending friend requests</p>
       </div>
-    </div>
-
-    <div class="card-request">
-      <div class="profile-info">
-        <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=Ambatron" alt="Ambatron">
-        <div>
-          <div class="name">Ambatron</div>
-          <p class="desc mb-0">Half human, half machine — always on duty, always cool.</p>
-        </div>
-      </div>
-      <div class="btn-group-req">
-        <button class="btn btn-approve">Approve</button>
-        <button class="btn btn-reject">Reject</button>
-      </div>
-    </div>
-
-    <div class="card-request">
-      <div class="profile-info">
-        <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=Andriana" alt="Andriana">
-        <div>
-          <div class="name">Andriana</div>
-          <p class="desc mb-0">Chill and charming, the heart of the group.</p>
-        </div>
-      </div>
-      <div class="btn-group-req">
-        <button class="btn btn-approve">Approve</button>
-        <button class="btn btn-reject">Reject</button>
-      </div>
-    </div>
-
-    <div class="card-request">
-      <div class="profile-info">
-        <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=FuadGoldenPharaoh" alt="Fuad Golden Pharaoh">
-        <div>
-          <div class="name">Fuad Golden Pharaoh</div>
-          <p class="desc mb-0">Regal and radiant, unforgettable golden charisma.</p>
-        </div>
-      </div>
-      <div class="btn-group-req">
-        <button class="btn btn-approve">Approve</button>
-        <button class="btn btn-reject">Reject</button>
-      </div>
-    </div>
-
-    <div class="card-request">
-      <div class="profile-info">
-        <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=SiImut" alt="Si Imut">
-        <div>
-          <div class="name">Si Imut</div>
-          <p class="desc mb-0">Smile master with contagious happiness energy.</p>
-        </div>
-      </div>
-      <div class="btn-group-req">
-        <button class="btn btn-approve">Approve</button>
-        <button class="btn btn-reject">Reject</button>
-      </div>
-    </div>
+    @endforelse
   </div>
 
   {{-- BOTTOM NAVBAR --}}
   <div class="bottom-nav">
-    <a href="#"><i class="bi bi-house"></i>Home</a>
-    <a href="#"><i class="bi bi-heart"></i>Favorites</a>
-    <a href="#"><i class="bi bi-chat-dots"></i>Chat</a>
-    <a href="#"><i class="bi bi-person"></i>Profile</a>
+    <a href="{{ route('connect.index') }}" class="{{ request()->routeIs('connect.index') ? 'active' : '' }}">
+      <i class="bi bi-people{{ request()->routeIs('connect.index') ? '-fill' : '' }}"></i>
+      <span>Connect</span>
+    </a>
+    <a href="{{ route('friendRequest.index') }}" class="{{ request()->routeIs('friendRequest.index') ? 'active' : '' }}">
+      <i class="bi bi-chat-dots{{ request()->routeIs('friendRequest.index') ? '-fill' : '' }}"></i>
+      <span>Request</span>
+    </a>
+    <a href="{{ url('/liked') }}" class="{{ request()->is('liked') ? 'active' : '' }}">
+      <i class="bi bi-heart{{ request()->is('liked') ? '-fill' : '' }}"></i>
+      <span>Liked</span>
+    </a>
+    <a href="{{ url('/profile') }}" class="{{ request()->is('profile') ? 'active' : '' }}">
+      <i class="bi bi-person{{ request()->is('profile') ? '-fill' : '' }}"></i>
+      <span>Profile</span>
+    </a>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

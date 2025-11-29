@@ -149,87 +149,82 @@
 
     <!-- Header -->
     <div class="chat-header position-relative">
-        <a href="/connect" class="back-arrow"><i class="bi bi-arrow-left"></i></a>
+        <a href="{{ route('connect.index') }}" class="back-arrow"><i class="bi bi-arrow-left"></i></a>
         <h1 class="h5 mb-0 fw-bold">Chat</h1>
     </div>
 
     <!-- Search -->
     <div class="search-bar">
-        <input type="text" placeholder="Search ..." id="searchInput">
-        <i class="bi bi-search"></i>
+        <form action="{{ route('chat.search') }}" method="GET" style="display: flex; width: 100%;">
+            <input type="text" name="q" placeholder="Search ..." value="{{ $query ?? '' }}" style="flex: 1;">
+            <button type="submit" style="background: none; border: none; padding: 0;">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
     </div>
 
     <!-- Chat List -->
     <div id="chatList">
-        @php
-        $chats = [
-            ['name' => 'Bayu Skakmat', 'message' => 'Info catur boloo', 'unread' => 2, 'avatar' => 'https://api.dicebear.com/7.x/avataaars/svg?seed=Bayu'],
-            ['name' => 'Nabil Proyektor', 'message' => 'Login emel ???', 'unread' => 10, 'avatar' => 'https://api.dicebear.com/7.x/avataaars/svg?seed=Nabil'],
-            ['name' => 'Akang Las', 'message' => 'Mas ini pagenya sudah jadi', 'unread' => 3, 'avatar' => 'https://api.dicebear.com/7.x/avataaars/svg?seed=Akang'],
-            ['name' => 'Reza Kecap', 'message' => 'Info posisi masseh', 'unread' => 9, 'avatar' => 'https://api.dicebear.com/7.x/avataaars/svg?seed=Reza'],
-            ['name' => 'Susu Bendera', 'message' => 'Halo kak, kami dari Susu Bendera...', 'unread' => 2, 'avatar' => 'https://api.dicebear.com/7.x/avataaars/svg?seed=Susu'],
-            ['name' => 'Windah Absen', 'message' => 'ppppp, absenn', 'unread' => 30, 'avatar' => 'https://api.dicebear.com/7.x/avataaars/svg?seed=Windah'],
-            ['name' => 'Toto Wolff', 'message' => 'Hey there! How...', 'unread' => 7, 'avatar' => 'https://api.dicebear.com/7.x/avataaars/svg?seed=Toto'],
-        ];
-        @endphp
-
-        @foreach($chats as $chat)
-        <div class="chat-item" 
-             data-name="{{ strtolower($chat['name']) }}" 
-             data-message="{{ strtolower($chat['message']) }}"
-             data-redirect="{{ strtolower($chat['name']) == 'toto wolff' ? '/chatroom' : '' }}">
-            <img src="{{ $chat['avatar'] }}" alt="{{ $chat['name'] }}" class="avatar">
-            <div class="flex-grow-1">
-                <h6 class="mb-0 fw-semibold">{{ $chat['name'] }}</h6>
-                <p class="mb-0 text-muted small">{{ $chat['message'] }}</p>
+        @forelse ($friends as $friendRelation)
+            @php
+                $friend = $friendRelation->friend_data;
+            @endphp
+            <a href="{{ route('chat.open', $friend->user_id) }}" style="text-decoration: none; color: inherit;">
+                <div class="chat-item" 
+                     data-name="{{ strtolower($friend->full_name) }}" 
+                     data-message="{{ strtolower($friend->description ?? $friend->institution ?? '') }}">
+                    <img src="{{ $friend->avatar_url ?? 'https://api.dicebear.com/7.x/avataaars/svg?seed=' . urlencode($friend->username) }}" 
+                         alt="{{ $friend->full_name }}" class="avatar">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-semibold">{{ $friend->full_name }}</h6>
+                        <p class="mb-0 text-muted small">{{ $friend->institution ?? 'User' }}</p>
+                    </div>
+                </div>
+            </a>
+        @empty
+            <div style="text-align: center; padding: 2rem; color: #6b7280;">
+                <i class="bi bi-inbox" style="font-size: 2rem; display: block; margin-bottom: 1rem;"></i>
+                <p>Belum ada teman untuk chat</p>
+                <p style="font-size: 0.9rem;">Mulai tambah teman di halaman Connect</p>
             </div>
-            <span class="badge badge-purple">{{ $chat['unread'] }}</span>
-        </div>
-        @endforeach
+        @endforelse
     </div>
 
     <!-- Bottom Navigation -->
     <div class="bottom-nav">
-        <a href="/dashboard" class="nav-item">
-            <i class="bi bi-house-door"></i>
-            <span>Home</span>
+        <a href="{{ route('connect.index') }}" class="nav-item">
+            <i class="bi bi-people"></i>
+            <span>Connect</span>
         </a>
-        <a href="/chatroom" class="nav-item active">
-            <i class="bi bi-chat-dots"></i>
+        <a href="{{ route('chat.index') }}" class="nav-item active">
+            <i class="bi bi-chat-dots-fill"></i>
             <span>Chat</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="{{ url('/liked') }}" class="nav-item">
             <i class="bi bi-heart"></i>
             <span>Liked</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="{{ url('/profile') }}" class="nav-item">
             <i class="bi bi-person"></i>
             <span>Profile</span>
         </a>
     </div>
 
     <script>
-        // Fitur Search
-        document.getElementById('searchInput').addEventListener('keyup', function() {
-            const searchValue = this.value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            
-            chatItems.forEach(item => {
-                const name = item.dataset.name;
-                const message = item.dataset.message;
-                item.style.display = (name.includes(searchValue) || message.includes(searchValue)) ? 'flex' : 'none';
+        // Fitur Search (client-side filtering)
+        const searchInput = document.querySelector('input[placeholder="Search ..."]');
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function() {
+                const searchValue = this.value.toLowerCase();
+                const chatItems = document.querySelectorAll('.chat-item');
+                
+                chatItems.forEach(item => {
+                    const name = item.dataset.name;
+                    const message = item.dataset.message;
+                    item.parentElement.style.display = (name.includes(searchValue) || message.includes(searchValue)) ? 'block' : 'none';
+                });
             });
-        });
-
-        // Redirect kalau klik Toto Wolff
-        document.querySelectorAll('.chat-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const redirectUrl = item.dataset.redirect;
-                if (redirectUrl) {
-                    window.location.href = redirectUrl;
-                }
-            });
-        });
+        }
     </script>
 
 </body>

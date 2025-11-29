@@ -17,12 +17,18 @@ class ConnectController extends Controller
         $userId = session('user_id');
         
         // Get all users except current user and already friends
-        $friends = FriendList::where('user_id', $userId)->pluck('friend_id')->toArray();
+        $friendIds = FriendList::where('user_id', $userId)->pluck('friend_id')->toArray();
         
-        // Get suggestions (users not in friend list and not the current user)
+        // Get pending request IDs (sent by current user)
+        $pendingRequestIds = FriendRequest::where('user_id', $userId)
+            ->where('status', 'pending')
+            ->pluck('friend_id')
+            ->toArray();
+        
+        // Get all users not in friend list and no pending request
         $suggestions = User::where('user_id', '!=', $userId)
-            ->whereNotIn('user_id', $friends)
-            ->limit(10)
+            ->whereNotIn('user_id', $friendIds)
+            ->whereNotIn('user_id', $pendingRequestIds)
             ->get();
         
         return view('connect.connect', ['suggestions' => $suggestions]);
@@ -79,14 +85,18 @@ class ConnectController extends Controller
         $query = $request->input('q');
         $userId = session('user_id');
         
-        $users = User::where(function($q) use ($query) {
-            $q->where('username', 'like', '%' . $query . '%')
-              ->orWhere('full_name', 'like', '%' . $query . '%');
-        })
-        ->where('user_id', '!=', $userId)
-        ->limit(20)
-        ->get();
+        $results = [];
+        if (!empty($query)) {
+            $results = User::where(function($q) use ($query) {
+                $q->where('username', 'like', '%' . $query . '%')
+                  ->orWhere('full_name', 'like', '%' . $query . '%')
+                  ->orWhere('institution', 'like', '%' . $query . '%')
+                  ->orWhere('description', 'like', '%' . $query . '%');
+            })
+            ->where('user_id', '!=', $userId)
+            ->get();
+        }
         
-        return view('connect.search', ['users' => $users, 'query' => $query]);
+        return view('connect.search', ['users' => $results, 'query' => $query]);
     }
 }

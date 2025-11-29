@@ -22,6 +22,31 @@
         Add Friend
     </div>
 
+    <!-- Alert Messages -->
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+            <strong>Error!</strong>
+            @foreach ($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+            <strong>Success!</strong> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-warning alert-dismissible fade show m-3" role="alert">
+            <strong>Info!</strong> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <!-- Profile Card (Centered) -->
     <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 120px);">
 
@@ -50,8 +75,10 @@
                 @csrf
                 <input type="hidden" name="friend_id" value="{{ $user->user_id }}">
                 <button type="submit" class="btn fw-bold px-4 py-2 rounded-pill text-white shadow-sm"
-                        style="background-color: #a16ae8;">
-                    Follow
+                        style="background-color: #a16ae8; border: none; transition: all 0.3s ease;"
+                        onmouseover="this.style.backgroundColor='#8a4ddb'; this.style.transform='scale(1.05)';"
+                        onmouseout="this.style.backgroundColor='#a16ae8'; this.style.transform='scale(1)';">
+                    <i class="bi bi-person-plus me-2"></i>Follow
                 </button>
             </form>
         </div>
