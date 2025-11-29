@@ -25,6 +25,7 @@ class Message extends Model
 
     protected $casts = [
         'sent_at' => 'datetime',
+        'created_at' => 'datetime',
         'read_at' => 'datetime',
     ];
 

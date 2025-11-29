@@ -67,6 +67,26 @@
             background-color: #792ee5;
         }
 
+        .search-bar a {
+            background-color: #8e3efc;
+            color: white;
+            border: none;
+            border-radius: 9999px;
+            padding: 0.75rem 1.25rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .search-bar a:hover {
+            background-color: #792ee5;
+            color: white;
+        }
+
         /* Recommendation List */
         .recommend-container {
             max-width: 430px;
@@ -167,6 +187,10 @@
             <input type="text" name="q" placeholder="Search..." value="">
             <button type="submit" style="background-color: #8e3efc; color: white; border: none; border-radius: 9999px; padding: 0.75rem 1.25rem; font-weight: 600;">Search</button>
         </form>
+        <a href="{{ route('friendRequest.index') }}" style="background-color: #8e3efc; color: white; border: none; border-radius: 9999px; padding: 0.75rem 1.25rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap;">
+            <i class="bi bi-people-fill"></i>
+            Request
+        </a>
     </div>
 
     <div class="section-title">Recommendation:</div>
@@ -217,15 +241,6 @@
                 window.location.href = "{{ route('connect.addFriend', ':userId') }}".replace(':userId', userId);
             });
         });
-
-        // Request button redirects to friend requests page
-        const requestBtn = document.querySelector('.search-bar button[type="submit"]');
-        if (requestBtn && requestBtn.textContent.includes('Request')) {
-            requestBtn.addEventListener("click", function(e) {
-                e.preventDefault();
-                window.location.href = "{{ route('friendRequest.index') }}";
-            });
-        }
     </script>
 
 </body>

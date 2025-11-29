@@ -179,9 +179,6 @@
                         <h6 class="mb-0 fw-semibold">{{ $friend->full_name }}</h6>
                         <p class="mb-0 text-muted small">{{ $friend->institution ?? 'User' }}</p>
                     </div>
-                    @if(rand(0, 1) == 1)
-                        <span class="badge badge-purple">{{ rand(1, 30) }}</span>
-                    @endif
                 </div>
             </a>
         @empty

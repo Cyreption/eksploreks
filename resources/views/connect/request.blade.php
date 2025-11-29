@@ -137,32 +137,37 @@
       position: fixed;
       bottom: 0;
       left: 0;
-      width: 100%;
-      background: linear-gradient(90deg, #e6d4fa 0%, #d8c2f7 100%);
-      border-top-left-radius: 1rem;
-      border-top-right-radius: 1rem;
+      right: 0;
+      background: white;
+      border-top: 1px solid #e5e7eb;
       display: flex;
       justify-content: space-around;
-      align-items: center;
-      padding: 0.6rem 0;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      padding: 0.5rem 0;
+      z-index: 1000;
     }
 
     .bottom-nav a {
-      color: #5c469c;
-      text-decoration: none;
       text-align: center;
-      font-size: 0.85rem;
-      flex: 1;
+      color: #6b7280;
+      text-decoration: none;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: color 0.3s;
     }
 
-    .bottom-nav a i {
-      font-size: 1.4rem;
-      display: block;
+    .bottom-nav a:hover {
+      color: #8e3efc;
     }
 
     .bottom-nav a.active {
-      color: #7b5cb3;
+      color: #8e3efc;
+    }
+
+    .bottom-nav i {
+      font-size: 1.4rem;
+      display: block;
     }
   </style>
 </head>
@@ -231,19 +236,19 @@
   <div class="bottom-nav">
     <a href="{{ route('connect.index') }}" class="{{ request()->routeIs('connect.index') ? 'active' : '' }}">
       <i class="bi bi-people{{ request()->routeIs('connect.index') ? '-fill' : '' }}"></i>
-      Connect
+      <span>Connect</span>
     </a>
     <a href="{{ route('friendRequest.index') }}" class="{{ request()->routeIs('friendRequest.index') ? 'active' : '' }}">
       <i class="bi bi-chat-dots{{ request()->routeIs('friendRequest.index') ? '-fill' : '' }}"></i>
-      Request
+      <span>Request</span>
     </a>
     <a href="{{ url('/liked') }}" class="{{ request()->is('liked') ? 'active' : '' }}">
       <i class="bi bi-heart{{ request()->is('liked') ? '-fill' : '' }}"></i>
-      Liked
+      <span>Liked</span>
     </a>
     <a href="{{ url('/profile') }}" class="{{ request()->is('profile') ? 'active' : '' }}">
       <i class="bi bi-person{{ request()->is('profile') ? '-fill' : '' }}"></i>
-      Profile
+      <span>Profile</span>
     </a>
   </div>
 
