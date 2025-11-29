@@ -14,6 +14,7 @@ class FriendRequest extends Model
 
     protected $fillable = [
         'user_id',
+        'friend_id',
         'status',
         'sent_at',
         'responded_at',
@@ -27,5 +28,10 @@ class FriendRequest extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function friend()
+    {
+        return $this->belongsTo(User::class, 'friend_id');
     }
 }
