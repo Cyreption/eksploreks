@@ -99,3 +99,19 @@
 img {
     loading: lazy;
 }
+
+/* date/time inputs - responsive and compact */
+input[type="date"],
+input[type="time"] {
+  height:44px;
+  padding:10px 16px;
+  font-size:14px;
+  border-radius:999px;
+  width:100%;
+  box-sizing:border-box;
+}
+
+/* layout on very small screens: stack pairs */
+@media (max-width:480px){
+  .col-6 { width:100% !important; flex:0 0 100% !important; max-width:100% !important; }
+}
