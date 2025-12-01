@@ -5,6 +5,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,26 +18,60 @@ class EventController extends Controller
         return view('events.create');
     }
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'title'             => 'required|string|max:255',
-            'description'       => 'nullable|string',
-            'organizer'         => 'nullable|string|max:255',
-            'location'          => 'nullable|string|max:255',
-            'registration_link' => 'nullable|url',
-            'file_link'         => 'nullable|url',
-            'start_time'        => 'nullable|date',
-            'end_time'          => 'nullable|date|after_or_equal:start_time',
-        ]);
+public function store(Request $request)
+{
+    $data = $request->validate([
+        'title'             => 'required|string|max:255',
+        'description'       => 'nullable|string',
+        'organizer'         => 'nullable|string|max:255',
+        'location'          => 'nullable|string|max:255',
+        'registration_link' => 'nullable|url',
+        'file_link'         => 'nullable|url',
+        'start_date'        => 'nullable|date',
+        'start_time'        => 'nullable',
+        'end_date'          => 'nullable|date',
+        'end_time'          => 'nullable',
+    ]);
 
-        // isi user_id dari user yang login (fallback 1 untuk dev)
-        $data['user_id'] = Auth::id() ?? 1;
+    // helper parse: accept combinations:
+    $parseCombined = function ($date, $time) {
+        if ($date && $time) {
+            return Carbon::parse($date . ' ' . $time);
+        }
+        if ($date && !$time) {
+            return Carbon::parse($date);
+        }
+        if (!$date && $time) {
+            // fallback: try parse time only today
+            return Carbon::parse(date('Y-m-d') . ' ' . $time);
+        }
+        return null;
+    };
 
-        $event = Event::create($data);
+    // handle if user submitted datetime-local in start_time/end_time directly
+    $submittedStart = $request->input('start_time');
+    $submittedEnd   = $request->input('end_time');
 
-        return redirect()->route('events.show', $event)->with('success', 'Event berhasil dibuat.');
+    // detect if start_date present (we use date+time inputs)
+    if ($request->filled('start_date') || $request->filled('start_time')) {
+        $data['start_time'] = $parseCombined($request->input('start_date'), $request->input('start_time'));
+    } else {
+        // try parse generic datetime string (e.g. datetime-local or existing formats)
+        $data['start_time'] = $submittedStart ? Carbon::parse(str_replace('T', ' ', $submittedStart)) : null;
     }
+
+    if ($request->filled('end_date') || $request->filled('end_time')) {
+        $data['end_time'] = $parseCombined($request->input('end_date'), $request->input('end_time'));
+    } else {
+        $data['end_time'] = $submittedEnd ? Carbon::parse(str_replace('T', ' ', $submittedEnd)) : null;
+    }
+
+    $data['user_id'] = Auth::id() ?? 1;
+
+    $event = Event::create($data);
+
+    return redirect()->route('events.show', $event)->with('success', 'Event berhasil dibuat.');
+}
 
     /**
      * Display the specified resource.

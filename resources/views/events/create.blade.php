@@ -49,16 +49,38 @@
             @error('file_link') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
         </div>
 
-        <div class="mb-3">
-            <label class="form-label fw-bold">Start Time:</label>
-            <input name="start_time" type="datetime-local" class="form-control rounded-pill" value="{{ old('start_time') }}">
-            @error('start_time') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
-        </div>
+        <div class="bg-white rounded-3 shadow-sm p-4 mb-3">
+            <div class="row g-3">
+                <div class="col-6">
+                    <label class="small text-muted">Start Date</label>
+                    <input type="date"
+                           class="form-control rounded-pill border-0 shadow-sm bg-light-purple py-3"
+                           name="start_date"
+                           value="{{ old('start_date') ?? (old('start_time') ? \Carbon\Carbon::parse(old('start_time'))->format('Y-m-d') : '') }}">
+                </div>
+                <div class="col-6">
+                    <label class="small text-muted">Start Time</label>
+                    <input type="time"
+                           class="form-control rounded-pill border-0 shadow-sm bg-light-purple py-3"
+                           name="start_time"
+                           value="{{ old('start_time') ? \Carbon\Carbon::parse(old('start_time'))->format('H:i') : (old('start_time') ?? '') }}">
+                </div>
 
-        <div class="mb-3">
-            <label class="form-label fw-bold">End Time:</label>
-            <input name="end_time" type="datetime-local" class="form-control rounded-pill" value="{{ old('end_time') }}">
-            @error('end_time') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                <div class="col-6">
+                    <label class="small text-muted">End Date</label>
+                    <input type="date"
+                           class="form-control rounded-pill border-0 shadow-sm bg-light-purple py-3"
+                           name="end_date"
+                           value="{{ old('end_date') ?? (old('end_time') ? \Carbon\Carbon::parse(old('end_time'))->format('Y-m-d') : '') }}">
+                </div>
+                <div class="col-6">
+                    <label class="small text-muted">End Time</label>
+                    <input type="time"
+                           class="form-control rounded-pill border-0 shadow-sm bg-light-purple py-3"
+                           name="end_time"
+                           value="{{ old('end_time') ? \Carbon\Carbon::parse(old('end_time'))->format('H:i') : (old('end_time') ?? '') }}">
+                </div>
+            </div>
         </div>
 
         <div class="mb-4">

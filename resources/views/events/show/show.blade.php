@@ -37,9 +37,12 @@
     <img src="{{ $event->file_link ? $event->file_link : 'https://via.placeholder.com/400x200/9333ea/ffffff?text=EVENT' }}"
          class="img-fluid rounded-3 shadow-sm mb-4" alt="Event">
 
-    <p class="mb-4">
-        {!! nl2br(e($event->description)) !!}
-    </p>
+    <!-- Description: tampilkan di dalam kotak putih seperti recruitment -->
+    <div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+        <p class="text-dark mb-0">
+            {!! nl2br(e($event->description)) !!}
+        </p>
+    </div>
 
     @if($event->link)
     <a href="{{ route('events.downloadLink', $event) }}" target="_blank" class="btn btn-outline-purple w-100 rounded-pill shadow-sm py-3 mb-2 fw-bold">Open Registration Link</a>
