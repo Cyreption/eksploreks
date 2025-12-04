@@ -16,8 +16,16 @@
 </header>
 
 <div class="container mt-4 pb-6">
-    <form action="{{ route('events.store') }}" method="post">
+    <form action="{{ route('events.store') }}" method="post" enctype="multipart/form-data">
         @csrf
+
+        <!-- UPLOAD GAMBAR -->
+        <div class="mb-4">
+            <label class="form-label fw-bold">Poster Event</label>
+            <input name="image" type="file" class="form-control rounded-pill" accept="image/*">
+            <div class="form-text">Maksimal 2MB • JPG, PNG, GIF</div>
+            @error('image') <small class="text-danger">{{ $message }}</small> @enderror
+        </div>
 
         <div class="mb-3">
             <label class="form-label fw-bold">Event Name:</label>

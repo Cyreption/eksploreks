@@ -115,3 +115,37 @@ input[type="time"] {
 @media (max-width:480px){
   .col-6 { width:100% !important; flex:0 0 100% !important; max-width:100% !important; }
 }
+
+/* Made By Hafizhan Yusra Sulistyo - 5026231060 */
+/* GAMBAR RESPONSIVE & CANTIK DI SEMUA DEVICE */
+.object-fit-cover {
+    object-fit: cover !important;
+}
+.object-fit-contain {
+    object-fit: contain !important;
+}
+
+/* Ratio 1:1 untuk thumbnail di list (perfect square) */
+.ratio-1x1 {
+    --bs-aspect-ratio: 100%;
+}
+
+/* Poster di detail: batasi tinggi maksimal biar gak kepanjangan di HP */
+@media (max-width: 576px) {
+    img[alt="{{ $event->title ?? '' }}"] {
+        max-height: 50vh !important;
+    }
+}
+
+/* Desktop: biar poster gede tapi gak terlalu tinggi */
+@media (min-width: 768px) {
+    .shadow-lg {
+        box-shadow: 0 20px 40px rgba(147, 51, 234, 0.2) !important;
+    }
+}
+
+/* Hover effect halus di list event */
+.card:hover img {
+    transform: scale(1.05);
+    transition: transform 0.4s ease;
+}
