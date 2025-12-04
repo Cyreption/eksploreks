@@ -9,10 +9,12 @@ class RecruitmentPost extends Model
 {
     use HasFactory;
 
-    protected $table = 'recruitment_posts'; // nama tabel persis di ERD
+    protected $table = 'recruitment_posts';
+    protected $primaryKey = 'recruitment_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
-        'user_id',
         'title',
         'description',
         'organization',
@@ -20,16 +22,16 @@ class RecruitmentPost extends Model
         'application_link',
         'deadline',
         'file_link',
+        'image',
     ];
 
-    // Relasi ke User (yang posting)
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    // Optional: cast deadline jadi date
     protected $casts = [
         'deadline' => 'date',
     ];
+
+    // Accessor untuk URL gambar
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? asset('storage/' . $this->image) : asset('placeholder-recruitment.jpg');
+    }
 }

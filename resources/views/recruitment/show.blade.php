@@ -29,69 +29,68 @@
 
 <div class="container py-4 pb-6">
 
-    <!-- Banner besar — pakai gambar yang sama kayak di index -->
+    <!-- Banner besar — pakai gambar dari database -->
     <div class="rounded-3 overflow-hidden shadow-lg mb-5">
         <div class="position-relative w-100" style="padding-bottom: 46.00%;">
-            @if(request()->segment(2) == 'gd')
-                <img src="{{ asset('GD-recruitment.jpg') }}" 
-                     class="position-absolute top-0 start-0 w-100 h-100 rounded-3"
-                     style="object-fit: cover;" alt="Open Recruitment GD">
-            @elseif(request()->segment(2) == 'ms')
-                <img src="{{ asset('MS-recruitment.png') }}" 
-                     class="position-absolute top-0 start-0 w-100 h-100 rounded-3"
-                     style="object-fit: cover;" alt="Opeb Recruitment MS">
-            @else
-                <img src="{{ asset('GD-recruitment.jpg') }}" 
-                     class="position-absolute top-0 start-0 w-100 h-100 rounded-3"
-                     style="object-fit: cover;" alt="Recruitment">
-            @endif
+            <img src="{{ $recruitment->image_url }}" 
+                 class="position-absolute top-0 start-0 w-100 h-100 rounded-3"
+                 style="object-fit: cover;" alt="{{ $recruitment->title }}">
         </div>
     </div>
 
     <!-- Judul Recruitment -->
-    <h4 class="fw-bold text-dark mb-3">
-        @if(request()->segment(2) == 'gd')
-            Description:
-        @elseif(request()->segment(2) == 'ms')
-            Description:
-        @else
-            Recruitment Detail
+    <h4 class="fw-bold text-dark mb-3">{{ $recruitment->title }}</h4>
+
+    <!-- Organisasi & Lokasi -->
+    <div class="text-muted small mb-4">
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-building"></i> 
+            <span>{{ $recruitment->organization }}</span>
+        </div>
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-geo-alt"></i> 
+            <span>{{ $recruitment->location }}</span>
+        </div>
+        @if($recruitment->deadline)
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-calendar3"></i> 
+                <span>Deadline: {{ $recruitment->deadline->format('d M Y') }}</span>
+            </div>
         @endif
-    </h4>
+    </div>
 
     <!-- Deskripsi -->
     <div class="bg-white rounded-3 shadow-sm p-4 mb-4">
         <p class="text-dark mb-0">
-            @if(request()->segment(2) == 'gd')
-                Kami sedang mencari Graphic Designer berbakat untuk bergabung bersama tim kreatif kami. 
-                Kalian akan bertugas membuat poster, feed Instagram, thumbnail YouTube, dan berbagai konten visual lainnya.
-            @elseif(request()->segment(2) == 'ms')
-                Dicari talenta muda yang aktif dan kreatif untuk mengelola akun media sosial resmi kampus. 
-                Tugas utama: membuat konten harian, story, reels, dan berinteraksi dengan followers.
-            @endif
+            {{ $recruitment->description }}
         </p>
     </div>
 
-    <!-- Info tambahan (lokasi, deadline, dll)
-    <div class="text-muted small mb-5">
-        @if(request()->segment(2) == 'gd')
-            <div class="d-flex align-items-center gap-2 mb-2"><i class="bi bi-geo-alt"></i> Surabaya & Remote</div>
-            <div class="d-flex align-items-center gap-2"><i class="bi bi-calendar3"></i> Deadline: 15 Januari 2025</div>
-        @elseif(request()->segment(2) == 'ms')
-            <div class="d-flex align-items-center gap-2 mb-2"><i class="bi bi-geo-alt"></i> Full Remote</div>
-            <div class="d-flex align-items-center gap-2"><i class="bi bi-calendar3"></i> Deadline: 20 Januari 2025</div>
+    <!-- Tombol Action -->
+    <div class="d-flex flex-column gap-3">
+        @if($recruitment->application_link)
+            <a href="{{ $recruitment->application_link }}" target="_blank"
+               class="d-flex align-items-center justify-content-between bg-purple-light text-white rounded-3 py-4 px-4 shadow-lg hover-shadow-lg text-decoration-none">
+                <span class="fw-bold fs-5">Daftar Sekarang</span>
+                <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+                     style="background-color: #70539A; width: 50px; height: 50px;">
+                    <i class="bi bi-box-arrow-up-right fs-4"></i>
+                </div>
+            </a>
         @endif
-    </div> -->
 
-    <!-- Tombol Lamar Sekarang — style sama kayak tombol di list -->
-    <a href="https://forms.gle/contoh" target="_blank"
-       class="d-flex align-items-center justify-content-between bg-purple-light text-white rounded-3 py-4 px-4 shadow-lg hover-shadow-lg text-decoration-none">
-        <span class="fw-bold fs-5">Download File</span>
-        <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
-             style="background-color: #70539A; width: 50px; height: 50px;">
-            <i class="bi bi-box-arrow-up-right fs-4"></i>
-        </div>
-    </a>
+        @if($recruitment->file_link)
+            <a href="{{ $recruitment->file_link }}" target="_blank"
+               class="d-flex align-items-center justify-content-between bg-secondary text-white rounded-3 py-4 px-4 shadow-lg hover-shadow-lg text-decoration-none">
+                <span class="fw-bold fs-5">Unduh File</span>
+                <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+                     style="background-color: #6c757d; width: 50px; height: 50px;">
+                    <i class="bi bi-download fs-4"></i>
+                </div>
+            </a>
+        @endif
+
+</div>
 
 </div>
 @endsection
