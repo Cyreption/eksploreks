@@ -7,7 +7,7 @@
 
     <!-- Header -->
     <div class="position-relative text-center py-3 mb-4"
-         style="background-color: #cbb0ff;
+         style="background-color: #C5A8E0;
                 color: #fff;
                 font-weight: 700;
                 border-bottom-left-radius: 20px;
@@ -22,6 +22,12 @@
         </a>
 
         Add Friend
+
+        <!-- Logo kanan atas (ukuran sesuai Figma: 32×46 px) -->
+        <img src="/images/logo-pin-purple.png"
+            alt="Logo"
+            class="position-absolute end-0 me-3"
+            style="top: 50%; transform: translateY(-50%); width: 24px; height: 34px;">
     </div>
 
     <!-- Alert Messages -->
@@ -57,10 +63,10 @@
 
             <!-- Profile Image -->
             <div class="d-flex justify-content-center mb-3">
-                <img src="{{ $user->avatar_url ?? 'https://api.dicebear.com/9.x/adventurer/svg?seed=' . urlencode($user->username) }}"
+                <img src="{{ App\Helpers\AvatarHelper::getAvatarUrl($user->avatar_url, $user->username, $user->full_name) }}"
                      alt="{{ $user->full_name }}"
                      class="rounded-circle"
-                     style="width: 80px; height: 80px;">
+                     style="width: 80px; height: 80px; object-fit: cover;">
             </div>
 
             <!-- Profile Info -->
@@ -76,6 +82,7 @@
             <form action="{{ route('friendRequest.store') }}" method="POST" style="display: inline;">
                 @csrf
                 <input type="hidden" name="friend_id" value="{{ $user->user_id }}">
+
                 <button type="submit" class="btn fw-bold px-4 py-2 rounded-pill text-white shadow-sm"
                         style="background-color: #a16ae8; border: none; transition: all 0.3s ease;"
                         onmouseover="this.style.backgroundColor='#8a4ddb'; this.style.transform='scale(1.05)';"
