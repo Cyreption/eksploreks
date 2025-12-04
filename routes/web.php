@@ -64,15 +64,9 @@ Route::get('/appblade', fn() => view('connect.appblade'))->name('appblade');
 Route::get('/chatroom', fn() => view('connect.chatroom'))->name('chatroom');
 
 // === RECRUITMENT ROUTES ===
-Route::prefix('/recruitment')->name('recruitment.')->group(function () {
-    Route::get('/', [RecruitmentController::class, 'index'])->name('index');
-    Route::get('/create', [RecruitmentController::class, 'create'])->name('create');
-    Route::post('/', [RecruitmentController::class, 'store'])->name('store');
-    Route::get('/{id}', [RecruitmentController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [RecruitmentController::class, 'edit'])->name('edit');
-    Route::put('/{id}', [RecruitmentController::class, 'update'])->name('update');
-    Route::delete('/{id}', [RecruitmentController::class, 'destroy'])->name('destroy');
-});
+
+Route::model('recruitment', \App\Models\RecruitmentPost::class);
+Route::resource('recruitment', RecruitmentController::class);
 
 // ====================== CALENDAR ======================
 Route::prefix('/calendar')->name('calendar.')->group(function () {

@@ -11,12 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Cek apakah kolom image sudah ada
-        if (Schema::hasTable('recruitment_posts') && !Schema::hasColumn('recruitment_posts', 'image')) {
-            Schema::table('recruitment_posts', function (Blueprint $table) {
-                $table->string('image')->nullable();
-            });
-        }
+        Schema::create('recruitment_posts', function (Blueprint $table) {
+            $table->id('recruitment_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('title');
+            $table->text('description');
+            $table->string('organization');
+            $table->string('location');
+            $table->date('deadline');
+            $table->string('application_link')->nullable();
+            $table->string('file_link')->nullable();
+            $table->string('image')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**

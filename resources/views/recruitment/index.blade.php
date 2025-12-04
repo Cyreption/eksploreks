@@ -1,4 +1,3 @@
-{{-- resources/views/recruitment/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Recruitment')
@@ -11,8 +10,8 @@
 
             <!-- Tombol Back: Lingkaran #70539A + panah putih -->
             <a href="javascript:history.back()" 
-            class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
-            style="background-color: #70539A; width: 44px; height: 44px; left: 12px; z-index: 10;">
+               class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+               style="background-color: #70539A; width: 44px; height: 44px; left: 12px; z-index: 10;">
                 <i class="bi bi-arrow-left fs-4"></i>
             </a>
 
@@ -31,51 +30,46 @@
 
     <!-- Search Bar warna ungu muda (sama persis header) -->
     <div class="mb-5">
-    <div class="position-relative d-inline-block w-100">
-        <!-- Input -->
-        <input type="text"
-               id="searchInput"
-               class="form-control rounded-pill border-0 shadow-sm py-3 bg-purple-light text-white placeholder-white fw-medium pe-5"
-               placeholder="Search ..."
-               style="height: 56px; padding-left: 20px; padding-right: 50px !important;">
+        <div class="position-relative d-inline-block w-100">
+            <!-- Input -->
+            <input type="text"
+                   id="searchInput"
+                   class="form-control rounded-pill border-0 shadow-sm py-3 bg-purple-light text-white placeholder-white fw-medium pe-5"
+                   placeholder="Search ..."
+                   style="height: 56px; padding-left: 20px; padding-right: 50px !important;">
 
-        <!-- Icon search di KANAN DALAM -->
-        <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y text-white pe-4"></i>
-    </div>
-    </div>
-
-        <!-- List Recruitment — Ukuran gambar 375×182 px, responsive sempurna! -->
-        <div class="d-flex flex-column gap-5 mt-4" id="recruitmentList">
-            
-            @forelse($recruitments as $recruitment)
-                <a href="{{ route('recruitment.show', $recruitment->recruitment_id) }}" class="text-decoration-none d-block hover-shadow-lg">
-                    <div class="rounded-3 overflow-hidden shadow-lg">
-                        <!-- Rasio asli 375:182 → padding-bottom: 48.53% -->
-                        <div class="position-relative w-100" style="padding-bottom: 48.53%;">
-                            <img src="{{ $recruitment->image_url }}" 
-                                class="position-absolute top-0 start-0 w-100 h-100 rounded-3"
-                                style="object-fit: cover;"
-                                alt="{{ $recruitment->title }}">
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-between bg-purple-light text-white px-4 py-4 -mt-4 rounded-bottom-3" style="z-index: 2;">
-                        <span class="fw-bold fs-5">{{ $recruitment->title }}</span>
-                        <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
-                            style="background-color: #70539A; width: 46px; height: 46px; min-width: 46px;">
-                            <i class="bi bi-chevron-right fs-4"></i>
-                        </div>
-                    </div>
-                </a>
-            @empty
-                <div class="alert alert-info text-center">
-                    <p class="mb-0">Tidak ada recruitment yang tersedia saat ini</p>
-                </div>
-            @endforelse
-
+            <!-- Icon search di KANAN DALAM -->
+            <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y text-white pe-4"></i>
         </div>
-
     </div>
+
+    <!-- List Recruitment — Ukuran gambar 375×182 px, responsive sempurna! -->
+    <div class="d-flex flex-column gap-4" id="recruitmentList">
+        @forelse($recruitments as $recruitment)
+            <a href="{{ route('recruitment.show', $recruitment) }}" class="d-block text-decoration-none position-relative">
+                <!-- Gambar thumbnail — otomatis dari database, responsive, fallback placeholder -->
+                <div class="rounded-3 overflow-hidden shadow-lg" style="aspect-ratio: 375/182;">
+                    <img src="{{ $recruitment->image ? asset($recruitment->image) : 'https://via.placeholder.com/375x182/9333ea/ffffff?text=RECRUITMENT' }}"
+                         class="w-100 h-100"
+                         style="object-fit: cover;"
+                         alt="{{ $recruitment->title }}">
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between bg-purple-light text-white px-4 py-4 -mt-4 rounded-bottom-3" style="z-index: 2;">
+                    <span class="fw-bold fs-5">{{ $recruitment->title }}</span>
+                    <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+                         style="background-color: #70539A; width: 46px; height: 46px; min-width: 46px;">
+                        <i class="bi bi-chevron-right fs-4"></i>
+                    </div>
+                </div>
+            </a>
+        @empty
+            <div class="alert alert-info text-center">
+                <p class="mb-0">Tidak ada recruitment yang tersedia saat ini</p>
+            </div>
+        @endforelse
+    </div>
+
 </div>
 @endsection
 
@@ -97,21 +91,36 @@
     .placeholder-white::placeholder {
         color: rgba(255, 255, 255, 0.7) !important;
     }
+
+    /* Responsive gambar thumbnail */
+    .rounded-3 {
+        transition: all 0.3s ease;
+    }
+
+    .rounded-3:hover {
+        transform: scale(1.02);
+    }
+
+    @media (max-width: 576px) {
+        .fs-5 {
+            font-size: 1.25rem !important;
+        }
+    }
 </style>
 
 <script>
-document.getElementById('searchInput').addEventListener('keyup', function() {
-    const searchValue = this.value.toLowerCase();
-    const items = document.querySelectorAll('#recruitmentList a');
-    
-    items.forEach(item => {
-        const title = item.querySelector('.fw-bold').textContent.toLowerCase();
-        if (title.includes(searchValue)) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        const searchValue = this.value.toLowerCase();
+        const items = document.querySelectorAll('#recruitmentList a');
+        
+        items.forEach(item => {
+            const title = item.querySelector('.fw-bold').textContent.toLowerCase();
+            if (title.includes(searchValue)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     });
-});
 </script>
 @endpush

@@ -1,4 +1,3 @@
-{{-- resources/views/recruitment/show.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Detail Recruitment')
@@ -29,13 +28,11 @@
 
 <div class="container py-4 pb-6">
 
-    <!-- Banner besar — pakai gambar dari database -->
-    <div class="rounded-3 overflow-hidden shadow-lg mb-5">
-        <div class="position-relative w-100" style="padding-bottom: 46.00%;">
-            <img src="{{ $recruitment->image_url }}" 
-                 class="position-absolute top-0 start-0 w-100 h-100 rounded-3"
-                 style="object-fit: cover;" alt="{{ $recruitment->title }}">
-        </div>
+    <!-- Banner besar — pakai gambar dari database, responsive full width -->
+    <div class="rounded-3 overflow-hidden shadow-lg mb-5" style="aspect-ratio: 375/182;">
+        <img src="{{ $recruitment->image ? asset($recruitment->image) : 'https://via.placeholder.com/375x182/9333ea/ffffff?text=RECRUITMENT' }}" 
+             class="w-100 h-100 rounded-3"
+             style="object-fit: cover;" alt="{{ $recruitment->title }}">
     </div>
 
     <!-- Judul Recruitment -->
@@ -44,17 +41,17 @@
     <!-- Organisasi & Lokasi -->
     <div class="text-muted small mb-4">
         <div class="d-flex align-items-center gap-2 mb-2">
-            <i class="bi bi-building"></i> 
+            <i class="bi bi-building fs-5 text-purple"></i>
             <span>{{ $recruitment->organization }}</span>
         </div>
         <div class="d-flex align-items-center gap-2 mb-2">
-            <i class="bi bi-geo-alt"></i> 
+            <i class="bi bi-geo-alt fs-5 text-purple"></i>
             <span>{{ $recruitment->location }}</span>
         </div>
         @if($recruitment->deadline)
             <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-calendar3"></i> 
-                <span>Deadline: {{ $recruitment->deadline->format('d M Y') }}</span>
+                <i class="bi bi-clock fs-5 text-purple"></i>
+                <span>Deadline: {{ $recruitment->deadline->format('d F Y') }}</span>
             </div>
         @endif
     </div>
@@ -62,7 +59,7 @@
     <!-- Deskripsi -->
     <div class="bg-white rounded-3 shadow-sm p-4 mb-4">
         <p class="text-dark mb-0">
-            {{ $recruitment->description }}
+            {!! nl2br(e($recruitment->description)) !!}
         </p>
     </div>
 
@@ -89,8 +86,7 @@
                 </div>
             </a>
         @endif
-
-</div>
+    </div>
 
 </div>
 @endsection
@@ -103,6 +99,13 @@
     .hover-shadow-lg:hover {
         transform: translateY(-8px);
         box-shadow: 0 20px 40px rgba(112,83,154,0.3) !important;
+    }
+
+    /* Responsive banner */
+    @media (max-width: 576px) {
+        .fs-5 {
+            font-size: 1.25rem !important;
+        }
     }
 </style>
 @endpush

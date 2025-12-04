@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\RecruitmentPost;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class RecruitmentController extends Controller
 {
@@ -15,10 +14,8 @@ class RecruitmentController extends Controller
         return view('recruitment.index', compact('recruitments'));
     }
 
-    public function show($id)
+    public function show(RecruitmentPost $recruitment)
     {
-        $recruitment = RecruitmentPost::where('recruitment_id', $id)->firstOrFail();
-
         return view('recruitment.show', compact('recruitment'));
     }
 
@@ -41,7 +38,10 @@ class RecruitmentController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('recruitment', 'public');
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/recruitment'), $filename);
+            $validated['image'] = 'uploads/recruitment/' . $filename;
         }
 
         RecruitmentPost::create($validated);
@@ -49,15 +49,13 @@ class RecruitmentController extends Controller
         return redirect()->route('recruitment.index')->with('success', 'Recruitment berhasil dibuat');
     }
 
-    public function edit($id)
+    public function edit(RecruitmentPost $recruitmentPost)
     {
-        $recruitmentPost = RecruitmentPost::where('recruitment_id', $id)->firstOrFail();
         return view('recruitment.edit', compact('recruitmentPost'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, RecruitmentPost $recruitmentPost)
     {
-        $recruitmentPost = RecruitmentPost::where('recruitment_id', $id)->firstOrFail();
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -70,22 +68,24 @@ class RecruitmentController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($recruitmentPost->image) {
-                Storage::disk('public')->delete($recruitmentPost->image);
+            if ($recruitmentPost->image && file_exists(public_path($recruitmentPost->image))) {
+                unlink(public_path($recruitmentPost->image));
             }
-            $validated['image'] = $request->file('image')->store('recruitment', 'public');
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/recruitment'), $filename);
+            $validated['image'] = 'uploads/recruitment/' . $filename;
         }
 
         $recruitmentPost->update($validated);
 
-        return redirect()->route('recruitment.show', $recruitmentPost->recruitment_id)->with('success', 'Recruitment berhasil diupdate');
+        return redirect()->route('recruitment.show', $recruitmentPost)->with('success', 'Recruitment berhasil diupdate');
     }
 
-    public function destroy($id)
+    public function destroy(RecruitmentPost $recruitmentPost)
     {
-        $recruitmentPost = RecruitmentPost::where('recruitment_id', $id)->firstOrFail();
-        if ($recruitmentPost->image) {
-            Storage::disk('public')->delete($recruitmentPost->image);
+        if ($recruitmentPost->image && file_exists(public_path($recruitmentPost->image))) {
+            unlink(public_path($recruitmentPost->image));
         }
 
         $recruitmentPost->delete();
