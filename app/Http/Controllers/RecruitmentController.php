@@ -2,54 +2,94 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RecruitmentPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RecruitmentController extends Controller
 {
-    private $recruitments = [
-        [
-            'slug' => 'gd',
-            'title' => 'Open Recruitment GD',
-            'description' => 'Kami membuka kesempatan bagi kalian yang jago desain grafis untuk bergabung menjadi Graphic Designer resmi kami!',
-            'organization' => 'Divisi Kreatif',
-            'location' => 'Surabaya',
-            'deadline' => '2025-01-15',
-            'application_link' => 'https://forms.gle/contoh-gd',
-            'file_link' => null, // atau kasih link gambar kalau ada
-        ],
-        [
-            'slug' => 'ms',
-            'title' => 'Opeb Recruitment MS',
-            'description' => 'Dicari talenta muda yang aktif di media sosial untuk mengelola konten Instagram, TikTok, dan Twitter kami.',
-            'organization' => 'Biro Humas',
-            'location' => 'Online',
-            'deadline' => '2025-01-20',
-            'application_link' => 'https://forms.gle/contoh-ms',
-            'file_link' => null,
-        ],
-        // Tambah lagi sesuka hati di sini
-    ];
-
     public function index()
     {
-        return view('recruitment.index', [
-            'recruitments' => collect($this->recruitments)
-        ]);
+        $recruitments = RecruitmentPost::all();
+
+        return view('recruitment.index', compact('recruitments'));
     }
 
-    public function show($slug)
+    public function show($id)
     {
-        $recruitment = collect($this->recruitments)->firstWhere('slug', $slug);
-
-        if (!$recruitment) {
-            abort(404);
-        }
-
-        // Fake relasi user biar show.blade.php tetap jalan
-        $recruitment = (object) array_merge($recruitment, [
-            'user' => (object)['full_name' => 'Admin']
-        ]);
+        $recruitment = RecruitmentPost::where('recruitment_id', $id)->firstOrFail();
 
         return view('recruitment.show', compact('recruitment'));
+    }
+
+    public function create()
+    {
+        return view('recruitment.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'organization' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'application_link' => 'nullable|url',
+            'deadline' => 'nullable|date',
+            'file_link' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('recruitment', 'public');
+        }
+
+        RecruitmentPost::create($validated);
+
+        return redirect()->route('recruitment.index')->with('success', 'Recruitment berhasil dibuat');
+    }
+
+    public function edit($id)
+    {
+        $recruitmentPost = RecruitmentPost::where('recruitment_id', $id)->firstOrFail();
+        return view('recruitment.edit', compact('recruitmentPost'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $recruitmentPost = RecruitmentPost::where('recruitment_id', $id)->firstOrFail();
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'organization' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'application_link' => 'nullable|url',
+            'deadline' => 'nullable|date',
+            'file_link' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($recruitmentPost->image) {
+                Storage::disk('public')->delete($recruitmentPost->image);
+            }
+            $validated['image'] = $request->file('image')->store('recruitment', 'public');
+        }
+
+        $recruitmentPost->update($validated);
+
+        return redirect()->route('recruitment.show', $recruitmentPost->recruitment_id)->with('success', 'Recruitment berhasil diupdate');
+    }
+
+    public function destroy($id)
+    {
+        $recruitmentPost = RecruitmentPost::where('recruitment_id', $id)->firstOrFail();
+        if ($recruitmentPost->image) {
+            Storage::disk('public')->delete($recruitmentPost->image);
+        }
+
+        $recruitmentPost->delete();
+
+        return redirect()->route('recruitment.index')->with('success', 'Recruitment berhasil dihapus');
     }
 }

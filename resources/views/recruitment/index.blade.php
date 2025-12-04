@@ -34,6 +34,7 @@
     <div class="position-relative d-inline-block w-100">
         <!-- Input -->
         <input type="text"
+               id="searchInput"
                class="form-control rounded-pill border-0 shadow-sm py-3 bg-purple-light text-white placeholder-white fw-medium pe-5"
                placeholder="Search ..."
                style="height: 56px; padding-left: 20px; padding-right: 50px !important;">
@@ -44,51 +45,35 @@
     </div>
 
         <!-- List Recruitment — Ukuran gambar 375×182 px, responsive sempurna! -->
-        <div class="d-flex flex-column gap-5 mt-4">
-
-            <!-- Graphic Designer -->
-            <a href="{{ route('recruitment.show', 'gd') }}" class="text-decoration-none d-block hover-shadow-lg">
-                <div class="rounded-3 overflow-hidden shadow-lg">
-                    <!-- Rasio asli 375:182 → padding-bottom: 48.53% -->
-                    <div class="position-relative w-100" style="padding-bottom: 48.53%;">
-                        <img src="{{ asset('GD-recruitment.jpg') }}" 
-                            class="position-absolute top-0 start-0 w-100 h-100 rounded-3"
-                            style="object-fit: cover;"
-                            alt="Open Recruitment GD">
+        <div class="d-flex flex-column gap-5 mt-4" id="recruitmentList">
+            
+            @forelse($recruitments as $recruitment)
+                <a href="{{ route('recruitment.show', $recruitment->recruitment_id) }}" class="text-decoration-none d-block hover-shadow-lg">
+                    <div class="rounded-3 overflow-hidden shadow-lg">
+                        <!-- Rasio asli 375:182 → padding-bottom: 48.53% -->
+                        <div class="position-relative w-100" style="padding-bottom: 48.53%;">
+                            <img src="{{ $recruitment->image_url }}" 
+                                class="position-absolute top-0 start-0 w-100 h-100 rounded-3"
+                                style="object-fit: cover;"
+                                alt="{{ $recruitment->title }}">
+                        </div>
                     </div>
-                </div>
 
-                <div class="d-flex align-items-center justify-content-between bg-purple-light text-white px-4 py-4 -mt-4 rounded-bottom-3" style="z-index: 2;">
-                    <span class="fw-bold fs-5">Open Recruitment GD</span>
-                    <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
-                        style="background-color: #70539A; width: 46px; height: 46px; min-width: 46px;">
-                        <i class="bi bi-chevron-right fs-4"></i>
+                    <div class="d-flex align-items-center justify-content-between bg-purple-light text-white px-4 py-4 -mt-4 rounded-bottom-3" style="z-index: 2;">
+                        <span class="fw-bold fs-5">{{ $recruitment->title }}</span>
+                        <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+                            style="background-color: #70539A; width: 46px; height: 46px; min-width: 46px;">
+                            <i class="bi bi-chevron-right fs-4"></i>
+                        </div>
                     </div>
+                </a>
+            @empty
+                <div class="alert alert-info text-center">
+                    <p class="mb-0">Tidak ada recruitment yang tersedia saat ini</p>
                 </div>
-            </a>
+            @endforelse
 
-            <!-- Media Social -->
-            <a href="{{ route('recruitment.show', 'ms') }}" class="text-decoration-none d-block hover-shadow-lg">
-                <div class="rounded-3 overflow-hidden shadow-lg">
-                    <div class="position-relative w-100" style="padding-bottom: 46.00%;">
-                        <img src="{{ asset('MS-recruitment.png') }}" 
-                            class="position-absolute top-0 start-0 w-100 h-100 rounded-3"
-                            style="object-fit: cover;"
-                            alt="Open Recruitment MS">
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-between bg-purple-light text-white px-4 py-4 -mt-4 rounded-bottom-3" style="z-index: 2;">
-                    <span class="fw-bold fs-5">Open Recruitment MS</span>
-                    <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
-                        style="background-color: #70539A; width: 46px; height: 46px; min-width: 46px;">
-                        <i class="bi bi-chevron-right fs-4"></i>
-                    </div>
-                </div>
-            </a>
-    <!-- Add More -->
-
-</div>
+        </div>
 
     </div>
 </div>
@@ -108,13 +93,25 @@
         box-shadow: 0 10px 25px rgba(147,51,234,0.25) !important;
         transition: all 0.25s ease;
     }
-</style>
-@endpush
 
-@push('scripts')
-<style>
     .placeholder-white::placeholder {
         color: rgba(255, 255, 255, 0.7) !important;
     }
 </style>
+
+<script>
+document.getElementById('searchInput').addEventListener('keyup', function() {
+    const searchValue = this.value.toLowerCase();
+    const items = document.querySelectorAll('#recruitmentList a');
+    
+    items.forEach(item => {
+        const title = item.querySelector('.fw-bold').textContent.toLowerCase();
+        if (title.includes(searchValue)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+});
+</script>
 @endpush
