@@ -15,6 +15,7 @@ class RecruitmentPost extends Model
     protected $keyType = 'int';
 
     protected $fillable = [
+        'user_id',
         'title',
         'description',
         'organization',
@@ -29,9 +30,15 @@ class RecruitmentPost extends Model
         'deadline' => 'date',
     ];
 
+    // Override route key name untuk Laravel implicit routing
+    public function getRouteKeyName()
+    {
+        return 'recruitment_id';
+    }
+
     // Accessor untuk URL gambar
     public function getImageUrlAttribute()
     {
-        return $this->image ? asset('storage/' . $this->image) : asset('placeholder-recruitment.jpg');
+        return $this->image ? asset($this->image) : asset('images/placeholder-recruitment.jpg');
     }
 }
