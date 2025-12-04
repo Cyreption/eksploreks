@@ -1,3 +1,5 @@
+// Author: Nashita Aulia (5026231054) 
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -214,7 +216,7 @@
 
     <!-- Bottom Navbar -->
     <div class="bottom-nav">
-        <a href="{{ url('/home') }}" class="{{ request()->is('home') ? 'active' : '' }}">
+        <a href="{{ url('/dashboard') }}" class="{{ request()->is('home') ? 'active' : '' }}">
             <i class="bi bi-house-door{{ request()->is('home') ? '-fill' : '' }}"></i>
             <span>Home</span>
         </a>
