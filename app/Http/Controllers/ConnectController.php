@@ -1,5 +1,7 @@
 <?php
 
+// Author: Nashita Aulia (5026231054)
+
 namespace App\Http\Controllers;
 
 use App\Models\User;

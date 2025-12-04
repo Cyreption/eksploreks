@@ -1,3 +1,5 @@
+// Author: Nashita Aulia (5026231054) 
+
 @extends('layouts.app')
 
 @section('content')
