@@ -29,6 +29,7 @@ class Event extends Model
         'file_link',
         'start_time',
         'end_time',
+        'image', 
     ];
 
     protected $casts = [

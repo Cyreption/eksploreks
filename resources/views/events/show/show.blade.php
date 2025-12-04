@@ -26,30 +26,50 @@
     </div>
 </header>
 
+<!-- GANTI SELURUH BAGIAN GAMBAR LAMA DENGAN INI -->
 <div class="container mt-4 pb-6">
     <h4 class="fw-bold">{{ $event->title }}</h4>
     <p class="text-muted">{{ $event->organizer }}</p>
     <p class="text-muted small">
-        {{ $event->start_time ? $event->start_time->format('d F Y H:i') : '' }}
+        {{ $event->start_time?->format('d F Y H:i') }}
         @if($event->end_time) - {{ $event->end_time->format('d F Y H:i') }} @endif
     </p>
 
-    <img src="{{ $event->file_link ? $event->file_link : 'https://via.placeholder.com/400x200/9333ea/ffffff?text=EVENT' }}"
-         class="img-fluid rounded-3 shadow-sm mb-4" alt="Event">
-
-    <!-- Description: tampilkan di dalam kotak putih seperti recruitment -->
-    <div class="bg-white rounded-3 shadow-sm p-4 mb-4">
-        <p class="text-dark mb-0">
-            {!! nl2br(e($event->description)) !!}
-        </p>
+    <!-- POSTER EVENT - RESPONSIVE & CANTIK -->
+    <div class="mb-4">
+        @if($event->image)
+            <img src="{{ asset($event->image) }}"
+                 class="img-fluid rounded-4 shadow-lg w-100"
+                 style="max-height: 70vh; object-fit: contain; background: #f8f5ff;"
+                 alt="{{ $event->title }}">
+        @else
+            <div class="bg-light-purple rounded-4 d-flex align-items-center justify-content-center shadow-lg"
+                 style="height: 60vh; max-height: 500px;">
+                <div class="text-center">
+                    <i class="bi bi-image display-1 text-purple opacity-25"></i>
+                    <p class="mt-3 text-purple fw-bold fs-3">No Poster</p>
+                </div>
+            </div>
+        @endif
     </div>
 
-    @if($event->link)
-    <a href="{{ route('events.downloadLink', $event) }}" target="_blank" class="btn btn-outline-purple w-100 rounded-pill shadow-sm py-3 mb-2 fw-bold">Open Registration Link</a>
+    <!-- Deskripsi -->
+    <div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+        <p class="text-dark mb-0">{!! nl2br(e($event->description)) !!}</p>
+    </div>
+
+    @if($event->registration_link)
+        <a href="{{ route('events.downloadLink', $event) }}" target="_blank"
+           class="btn btn-outline-purple w-100 rounded-pill shadow-sm py-3 mb-2 fw-bold">
+            Open Registration Link
+        </a>
     @endif
 
     @if($event->file_link)
-    <a href="{{ route('events.downloadFile', $event) }}" target="_blank" class="btn btn-purple w-100 rounded-pill shadow-lg py-3 fw-bold">Open File Link</a>
+        <a href="{{ route('events.downloadFile', $event) }}" target="_blank"
+           class="btn btn-purple w-100 rounded-pill shadow-lg py-3 fw-bold">
+            Open File Link
+        </a>
     @endif
 </div>
 
