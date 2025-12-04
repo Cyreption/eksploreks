@@ -1,4 +1,4 @@
-// Author: Nashita Aulia (5026231054) 
+<!-- Author: Nashita Aulia (5026231054) -->
 
 {{-- resources/views/connect/request.blade.php --}}
 <!DOCTYPE html>
