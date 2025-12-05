@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CalendarEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CalendarEventController extends Controller
 {
@@ -12,7 +13,17 @@ class CalendarEventController extends Controller
      */
     public function index()
     {
-        //
+        $events = CalendarEvent::where('user_id', Auth::id())->get();
+        return view('calendar.index', compact('events'));
+    }
+
+    /**
+     * Show month view
+     */
+    public function month()
+    {
+        $events = CalendarEvent::where('user_id', Auth::id())->get();
+        return view('calendar.month', compact('events'));
     }
 
     /**
@@ -20,7 +31,7 @@ class CalendarEventController extends Controller
      */
     public function create()
     {
-        //
+        return view('calendar.create');
     }
 
     /**
@@ -28,7 +39,23 @@ class CalendarEventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'date_time' => 'required|date_format:Y-m-d H:i',
+            'all_day' => 'boolean',
+            'color' => 'required|string|in:Yellow,Red,Blue',
+            'location' => 'nullable|string|max:255',
+            'notification' => 'boolean',
+            'description' => 'nullable|string',
+        ]);
+
+        $validated['user_id'] = Auth::id();
+        $validated['all_day'] = $request->has('all_day') ? true : false;
+        $validated['notification'] = $request->has('notification') ? true : false;
+
+        CalendarEvent::create($validated);
+
+        return redirect()->route('calendar.index')->with('success', 'Event berhasil dibuat');
     }
 
     /**
@@ -36,7 +63,7 @@ class CalendarEventController extends Controller
      */
     public function show(CalendarEvent $calendarEvent)
     {
-        //
+        return view('calendar.show', compact('calendarEvent'));
     }
 
     /**
@@ -44,7 +71,7 @@ class CalendarEventController extends Controller
      */
     public function edit(CalendarEvent $calendarEvent)
     {
-        //
+        return view('calendar.edit', compact('calendarEvent'));
     }
 
     /**
@@ -52,7 +79,22 @@ class CalendarEventController extends Controller
      */
     public function update(Request $request, CalendarEvent $calendarEvent)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'date_time' => 'required|date_format:Y-m-d H:i',
+            'all_day' => 'boolean',
+            'color' => 'required|string|in:Yellow,Red,Blue',
+            'location' => 'nullable|string|max:255',
+            'notification' => 'boolean',
+            'description' => 'nullable|string',
+        ]);
+
+        $validated['all_day'] = $request->has('all_day') ? true : false;
+        $validated['notification'] = $request->has('notification') ? true : false;
+
+        $calendarEvent->update($validated);
+
+        return redirect()->route('calendar.show', $calendarEvent)->with('success', 'Event berhasil diupdate');
     }
 
     /**
@@ -60,6 +102,7 @@ class CalendarEventController extends Controller
      */
     public function destroy(CalendarEvent $calendarEvent)
     {
-        //
+        $calendarEvent->delete();
+        return redirect()->route('calendar.index')->with('success', 'Event berhasil dihapus');
     }
 }

@@ -23,45 +23,78 @@
 
 <div class="container py-4 pb-6">
 
-    <!-- Topic -->
+    <!-- Title -->
     <div class="bg-white rounded-3 shadow-sm p-4 mb-3 d-flex gap-3">
         <i class="bi bi-pencil-square text-purple fs-3"></i>
         <div class="flex-grow-1">
-            <h6 class="fw-bold text-dark mb-2">Topic</h6>
-            <p class="text-muted mb-1">Day Date, Time</p>
-            <p class="text-muted">Lorem Ipsum</p>
+            <h6 class="fw-bold text-dark mb-2">{{ $calendarEvent->title }}</h6>
+            <p class="text-muted">{{ $calendarEvent->date_time?->format('d F Y, H:i') ?? 'No time set' }}</p>
         </div>
     </div>
 
-    <!-- Ringbell -->
-    <div class="bg-white rounded-3 shadow-sm p-4 mb-3 d-flex gap-3 align-items-center">
-        <i class="bi bi-bell-fill text-purple fs-3"></i>
-        <div class="flex-grow-1">
-            <h6 class="fw-bold text-dark">Ringbell</h6>
+    <!-- Notification -->
+    @if($calendarEvent->notification)
+        <div class="bg-white rounded-3 shadow-sm p-4 mb-3 d-flex gap-3 align-items-center">
+            <i class="bi bi-bell-fill text-purple fs-3"></i>
+            <div class="flex-grow-1">
+                <h6 class="fw-bold text-dark">Notification Enabled</h6>
+            </div>
         </div>
-    </div>
+    @endif
 
-    <!-- Places Name -->
+    <!-- Location -->
+    @if($calendarEvent->location)
+        <div class="bg-white rounded-3 shadow-sm p-4 mb-3 d-flex gap-3 align-items-center">
+            <i class="bi bi-geo-alt-fill text-purple fs-3"></i>
+            <div class="flex-grow-1">
+                <h6 class="fw-bold text-dark">{{ $calendarEvent->location }}</h6>
+            </div>
+        </div>
+    @endif
+
+    <!-- Color -->
     <div class="bg-white rounded-3 shadow-sm p-4 mb-3 d-flex gap-3 align-items-center">
-        <i class="bi bi-tag-fill text-purple fs-3"></i>
+        <i class="bi bi-palette-fill text-purple fs-3"></i>
         <div class="flex-grow-1">
-            <h6 class="fw-bold text-dark">Places Name</h6>
+            @php
+                $colorMap = [
+                    'Yellow' => '#FFD43B',
+                    'Red' => '#FF6B6B',
+                    'Blue' => '#4ECDC4',
+                    'Purple' => '#70539A'
+                ];
+            @endphp
+            <div class="d-flex align-items-center gap-2">
+                <div class="rounded-circle" style="width:20px;height:20px;background:{{ $colorMap[$calendarEvent->color] ?? '#70539A' }};"></div>
+                <h6 class="fw-bold text-dark mb-0">{{ $calendarEvent->color }}</h6>
+            </div>
         </div>
     </div>
 
     <!-- Description -->
-    <div class="bg-white rounded-3 shadow-sm p-4 mb-5 d-flex gap-3">
-        <i class="bi bi-text-left text-purple fs-3"></i>
-        <div class="flex-grow-1">
-            <h6 class="fw-bold text-dark mb-2">Description</h6>
+    @if($calendarEvent->description)
+        <div class="bg-white rounded-3 shadow-sm p-4 mb-5 d-flex gap-3">
+            <i class="bi bi-text-left text-purple fs-3"></i>
+            <div class="flex-grow-1">
+                <h6 class="fw-bold text-dark mb-2">Description</h6>
+                <p class="text-muted">{{ $calendarEvent->description }}</p>
+            </div>
         </div>
-    </div>
+    @endif
 
-    <!-- Floating Edit Button -->
-    <a href="#" class="position-fixed bottom-0 end-0 m-4 d-flex align-items-center justify-content-center rounded-circle shadow-lg text-white"
-       style="background-color: #70539A; width: 60px; height: 60px; z-index: 100;">
-        <i class="bi bi-pencil fs-3"></i>
-    </a>
+    <!-- Edit & Delete Buttons -->
+    <div class="d-flex gap-2 mb-5">
+        <a href="{{ route('calendar.edit', $calendarEvent->calendar_event_id) }}" class="btn btn-purple rounded-pill text-white flex-grow-1">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+        <form action="{{ route('calendar.destroy', $calendarEvent->calendar_event_id) }}" method="POST" class="flex-grow-1">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger rounded-pill text-white w-100" onclick="return confirm('Hapus schedule ini?')">
+                <i class="bi bi-trash"></i> Delete
+            </button>
+        </form>
+    </div>
 
 </div>
 @endsection

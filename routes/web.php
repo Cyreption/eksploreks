@@ -70,9 +70,12 @@ Route::resource('recruitment', RecruitmentController::class);
 
 // ====================== CALENDAR ======================
 Route::prefix('/calendar')->name('calendar.')->group(function () {
-    Route::get('/', fn() => view('calendar.index'))->name('index');
-    Route::get('/create', fn() => view('calendar.create'))->name('create');
-    Route::post('/', fn() => back()->with('success', 'Mock: event created!'))->name('store');
-    Route::get('/{id}', fn($id) => view('calendar.show', ['id' => $id]))->name('show');
-    Route::get('/{id}/edit', fn($id) => view('calendar.edit', ['id' => $id]))->name('edit');
+    Route::get('/', [\App\Http\Controllers\CalendarEventController::class, 'index'])->name('index');
+    Route::get('/month', [\App\Http\Controllers\CalendarEventController::class, 'month'])->name('month');
+    Route::get('/create', [\App\Http\Controllers\CalendarEventController::class, 'create'])->name('create');
+    Route::post('/', [\App\Http\Controllers\CalendarEventController::class, 'store'])->name('store');
+    Route::get('/{calendarEvent}', [\App\Http\Controllers\CalendarEventController::class, 'show'])->name('show');
+    Route::get('/{calendarEvent}/edit', [\App\Http\Controllers\CalendarEventController::class, 'edit'])->name('edit');
+    Route::put('/{calendarEvent}', [\App\Http\Controllers\CalendarEventController::class, 'update'])->name('update');
+    Route::delete('/{calendarEvent}', [\App\Http\Controllers\CalendarEventController::class, 'destroy'])->name('destroy');
 });

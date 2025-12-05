@@ -1,7 +1,7 @@
-{{-- resources/views/academic-calendar/create.blade.php --}}
+{{-- resources/views/academic-calendar/edit.blade.php --}}
 @extends('layouts.app')
 
-@section('title', 'Create Event')
+@section('title', 'Edit Event')
 
 @section('content')
 <!-- Header -->
@@ -21,10 +21,11 @@
     </div>
 </div>
 <div class="container py-4 pb-6 form-content">
-    <h2 class="fw-bold text-dark mb-4">Add Schedule</h2>
+    <h2 class="fw-bold text-dark mb-4">Edit Schedule</h2>
 
-    <form action="{{ route('calendar.store') }}" method="POST">
+    <form action="{{ route('calendar.update', $calendarEvent->calendar_event_id) }}" method="POST">
         @csrf
+        @method('PUT')
 
         <!-- Title -->
         <div class="bg-white rounded-3 shadow-sm p-4 mb-3">
@@ -33,7 +34,7 @@
                 <span class="fw-bold text-dark fs-5">Title</span>
             </div>
             <input type="text" class="form-control rounded-pill border-0 shadow-sm bg-light-purple py-3" 
-                   name="title" placeholder="Enter schedule title" required>
+                   name="title" placeholder="Enter schedule title" value="{{ $calendarEvent->title }}" required>
         </div>
 
         <!-- All-Day Toggle -->
@@ -44,19 +45,19 @@
                     <span class="fw-bold text-dark fs-5">All-Day</span>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="allDay" name="all_day" onchange="toggleTime()">
+                    <input class="form-check-input" type="checkbox" id="allDay" name="all_day" {{ $calendarEvent->all_day ? 'checked' : '' }} onchange="toggleTime()">
                 </div>
             </div>
             <div class="row g-3">
                 <div class="col-6">
                     <label class="small text-muted">Date Start</label>
                     <input type="date" class="form-control rounded-pill border-0 shadow-sm bg-light-purple py-3" 
-                           id="dateStart" name="date_start" required>
+                           id="dateStart" name="date_start" value="{{ $calendarEvent->date_time?->format('Y-m-d') }}" required>
                 </div>
                 <div class="col-6">
                     <label class="small text-muted">Time Start</label>
                     <input type="time" class="form-control rounded-pill border-0 shadow-sm bg-light-purple py-3" 
-                           id="timeStart" name="time_start">
+                           id="timeStart" name="time_start" value="{{ $calendarEvent->date_time?->format('H:i') }}">
                 </div>
                 <div class="col-6">
                     <label class="small text-muted">Date End</label>
@@ -80,7 +81,7 @@
                     <span class="fw-bold text-dark fs-5">Notification</span>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="notification" name="notification">
+                    <input class="form-check-input" type="checkbox" id="notification" name="notification" {{ $calendarEvent->notification ? 'checked' : '' }}>
                 </div>
             </div>
         </div>
@@ -92,7 +93,7 @@
                 <span class="fw-bold text-dark fs-5">Location</span>
             </div>
             <input type="text" class="form-control rounded-pill border-0 shadow-sm bg-light-purple py-3" 
-                   name="location" placeholder="Enter location">
+                   name="location" placeholder="Enter location" value="{{ $calendarEvent->location ?? '' }}">
         </div>
 
         <!-- Color -->
@@ -104,7 +105,7 @@
             <div class="d-flex gap-3">
                 @foreach(['Yellow' => '#FFD43B', 'Red' => '#FF6B6B', 'Blue' => '#4ECDC4'] as $colorName => $colorCode)
                     <label class="d-flex align-items-center gap-2 cursor-pointer">
-                        <input type="radio" name="color" value="{{ $colorName }}" {{ $colorName === 'Yellow' ? 'checked' : '' }} required>
+                        <input type="radio" name="color" value="{{ $colorName }}" {{ $calendarEvent->color === $colorName ? 'checked' : '' }} required>
                         <div class="rounded-circle" style="width:30px;height:30px;background:{{ $colorCode }};"></div>
                         <span class="small">{{ $colorName }}</span>
                     </label>
@@ -119,13 +120,13 @@
                 <span class="fw-bold text-dark fs-5">Description</span>
             </div>
             <textarea class="form-control rounded-3 border-0 shadow-sm bg-light-purple p-3" 
-                      name="description" rows="4" placeholder="Enter description"></textarea>
+                      name="description" rows="4" placeholder="Enter description">{{ $calendarEvent->description ?? '' }}</textarea>
         </div>
 
         <!-- Save Button -->
         <div class="d-grid">
             <button type="submit" class="btn btn-purple rounded-pill py-3 fw-bold text-white shadow-lg">
-                Save
+                Update
             </button>
         </div>
     </form>

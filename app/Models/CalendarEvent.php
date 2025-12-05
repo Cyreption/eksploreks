@@ -17,6 +17,9 @@ class CalendarEvent extends Model
         'title',
         'date_time',
         'all_day',
+        'color',
+        'location',
+        'notification',
         'description',
         'user_id',
     ];

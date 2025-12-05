@@ -23,18 +23,20 @@
 <div class="container py-4 pb-6">
 
     <!-- Mini Calendar -->
-    <div class="bg-white rounded-3 shadow-sm p-3 mb-4">
-        <table class="w-100 text-center small">
-            <thead><tr class="text-muted fw-bold"><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead>
-            <tbody class="fw-semibold">
-                <tr><td class="text-muted">27</td><td class="text-muted">28</td><td class="text-muted">29</td><td class="text-muted">30</td><td>1</td><td>2</td><td>3</td></tr>
-                <tr><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
-                <tr><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td></tr>
-                <tr><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td></tr>
-                <tr><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td></tr>
-            </tbody>
-        </table>
-    </div>
+    <a href="{{ route('calendar.month') }}" class="text-decoration-none">
+        <div class="bg-white rounded-3 shadow-sm p-3 mb-4" style="cursor: pointer; transition: all 0.3s ease;">
+            <table class="w-100 text-center small">
+                <thead><tr class="text-muted fw-bold"><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead>
+                <tbody class="fw-semibold">
+                    <tr><td class="text-muted">27</td><td class="text-muted">28</td><td class="text-muted">29</td><td class="text-muted">30</td><td>1</td><td>2</td><td>3</td></tr>
+                    <tr><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+                    <tr><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td></tr>
+                    <tr><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td></tr>
+                    <tr><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </a>
 
     <!-- Search Bar — JUGA SOLID #D8B4FE -->
     <div class="mb-5">
@@ -49,33 +51,33 @@
 
     <!-- Event List -->
     <div class="d-flex flex-column gap-4">
-        <div class="bg-white rounded-3 shadow-sm p-4">
-            <h6 class="fw-bold text-dark mb-2">Data Lake House Class</h6>
-            <p class="text-muted small mb-2">4201 Class • Make a Data Lake</p>
-            <div class="d-flex align-items-center gap-3">
-                <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-circle" style="width:12px;height:12px;background:#FFD43B;"></div>
-                    <small>Color Yellow</small>
+        @forelse($events ?? [] as $event)
+            <a href="{{ route('calendar.show', $event->calendar_event_id) }}" class="text-decoration-none">
+                <div class="bg-white rounded-3 shadow-sm p-4">
+                    <h6 class="fw-bold text-dark mb-2">{{ $event->title }}</h6>
+                    <p class="text-muted small mb-2">{{ $event->location ?? 'No location' }} • {{ $event->description ?? '' }}</p>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2">
+                            @php
+                                $colorMap = [
+                                    'Yellow' => '#FFD43B',
+                                    'Red' => '#FF6B6B',
+                                    'Blue' => '#4ECDC4',
+                                    'Purple' => '#70539A'
+                                ];
+                            @endphp
+                            <div class="rounded-circle" style="width:12px;height:12px;background:{{ $colorMap[$event->color] ?? '#70539A' }};"></div>
+                            <small>Color {{ $event->color }}</small>
+                        </div>
+                        <div class="form-check form-switch ms-auto">
+                            <input class="form-check-input" type="checkbox" {{ $event->notification ? 'checked' : '' }} disabled>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-check form-switch ms-auto">
-                    <input class="form-check-input" type="checkbox" checked>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-3 shadow-sm p-4">
-            <h6 class="fw-bold text-dark mb-2">DPP Class</h6>
-            <p class="text-muted small mb-2">1101 Class • Making UI/UX</p>
-            <div class="d-flex align-items-center gap-3">
-                <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-circle" style="width:12px;height:12px;background:#FF6B6B;"></div>
-                    <small>Color Red</small>
-                </div>
-                <div class="form-check form-switch ms-auto">
-                    <input class="form-check-input" type="checkbox">
-                </div>
-            </div>
-        </div>
+            </a>
+        @empty
+            <p class="text-muted text-center">Tidak ada schedule yang dibuat</p>
+        @endforelse
     </div>
 
     <!-- TOMBOL + — #70539A + GAK KETUTUP NAVBAR -->
