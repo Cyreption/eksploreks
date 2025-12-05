@@ -18,10 +18,20 @@ class Place extends Model
         'address',
         'rating',
         'price_range',
+        'image',
+        'distance',
+        'reviews',
+        'is_top',
+        'price_rating',
+        'location_rating',
+        'service_rating',
     ];
 
     protected $casts = [
         'rating' => 'float',
+        'price_rating' => 'float',
+        'location_rating' => 'float',
+        'service_rating' => 'float',
     ];
 
     public function reviews()

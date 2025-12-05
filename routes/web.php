@@ -29,6 +29,7 @@ Route::get('events/{event}/download-file', [EventController::class, 'downloadFil
 Route::get('/hangout', [\App\Http\Controllers\PlaceController::class, 'hangout'])->name('hangout');
 Route::get('/hangout/{id}', [\App\Http\Controllers\PlaceController::class, 'hangoutDetail'])->name('hangout.detail');
 Route::post('/hangout/{id}/like', [\App\Http\Controllers\PlaceController::class, 'toggleLike'])->name('hangout.like');
+Route::post('/hangout/{id}/review', [\App\Http\Controllers\PlaceController::class, 'storeReview'])->name('hangout.review');
 
 // ====================== FITUR CONNECT ======================
 Route::prefix('/connect')->name('connect.')->group(function () {

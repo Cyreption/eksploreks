@@ -45,9 +45,9 @@
 <div class="container mt-4 pb-6">
     @if(is_array($cafes) && count($cafes) > 0)
         @foreach($cafes as $cafe)
-            <a href="{{ route('hangout.detail', $cafe['id']) }}" class="text-decoration-none d-block mb-3">
+            <a href="{{ route('hangout.detail', $cafe['place_id']) }}" class="text-decoration-none d-block mb-3">
                 <div class="card border-0 shadow-sm p-3 d-flex flex-row align-items-center cafe-card" style="border-radius: 1rem;">
-                    <img src="{{ $cafe['image'] }}" 
+                    <img src="{{ asset('uploads/' . $cafe['image']) }}" 
                          class="rounded-3 me-3 shrink-0" width="70" height="70" alt="{{ $cafe['name'] }}" style="object-fit: cover;"
                          onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($cafe['name']) }}&background=9333ea&color=fff&size=70'">
                     <div class="grow me-3">

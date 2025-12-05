@@ -69,7 +69,7 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="place-card bg-white rounded-3 shadow-sm overflow-hidden position-relative h-100">
                     <div class="top-badge">⭐ TOP</div>
-                    <img src="{{ $place['image'] }}" alt="{{ $place['name'] }}" class="w-100" style="height: 150px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x150/9333ea/ffffff?text=TOP'">
+                    <img src="{{ asset('uploads/' . $place['image']) }}" alt="{{ $place['name'] }}" class="w-100" style="height: 150px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x150/9333ea/ffffff?text=TOP'">
                     <div class="p-3">
                         <h6 class="fw-bold text-dark mb-1">{{ $place['name'] }}</h6>
                         <p class="text-muted small mb-2"><i class="bi bi-geo-alt"></i> {{ $place['address'] }}</p>
@@ -78,7 +78,7 @@
                                 <i class="bi bi-star-fill"></i> {{ $place['rating'] }}
                                 <span class="text-muted">({{ $place['reviews'] }})</span>
                             </div>
-                            <a href="{{ route('hangout.detail', $place['id']) }}" class="btn btn-sm btn-purple rounded-pill">View</a>
+                            <a href="{{ route('hangout.detail', $place['place_id']) }}" class="btn btn-sm btn-purple rounded-pill">View</a>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
         @foreach($otherPlaces as $place)
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="place-card bg-white rounded-3 shadow-sm overflow-hidden place-list-item">
-                    <img src="{{ $place['image'] }}" alt="{{ $place['name'] }}" class="w-100" style="height: 150px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x150/9333ea/ffffff?text=CAFE'">
+                    <img src="{{ asset('uploads/' . $place['image']) }}" alt="{{ $place['name'] }}" class="w-100" style="height: 150px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x150/9333ea/ffffff?text=CAFE'">
                     <div class="p-3">
                         <h6 class="fw-bold text-dark mb-1">{{ $place['name'] }}</h6>
                         <p class="text-muted small mb-1"><i class="bi bi-geo-alt"></i> {{ $place['address'] }}</p>
@@ -104,7 +104,7 @@
                                 <i class="bi bi-star-fill"></i> {{ $place['rating'] }}
                                 <span class="text-muted">({{ $place['reviews'] }})</span>
                             </div>
-                            <a href="{{ route('hangout.detail', $place['id']) }}" class="btn btn-sm btn-outline-purple rounded-pill">View</a>
+                            <a href="{{ route('hangout.detail', $place['place_id']) }}" class="btn btn-sm btn-outline-purple rounded-pill">View</a>
                         </div>
                     </div>
                 </div>

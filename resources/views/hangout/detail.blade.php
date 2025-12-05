@@ -18,9 +18,9 @@
 
 <!-- Shop Image -->
 <div class="container-fluid px-0 mt-3">
-    <img src="{{ $place['image'] }}" 
+    <img src="{{ asset('uploads/' . $place['image']) }}" 
          class="w-100 rounded-3 shadow-sm" alt="{{ $place['name'] }}" style="height: 250px; object-fit: cover;"
-         onerror="this.src='https://via.placeholder.com/600x400/9333ea/ffffff?text={{ urlencode($place["name"]) }}'">
+         onerror="this.src='https://via.placeholder.com/600x400/9333ea/ffffff?text={{ urlencode($place['name']) }}'">
 </div>
 
 <!-- Shop Info -->
@@ -38,7 +38,7 @@
                 <span class="text-dark ms-1">{{ $place['rating'] }} ({{ $place['reviews'] }} reviews)</span>
             </div>
         </div>
-        <button id="like-btn" class="btn btn-sm rounded-pill like-button" data-place-id="{{ $place['id'] }}" data-is-liked="{{ $isLiked ? 'true' : 'false' }}">
+        <button id="like-btn" class="btn btn-sm rounded-pill like-button" data-place-id="{{ $place['place_id'] }}" data-is-liked="{{ $isLiked ? 'true' : 'false' }}">
             <i class="bi bi-heart{{ $isLiked ? '-fill' : '' }}"></i>
         </button>
     </div>
@@ -197,32 +197,64 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Add comment functionality
-    let userComments = [];
-
     sendButton.addEventListener('click', function () {
         const text = commentInput.value.trim();
-        if (!text) return;
+        const rating = document.querySelector('input[name="rating"]:checked')?.value || 5;
+        
+        if (!text) {
+            alert('Silakan masukkan komentar');
+            return;
+        }
 
-        // Tambah komentar baru
-        const newComment = document.createElement('div');
-        newComment.className = 'bg-white p-4 rounded-3 shadow-sm mb-3';
-        newComment.innerHTML = `
-            <div class="d-flex align-items-start gap-3">
-                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=9333ea&color=fff&size=40" 
-                     class="rounded-circle shrink-0" width="40" alt="${userName}">
-                <div class="grow">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <div class="fw-bold small">${userName}</div>
-                        <div class="text-muted small">Just now</div>
+        const placeId = likeBtn.dataset.placeId;
+
+        // Send to backend
+        fetch(`/hangout/${placeId}/review`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content
+            },
+            body: JSON.stringify({
+                comment: text,
+                rating: rating
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Tambah komentar baru ke UI
+                const newComment = document.createElement('div');
+                newComment.className = 'bg-white p-4 rounded-3 shadow-sm mb-3';
+                newComment.innerHTML = `
+                    <div class="d-flex align-items-start gap-3">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(data.review.user_name)}&background=9333ea&color=fff&size=40" 
+                             class="rounded-circle shrink-0" width="40" alt="${data.review.user_name}">
+                        <div class="grow">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="fw-bold small">${data.review.user_name}</div>
+                                <div class="text-muted small">${data.review.created_at}</div>
+                            </div>
+                            <div class="text-warning small mb-2">
+                                ${'★'.repeat(data.review.rating)}${'☆'.repeat(5 - data.review.rating)}
+                            </div>
+                            <p class="small mb-0">${data.review.comment}</p>
+                        </div>
                     </div>
-                    <p class="small mb-0">${text}</p>
-                </div>
-            </div>
-        `;
-
-        // Tambah di atas list
-        commentsList.insertBefore(newComment, commentsList.firstChild);
-        commentInput.value = '';
+                `;
+                
+                // Tambah di atas list
+                commentsList.insertBefore(newComment, commentsList.firstChild);
+                commentInput.value = '';
+                alert('Terima kasih! Review Anda telah disimpan.');
+            } else {
+                alert(data.message || 'Gagal menyimpan review');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menyimpan review');
+        });
     });
 
     // Enter untuk send comment

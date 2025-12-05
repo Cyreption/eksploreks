@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use App\Models\User;
+use App\Models\Place;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -103,51 +104,22 @@ class ProfileController extends Controller
         // Get user from session
         $user = session('user');
 
-        // Sample recommended places
-        $recommendedPlaces = [
-            [
-                'id' => 1,
-                'name' => 'Aroma Deli Coffee',
-                'address' => 'Jalan Raya Puputan No. 88',
-                'image' => 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=200&h=200&fit=crop',
-                'initial' => 'AD'
-            ],
-            [
-                'id' => 2,
-                'name' => 'The Daily Grind',
-                'address' => 'Jalan Diponegoro No. 45',
-                'image' => 'https://images.unsplash.com/photo-1559056199-641a0ac8b3f7?w=200&h=200&fit=crop',
-                'initial' => 'DG'
-            ],
-            [
-                'id' => 3,
-                'name' => 'Coffee House Corner',
-                'address' => 'Jalan Ahmad Yani No. 23',
-                'image' => 'https://images.unsplash.com/photo-1501339847302-ac426a36c86d?w=200&h=200&fit=crop',
-                'initial' => 'CC'
-            ],
-            [
-                'id' => 4,
-                'name' => 'Bean Street Cafe',
-                'address' => 'Jalan Sudirman No. 67',
-                'image' => 'https://images.unsplash.com/photo-1442512595331-e89e6e893643?w=200&h=200&fit=crop',
-                'initial' => 'BS'
-            ],
-            [
-                'id' => 5,
-                'name' => 'Latte Art Studio',
-                'address' => 'Jalan Gatot Subroto No. 12',
-                'image' => 'https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=200&h=200&fit=crop',
-                'initial' => 'LA'
-            ],
-            [
-                'id' => 6,
-                'name' => 'Brew & Bloom',
-                'address' => 'Jalan Merdeka No. 99',
-                'image' => 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200&h=200&fit=crop',
-                'initial' => 'BB'
-            ],
-        ];
+        // Get recommended places from database (top places)
+        $recommendedPlaces = Place::where('is_top', true)
+            ->limit(6)
+            ->get()
+            ->map(fn($place) => [
+                'place_id' => $place->place_id,
+                'name' => $place->name,
+                'address' => $place->address,
+                'image' => $place->image,
+                'rating' => $place->rating,
+                'initial' => collect(explode(' ', $place->name))
+                    ->map(fn($word) => strtoupper(substr($word, 0, 1)))
+                    ->take(2)
+                    ->implode('')
+            ])
+            ->toArray();
 
         return view('dashboard.dashboard', compact('user', 'recommendedPlaces'));
     }

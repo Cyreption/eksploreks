@@ -124,11 +124,11 @@
         <div class="place-grid">
             @foreach($recommendedPlaces as $place)
                 <div class="place-card bg-white rounded-3 shadow-sm overflow-hidden">
-                    <img src="{{ $place['image'] }}" alt="{{ $place['name'] }}" class="place-image" onerror="this.src='https://via.placeholder.com/400x150/9333ea/ffffff?text={{ urlencode($place['initial']) }}'">
+                    <img src="{{ asset('uploads/' . $place['image']) }}" alt="{{ $place['name'] }}" class="place-image" onerror="this.src='https://via.placeholder.com/400x150/9333ea/ffffff?text={{ urlencode($place['initial']) }}'">
                     <div class="p-3">
                         <h6 class="fw-bold text-dark mb-1">{{ $place['name'] }}</h6>
                         <p class="text-muted small mb-0"><i class="bi bi-geo-alt"></i> {{ $place['address'] }}</p>
-                        <a href="{{ route('hangout.detail', $place['id']) }}" class="btn btn-sm btn-purple mt-2 w-100">View Details</a>
+                        <a href="{{ route('hangout.detail', $place['place_id']) }}" class="btn btn-sm btn-purple mt-2 w-100">View Details</a>
                     </div>
                 </div>
             @endforeach
