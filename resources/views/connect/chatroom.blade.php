@@ -3,28 +3,72 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid p-0" style="background-color: #f3e8ff; min-height: 100vh; position: relative;">
+<style>
+    .chatroom-header {
+        background: #C5A8E0;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
 
+    .chat-wrapper {
+        background-color: #f3e8ff;
+        min-height: calc(100vh - 120px);
+        padding-bottom: 110px;
+    }
+
+    #chat-container {
+        overflow-y: auto;
+        max-height: calc(100vh - 280px);
+        padding: 1rem;
+    }
+
+    .message-input-box {
+        position: fixed;
+        bottom: 90px;
+        left: 0;
+        right: 0;
+        max-width: 430px;
+        margin: 0 auto;
+        background-color: transparent;
+        z-index: 50;
+        padding: 1rem;
+    }
+
+    /* logo kanan atas (ukuran sama dengan halaman lain) */
+    .top-logo {
+        width: 24px;
+        height: 34px;
+    }
+
+    @media (max-width: 480px) {
+        #chat-container {
+            max-height: calc(100vh - 300px);
+        }
+    }
+</style>
+
+<div class="chat-wrapper">
     <!-- Header -->
-    <div class="text-center py-3 mb-3"
-        style="background: linear-gradient(to bottom, #cbb0ff, #e3ccff);
-               border-bottom-left-radius: 20px;
-               border-bottom-right-radius: 20px;
-               box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
-        <div class="d-flex align-items-center justify-content-start px-3 position-relative">
-            <a href="/chat" class="text-white me-auto">
+    <div class="chatroom-header">
+        <div class="d-flex align-items-center justify-content-between px-2">
+            <a href="/chat" class="text-white text-decoration-none">
                 <i class="bi bi-arrow-left fs-5"></i>
             </a>
-            <h5 class="fw-bold text-white mb-0 position-absolute start-50 translate-middle-x">Connect!</h5>
+            <h5 class="fw-bold text-white mb-0">Connect!</h5>
+
+            <!-- Logo kanan atas -->
+            <img src="/images/logo-pin-purple.png" alt="Logo" class="top-logo">
         </div>
     </div>
 
     <!-- Profile Header -->
     <div class="d-flex align-items-center justify-content-between px-4 mb-3">
         <div class="d-flex align-items-center">
-            <!-- Klik foto profil = ke /friendprofile -->
             <a href="{{ route('connect.friendProfile', $friend->user_id) }}" class="d-inline-block text-decoration-none">
-                <img src="{{ $friend->avatar_url ?? 'https://api.dicebear.com/7.x/avataaars/svg?seed=' . urlencode($friend->username) }}"
+                <img src="{{ App\Helpers\AvatarHelper::getAvatarUrl($friend->avatar_url, $friend->username, $friend->full_name) }}"
                     alt="{{ $friend->full_name }}"
                     class="rounded-circle me-2"
                     style="width: 45px; height: 45px; object-fit: cover; transition: transform 0.2s ease;">
@@ -37,10 +81,8 @@
     </div>
 
     <!-- Chat Area -->
-    <div id="chat-container-wrapper" style="padding-bottom: 110px;">
-        <div id="chat-container" class="px-4 mb-5"
-             style="overflow-y: auto; max-height: calc(100vh - 220px);">
-            
+    <div id="chat-container-wrapper">
+        <div id="chat-container">
             @forelse ($messages as $msg)
                 @php
                     $isSent = $msg->sender_id == session('user_id');
@@ -70,13 +112,11 @@
                     <p>Mulai percakapan dengan {{ $friend->full_name }}</p>
                 </div>
             @endforelse
-            
         </div>
     </div>
 
     <!-- Typing + Send Message Box -->
-    <div class="position-fixed bottom-0 start-0 end-0 pb-3 px-3"
-         style="max-width: 430px; margin: 0 auto; background-color: transparent; z-index: 1050;">
+    <div class="message-input-box">
         <div class="d-flex align-items-center bg-white rounded-pill shadow-sm px-3 py-2"
              id="messageBox"
              style="background-color: #d2b6ff;">
@@ -96,7 +136,6 @@
             </form>
         </div>
     </div>
-
 </div>
 
 <script>
@@ -123,4 +162,5 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 </script>
+
 @endsection
