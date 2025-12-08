@@ -20,6 +20,7 @@
     <div class="diagonal"></div>
     <div class="splash">
         <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Eksploreks" class="logo" style="width: 100px; height: auto;">
+        <div class="title">Eksploreks</div>
     </div>
 
     <script>

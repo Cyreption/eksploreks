@@ -51,6 +51,7 @@ class PlaceController extends Controller
             ->map(fn($review) => [
                 'name' => $review->user->full_name ?? $review->user->username,
                 'text' => $review->comment,
+                'rating' => $review->rating,
                 'time' => $review->created_at->diffForHumans()
             ])
             ->toArray();
@@ -177,12 +178,13 @@ class PlaceController extends Controller
 
         // Create review
         try {
+            $now = now();
             $review = Review::create([
                 'user_id' => session('user_id'),
                 'place_id' => $id,
                 'rating' => $validated['rating'],
                 'comment' => $validated['comment'],
-                'created_at' => now(),
+                'created_at' => $now,
             ]);
 
             return response()->json([
@@ -190,10 +192,10 @@ class PlaceController extends Controller
                 'message' => 'Review berhasil ditambahkan!',
                 'review' => [
                     'review_id' => $review->review_id,
-                    'user_name' => session('user')->full_name,
+                    'user_name' => session('user.full_name') ?? session('user.username') ?? 'Anonymous',
                     'comment' => $review->comment,
                     'rating' => $review->rating,
-                    'created_at' => $review->created_at->diffForHumans(),
+                    'created_at' => $now->diffForHumans(),
                 ]
             ], 201);
         } catch (\Exception $e) {

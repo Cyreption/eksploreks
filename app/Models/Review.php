@@ -17,6 +17,7 @@ class Review extends Model
         'place_id',
         'rating',
         'comment',
+        'created_at',
     ];
 
     protected $casts = [

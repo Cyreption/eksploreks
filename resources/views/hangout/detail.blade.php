@@ -106,6 +106,11 @@
                             <div class="fw-bold small">{{ $comment['name'] }}</div>
                             <div class="text-muted small">{{ $comment['time'] }}</div>
                         </div>
+                        <div class="text-warning small mb-2">
+                            @for($i = 0; $i < 5; $i++)
+                                {{ $i < $comment['rating'] ? '★' : '☆' }}
+                            @endfor
+                        </div>
                         <p class="small mb-0">{{ $comment['text'] }}</p>
                     </div>
                 </div>
@@ -119,6 +124,19 @@
             <img src="https://ui-avatars.com/api/?name={{ urlencode(session('user.full_name') ?? 'U') }}&background=9333ea&color=fff&size=40" 
                  class="rounded-circle shrink-0" width="40" alt="User">
             <div class="grow w-100">
+                <!-- Rating Stars -->
+                <div class="mb-3">
+                    <label class="small text-muted d-block mb-2">Rating:</label>
+                    <div id="rating-stars" class="text-warning">
+                        <span class="star" data-rating="1" style="cursor: pointer; font-size: 1.5rem;">☆</span>
+                        <span class="star" data-rating="2" style="cursor: pointer; font-size: 1.5rem;">☆</span>
+                        <span class="star" data-rating="3" style="cursor: pointer; font-size: 1.5rem;">☆</span>
+                        <span class="star" data-rating="4" style="cursor: pointer; font-size: 1.5rem;">☆</span>
+                        <span class="star" data-rating="5" style="cursor: pointer; font-size: 1.5rem;">☆</span>
+                    </div>
+                    <input type="hidden" id="selected-rating" name="rating" value="5">
+                </div>
+                
                 <textarea id="comment-input" class="form-control form-control-sm mb-2" 
                           rows="2" placeholder="Add Comment..."></textarea>
                 <button id="send-comment" class="btn btn-purple btn-sm w-100 rounded-pill">
@@ -164,6 +182,49 @@ document.addEventListener('DOMContentLoaded', function () {
     const commentInput = document.getElementById('comment-input');
     const sendButton = document.getElementById('send-comment');
     const commentsList = document.getElementById('comments-list');
+    const ratingStars = document.querySelectorAll('#rating-stars .star');
+    const selectedRatingInput = document.getElementById('selected-rating');
+
+    // Rating stars functionality
+    ratingStars.forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = this.dataset.rating;
+            selectedRatingInput.value = rating;
+            
+            // Update visual
+            ratingStars.forEach(s => {
+                if (s.dataset.rating <= rating) {
+                    s.textContent = '★';
+                } else {
+                    s.textContent = '☆';
+                }
+            });
+        });
+        
+        // Hover effect
+        star.addEventListener('mouseover', function() {
+            const hoverRating = this.dataset.rating;
+            ratingStars.forEach(s => {
+                if (s.dataset.rating <= hoverRating) {
+                    s.textContent = '★';
+                } else {
+                    s.textContent = '☆';
+                }
+            });
+        });
+    });
+    
+    // Reset stars on mouse leave
+    document.getElementById('rating-stars').addEventListener('mouseleave', function() {
+        const currentRating = selectedRatingInput.value;
+        ratingStars.forEach(s => {
+            if (s.dataset.rating <= currentRating) {
+                s.textContent = '★';
+            } else {
+                s.textContent = '☆';
+            }
+        });
+    });
 
     // Like button functionality
     if (likeBtn) {
@@ -199,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add comment functionality
     sendButton.addEventListener('click', function () {
         const text = commentInput.value.trim();
-        const rating = document.querySelector('input[name="rating"]:checked')?.value || 5;
+        const rating = parseInt(selectedRatingInput.value) || 5;
         
         if (!text) {
             alert('Silakan masukkan komentar');
@@ -220,12 +281,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 rating: rating
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 // Tambah komentar baru ke UI
                 const newComment = document.createElement('div');
                 newComment.className = 'bg-white p-4 rounded-3 shadow-sm mb-3';
+                
+                // Generate stars properly
+                const stars = [];
+                for (let i = 0; i < 5; i++) {
+                    stars.push(i < data.review.rating ? '★' : '☆');
+                }
+                const starsHtml = stars.join('');
+                
                 newComment.innerHTML = `
                     <div class="d-flex align-items-start gap-3">
                         <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(data.review.user_name)}&background=9333ea&color=fff&size=40" 
@@ -236,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <div class="text-muted small">${data.review.created_at}</div>
                             </div>
                             <div class="text-warning small mb-2">
-                                ${'★'.repeat(data.review.rating)}${'☆'.repeat(5 - data.review.rating)}
+                                ${starsHtml}
                             </div>
                             <p class="small mb-0">${data.review.comment}</p>
                         </div>
@@ -246,9 +320,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Tambah di atas list
                 commentsList.insertBefore(newComment, commentsList.firstChild);
                 commentInput.value = '';
-                alert('Terima kasih! Review Anda telah disimpan.');
+                selectedRatingInput.value = '5';
+                
+                // Reset stars visual
+                ratingStars.forEach(s => {
+                    if (s.dataset.rating <= 5) {
+                        s.textContent = '★';
+                    } else {
+                        s.textContent = '☆';
+                    }
+                });
+                
+                // Success notification without alert
+                console.log('Review berhasil ditambahkan!');
             } else {
-                alert(data.message || 'Gagal menyimpan review');
+                console.error(data.message || 'Gagal menyimpan review');
             }
         })
         .catch(error => {
