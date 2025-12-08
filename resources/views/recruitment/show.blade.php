@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<div class="container py-4 pb-6">
+<div class="container py-4">
 
     <!-- Banner besar — pakai gambar dari database, responsive full width -->
     <div class="rounded-3 overflow-hidden shadow-lg mb-5" style="aspect-ratio: 375/182;">

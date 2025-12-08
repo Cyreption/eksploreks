@@ -15,7 +15,7 @@
     </main>
 
     <!-- NAVBAR BAWAH: 4 IKON -->
-    <nav class="navbar fixed-bottom navbar-expand navbar-light bg-white shadow-lg border-top">
+    <nav class="navbar fixed-bottom navbar-expand navbar-light bg-white shadow-lg">
         <div class="container-fluid justify-content-around px-3 py-2">
             <a class="nav-link text-center {{ request()->is('dashboard') ? 'active' : '' }}" href="/dashboard">
                 <i class="bi bi-house-fill"></i>

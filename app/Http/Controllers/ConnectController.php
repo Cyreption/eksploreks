@@ -46,23 +46,6 @@ class ConnectController extends Controller
     }
     
     /**
-     * Show friend profile.
-     */
-    public function showFriendProfile($friendId)
-    {
-        $friend = User::findOrFail($friendId);
-        $currentUserId = session('user_id');
-        
-        // Check if they are friends
-        $isFriend = FriendList::where(function($query) use ($currentUserId, $friendId) {
-            $query->where('user_id', $currentUserId)->where('friend_id', $friendId)
-                  ->orWhere('user_id', $friendId)->where('friend_id', $currentUserId);
-        })->exists();
-        
-        return view('connect.friendprofile', ['friend' => $friend, 'isFriend' => $isFriend]);
-    }
-    
-    /**
      * Show stranger profile (non-friend).
      */
     public function showStrangerProfile($userId)

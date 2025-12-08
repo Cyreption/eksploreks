@@ -91,7 +91,7 @@
 </div>
 
 <!-- Comments -->
-<div class="container mt-5 pb-6">
+<div class="container mt-5">
     <h6 class="fw-bold text-purple mb-4">Comments</h6>
 
     <!-- Daftar Komentar -->

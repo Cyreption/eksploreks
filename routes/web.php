@@ -35,7 +35,6 @@ Route::post('/hangout/{id}/review', [\App\Http\Controllers\PlaceController::clas
 Route::prefix('/connect')->name('connect.')->group(function () {
     Route::get('/', [\App\Http\Controllers\FriendListController::class, 'index'])->name('index');
     Route::get('/add/{userId}', [\App\Http\Controllers\ConnectController::class, 'showAddFriend'])->name('addFriend');
-    Route::get('/friend/{friendId}', [\App\Http\Controllers\ConnectController::class, 'showFriendProfile'])->name('friendProfile');
     Route::get('/stranger/{userId}', [\App\Http\Controllers\ConnectController::class, 'showStrangerProfile'])->name('strangerProfile');
     Route::get('/search', [\App\Http\Controllers\ConnectController::class, 'search'])->name('search');
 });

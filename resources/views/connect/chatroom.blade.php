@@ -4,19 +4,13 @@
 
 @section('content')
 <style>
-    .chatroom-header {
-        background: #C5A8E0;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        padding: 1rem;
-        margin-bottom: 1rem;
+    .profile-header-section {
+        padding: 1.5rem 1rem;
+        background: transparent;
     }
 
-    .chat-wrapper {
-        background-color: #f3e8ff;
-        min-height: calc(100vh - 120px);
-        padding-bottom: 110px;
+    #chat-container-wrapper {
+        background: transparent;
     }
 
     #chat-container {
@@ -37,12 +31,6 @@
         padding: 1rem;
     }
 
-    /* logo kanan atas (ukuran sama dengan halaman lain) */
-    .top-logo {
-        width: 24px;
-        height: 34px;
-    }
-
     @media (max-width: 480px) {
         #chat-container {
             max-height: calc(100vh - 300px);
@@ -50,31 +38,37 @@
     }
 </style>
 
-<div class="chat-wrapper">
-    <!-- Header -->
-    <div class="chatroom-header">
-        <div class="d-flex align-items-center justify-content-between px-2">
-            <a href="/chat" class="text-white text-decoration-none">
-                <i class="bi bi-arrow-left fs-5"></i>
-            </a>
-            <h5 class="fw-bold text-white mb-0">Connect!</h5>
+<!-- Header -->
+<div class="bg-purple-light text-white">
+        <div class="container-fluid py-4 position-relative px-0">
+            <div class="d-flex align-items-center justify-content-center position-relative">
+                <!-- Tombol Back: Lingkaran #70539A + panah putih -->
+                <a href="/chat" 
+                   class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+                   style="background-color: #70539A; width: 44px; height: 44px; left: 0; z-index: 10; margin-left: 12px;">
+                    <i class="bi bi-arrow-left fs-4"></i>
+                </a>
 
-            <!-- Logo kanan atas -->
-            <img src="/images/logo-pin-purple.png" alt="Logo" class="top-logo">
+                <!-- Judul Connect! — di tengah & tebal & putih -->
+                <h5 class="mb-0 fw-bold text-white">Connect!</h5>
+
+                <!-- Logo di kanan -->
+                <div class="position-absolute end-0" style="right: 0; margin-right: 12px;">
+                    <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Logo" width="33" height="44">
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Profile Header -->
-    <div class="d-flex align-items-center justify-content-between px-4 mb-3">
+    <div class="profile-header-section">
         <div class="d-flex align-items-center">
-            <a href="{{ route('connect.friendProfile', $friend->user_id) }}" class="d-inline-block text-decoration-none">
-                <img src="{{ App\Helpers\AvatarHelper::getAvatarUrl($friend->avatar_url, $friend->username, $friend->full_name) }}"
-                    alt="{{ $friend->full_name }}"
-                    class="rounded-circle me-2"
-                    style="width: 45px; height: 45px; object-fit: cover; transition: transform 0.2s ease;">
-            </a>
+            <img src="{{ App\Helpers\AvatarHelper::getAvatarUrl($friend->avatar_url, $friend->username, $friend->full_name) }}"
+                alt="{{ $friend->full_name }}"
+                class="rounded-circle me-3"
+                style="width: 50px; height: 50px; object-fit: cover;">
             <div>
-                <h6 class="fw-bold mb-0">{{ $friend->full_name }}</h6>
+                <h6 class="fw-bold mb-1">{{ $friend->full_name }}</h6>
                 <small class="text-muted">{{ $friend->institution ?? 'User' }}</small>
             </div>
         </div>
@@ -118,8 +112,7 @@
     <!-- Typing + Send Message Box -->
     <div class="message-input-box">
         <div class="d-flex align-items-center bg-white rounded-pill shadow-sm px-3 py-2"
-             id="messageBox"
-             style="background-color: #d2b6ff;">
+             id="messageBox">
             <form action="{{ route('chat.send', $friendId) }}" method="POST" style="display: flex; width: 100%; gap: 0.5rem;">
                 @csrf
                 <input type="text"
@@ -136,7 +129,6 @@
             </form>
         </div>
     </div>
-</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {

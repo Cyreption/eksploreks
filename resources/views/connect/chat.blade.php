@@ -5,14 +5,6 @@
 @section('content')
 
 <style>
-        /* BACKGROUND */
-        body {
-            background: linear-gradient(135deg, #fdf2fb 0%, #f3e8ff 50%, #e0c3fc 100%) !important;
-            min-height: 100vh;
-            margin: 0;
-            padding-bottom: 5rem;
-        }
-
         /* HEADER */
         .chat-header {
             background: #C5A8E0;
@@ -57,6 +49,7 @@
         .search-bar {
             position: relative;
             margin: 1rem 1rem 1.5rem;
+            padding-top: 1rem;
         }
         .search-bar input {
             width: 100%;
@@ -126,18 +119,32 @@
             font-size: 0.75rem !important;
             font-weight: 600 !important;
         }
+
+        #chatList {
+            margin-top: 1rem;
+        }
     </style>
 
     <!-- Header -->
-    <div class="chat-header position-relative">
-        <a href="{{ route('connect.index') }}" class="back-arrow">
-            <i class="bi bi-arrow-left"></i>
-        </a>
+    <div class="bg-purple-light text-white">
+        <div class="container-fluid py-4 position-relative px-0">
+            <div class="d-flex align-items-center justify-content-center position-relative">
+                <!-- Tombol Back: Lingkaran #70539A + panah putih -->
+                <a href="{{ route('connect.index') }}" 
+                   class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+                   style="background-color: #70539A; width: 44px; height: 44px; left: 0; z-index: 10; margin-left: 12px;">
+                    <i class="bi bi-arrow-left fs-4"></i>
+                </a>
 
-        <h1 class="h5 mb-0 fw-bold">Chat</h1>
+                <!-- Judul Chat — di tengah & tebal & putih -->
+                <h5 class="mb-0 fw-bold text-white">Chat</h5>
 
-        <!-- LOGO (ukuran 24×34px) -->
-        <img src="/images/logo-pin-purple.png" alt="Logo" class="top-logo">
+                <!-- Logo di kanan -->
+                <div class="position-absolute end-0" style="right: 0; margin-right: 12px;">
+                    <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Logo" width="33" height="44">
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Search -->

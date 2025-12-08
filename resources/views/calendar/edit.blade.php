@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-<div class="container py-4 pb-6 form-content">
+<div class="container py-4 form-content">
     <h2 class="fw-bold text-dark mb-4">Edit Schedule</h2>
 
     <form action="{{ route('calendar.update', $calendarEvent->calendar_event_id) }}" method="POST">

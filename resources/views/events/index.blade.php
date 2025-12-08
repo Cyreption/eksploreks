@@ -2,16 +2,33 @@
 @section('title', 'Events')
 @section('content')
 
+<style>
+    body {
+        background: #fff;
+    }
+</style>
+
 <!-- Header -->
-<header class="bg-white shadow-sm p-3 sticky-top">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-        <a href="/dashboard" class="text-purple">
-            <i class="bi bi-arrow-left fs-4"></i>
-        </a>
-        <h1 class="h5 fw-bold text-purple">Event in ITS!</h1>
-        <img src="https://via.placeholder.com/40/9333ea/ffffff?text=ITS" class="rounded-circle" width="40">
+<div class="bg-purple-light text-white">
+    <div class="container-fluid py-4 position-relative px-0">
+        <div class="d-flex align-items-center justify-content-center position-relative">
+            <!-- Tombol Back: Lingkaran #70539A + panah putih -->
+            <a href="/dashboard" 
+               class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+               style="background-color: #70539A; width: 44px; height: 44px; left: 0; z-index: 10; margin-left: 12px;">
+                <i class="bi bi-arrow-left fs-4"></i>
+            </a>
+
+            <!-- Judul Event in ITS! — di tengah & tebal & putih -->
+            <h5 class="mb-0 fw-bold text-white">Event in ITS!</h5>
+
+            <!-- Logo di kanan -->
+            <div class="position-absolute end-0" style="right: 0; margin-right: 12px;">
+                <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Logo" width="33" height="44">
+            </div>
+        </div>
     </div>
-</header>
+</div>
 
 <!-- Search -->
 <div class="container mt-3">
@@ -26,7 +43,7 @@
 </div>
 
 <!-- Event List -->
-<div class="container mt-4 pb-6" id="event-list">
+<div class="container mt-4" id="event-list">
     @forelse($events as $event)
         <a href="{{ route('events.show', $event) }}" class="text-decoration-none d-block mb-3">
             <div class="card border-0 shadow-sm overflow-hidden hover-shadow-lg">

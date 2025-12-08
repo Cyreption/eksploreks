@@ -19,8 +19,7 @@
 <body>
     <div class="diagonal"></div>
     <div class="splash">
-        <img src="https://via.placeholder.com/220/9333ea/ffffff?text=Pin" alt="Eksploreks" class="logo">
-        <div class="title">Eksploreks!</div>
+        <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Eksploreks" class="logo" style="width: 100px; height: auto;">
     </div>
 
     <script>

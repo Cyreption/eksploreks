@@ -85,10 +85,11 @@
 
 <!-- Banner -->
 <div class="container-fluid px-0 mt-2 mt-md-3">
-    <div class="ratio ratio-21x9">
-        <img src="https://via.placeholder.com/1200x300/f3e8ff/9333ea?text=EKSPLOReks+NOW!" 
-             class="w-100 rounded-3 shadow-sm" alt="Banner">
-    </div>
+    <x-banner-carousel 
+        :banners="['banner1.jpg', 'banner2.jpg', 'banner3.jpg', 'banner4.jpg', 'banner5.jpg', 'banner6.jpg']" 
+        :autorotate="true" 
+        :interval="5000"
+        height="300px" />
 </div>
 
 <!-- Fitur Grid -->

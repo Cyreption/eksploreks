@@ -27,7 +27,7 @@
 </header>
 
 <!-- GANTI SELURUH BAGIAN GAMBAR LAMA DENGAN INI -->
-<div class="container mt-4 pb-6">
+<div class="container mt-4">
     <h4 class="fw-bold">{{ $event->title }}</h4>
     <p class="text-muted">{{ $event->organizer }}</p>
     <p class="text-muted small">

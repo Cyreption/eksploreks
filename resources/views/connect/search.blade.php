@@ -187,13 +187,24 @@
 </style>
 
 <!-- Header -->
-<div class="chat-header">
-    <div class="chat-header-inner">
-        <a href="{{ route('connect.index') }}" class="back-arrow">
-            <i class="bi bi-arrow-left"></i>
-        </a>
-        <h1 class="chat-header-title">Search Results</h1>
-        <img src="/images/logo-pin-purple.png" alt="Logo" class="chat-header-logo">
+<div class="bg-purple-light text-white" style="border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; box-shadow: 0 4px 8px rgba(163, 132, 208, 0.15);">
+    <div class="container-fluid py-4 position-relative px-0">
+        <div class="d-flex align-items-center justify-content-center position-relative">
+            <!-- Tombol Back: Lingkaran #70539A + panah putih -->
+            <a href="{{ route('connect.index') }}" 
+               class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+               style="background-color: #70539A; width: 44px; height: 44px; left: 0; z-index: 10; margin-left: 12px;">
+                <i class="bi bi-arrow-left fs-4"></i>
+            </a>
+
+            <!-- Judul Search Results — di tengah & tebal & putih -->
+            <h5 class="mb-0 fw-bold text-white">Search Results</h5>
+
+            <!-- Logo di kanan -->
+            <div class="position-absolute end-0" style="right: 0; margin-right: 12px;">
+                <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Logo" width="33" height="44">
+            </div>
+        </div>
     </div>
 </div>
 

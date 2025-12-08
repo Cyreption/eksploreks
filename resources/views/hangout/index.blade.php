@@ -31,34 +31,38 @@
     }
 </style>
 
-<!-- Header UNGU MUDA -->
-<header class="bg-purple-light text-white p-2 p-md-3 shadow-sm sticky-top">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-        <!-- Back Button -->
-        <a href="/dashboard" class="text-white">
-            <div class="bg-white text-purple rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                <i class="bi bi-arrow-left fs-5"></i>
-            </div>
-        </a>
+<!-- Header -->
+<div class="bg-purple-light text-white">
+    <div class="container-fluid py-4 position-relative px-0">
+        <div class="d-flex align-items-center justify-content-center position-relative">
+            <!-- Tombol Back: Lingkaran #70539A + panah putih -->
+            <a href="/dashboard" 
+               class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+               style="background-color: #70539A; width: 44px; height: 44px; left: 0; z-index: 10; margin-left: 12px;">
+                <i class="bi bi-arrow-left fs-4"></i>
+            </a>
 
-        <!-- Judul Tengah -->
-        <h1 class="h5 fw-bold mb-0">HangOut!</h1>
+            <!-- Judul HangOut! — tetap di tengah & tebal -->
+            <h5 class="mb-0 fw-bold text-white">HangOut!</h5>
 
-        <!-- Ikon Lokasi -->
-        <a href="#" class="text-white">
-            <div class="bg-white text-purple rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                <i class="bi bi-geo-alt-fill fs-5"></i>
+            <!-- Logo di kanan -->
+            <div class="position-absolute end-0" style="right: 0; margin-right: 12px;">
+                <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Logo" width="33" height="44">
             </div>
-        </a>
+        </div>
     </div>
-</header>
+</div>
+        </div>
+    </div>
+</div>
 
 <!-- Banner -->
 <div class="container-fluid px-0 mt-2 mt-md-3">
-    <div class="ratio ratio-21x9">
-        <img src="https://via.placeholder.com/1200x300/f3e8ff/9333ea?text=EXPLORE+AWESOME+CAFES" 
-             class="w-100 rounded-3 shadow-sm" alt="Hangout Banner">
-    </div>
+    <x-banner-carousel 
+        :banners="['banner1.jpg', 'banner2.jpg', 'banner3.jpg', 'banner4.jpg', 'banner5.jpg', 'banner6.jpg']" 
+        :autorotate="true" 
+        :interval="5000"
+        height="300px" />
 </div>
 
 <!-- Top 3 Places -->

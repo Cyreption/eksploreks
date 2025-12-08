@@ -4,23 +4,23 @@
 
 @section('content')
 <!-- Header -->
-<div style="background-color: #CDBAE6;" class="text-black">
-    <div class="container py-4 position-relative">
+<div class="bg-purple-light text-white">
+    <div class="container-fluid py-4 position-relative px-0">
         <div class="d-flex align-items-center justify-content-center position-relative">
             <a href="javascript:history.back()" 
                class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
-               style="background-color: #70539A; width: 44px; height: 44px; left: 12px; z-index: 10;">
+               style="background-color: #70539A; width: 44px; height: 44px; left: 0; z-index: 10; margin-left: 12px;">
                 <i class="bi bi-arrow-left fs-4"></i>
             </a>
-            <h5 class="mb-0 fw-bold">Calendar</h5>
-            <div class="position-absolute end-0" style="right: 12px;">
-                <img src="{{ asset('logo.png') }}" alt="Logo" width="33" height="44">
+            <h5 class="mb-0 fw-bold text-white">Calendar</h5>
+            <div class="position-absolute end-0" style="right: 0; margin-right: 12px;">
+                <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Logo" width="33" height="44">
             </div>
         </div>
     </div>
 </div>
 
-<div class="container py-4 pb-6">
+<div class="container py-4">
 
     <!-- Mini Calendar -->
     <a href="{{ route('calendar.month') }}" class="text-decoration-none">

@@ -58,7 +58,7 @@
 </div>
 
 <!-- Comments -->
-<div class="container pb-6">
+<div class="container">
     <h6 class="fw-bold text-purple mb-3">Comments</h6>
 
     <div id="comments-list" class="space-y-4">

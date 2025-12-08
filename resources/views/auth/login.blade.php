@@ -10,7 +10,7 @@
 <body class="bg-gradient-to-br from-purple-100 to-purple-300 min-h-screen flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl shadow-2xl p-10 w-full max-w-sm transform transition-all hover:scale-105">
         <div class="text-center mb-8">
-            <img src="https://via.placeholder.com/100/9333ea/ffffff?text=Pin" class="mx-auto rounded-full shadow-lg w-24 h-24">
+            <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Eksploreks" class="mx-auto w-24 h-24" style="object-fit: contain;">
             <h1 class="text-3xl font-bold text-purple-800 mt-5">Welcome!</h1>
         </div>
         <form action="{{ route('login') }}" method="POST">

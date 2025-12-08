@@ -15,7 +15,7 @@
     </div>
 </header>
 
-<div class="container mt-4 pb-6">
+<div class="container mt-4">
     <form action="{{ route('events.store') }}" method="post" enctype="multipart/form-data">
         @csrf
 

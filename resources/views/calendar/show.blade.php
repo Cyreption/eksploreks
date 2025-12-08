@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div class="container py-4 pb-6">
+<div class="container py-4">
 
     <!-- Title -->
     <div class="bg-white rounded-3 shadow-sm p-4 mb-3 d-flex gap-3">

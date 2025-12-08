@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div class="container py-4 pb-6">
+<div class="container py-4">
 
     <!-- Month Selector Pills -->
     <div class="d-flex gap-3 mb-4 overflow-auto">
