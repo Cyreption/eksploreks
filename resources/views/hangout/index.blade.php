@@ -2,6 +2,9 @@
 @section('title', 'Hangout')
 @section('content')
 
+<!-- Author: Satria Pinandita (5026231004) -->
+
+
 <style>
     .place-card {
         transition: all 0.3s ease;

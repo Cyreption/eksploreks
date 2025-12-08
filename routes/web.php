@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\CalendarEventController;
+use App\Http\Controllers\FriendListController;
+use App\Http\Controllers\FriendRequestController;
 
 // Created by Satria Pinandita - 5026231004
 // Splash & Auth
@@ -40,21 +42,21 @@ Route::post('/hangout/{id}/review', [\App\Http\Controllers\PlaceController::clas
 
 // ====================== FITUR CONNECT ======================
 Route::prefix('/connect')->name('connect.')->group(function () {
-    Route::get('/', [\App\Http\Controllers\FriendListController::class, 'index'])->name('index');
+    Route::get('/', [FriendListController::class, 'listFriends'])->name('index');
     Route::get('/add/{userId}', [\App\Http\Controllers\ConnectController::class, 'showAddFriend'])->name('addFriend');
     Route::get('/stranger/{userId}', [\App\Http\Controllers\ConnectController::class, 'showStrangerProfile'])->name('strangerProfile');
     Route::get('/search', [\App\Http\Controllers\ConnectController::class, 'search'])->name('search');
 });
 
 Route::prefix('/friend-request')->name('friendRequest.')->group(function () {
-    Route::get('/', [\App\Http\Controllers\FriendRequestController::class, 'index'])->name('index');
-    Route::post('/', [\App\Http\Controllers\FriendRequestController::class, 'store'])->name('store');
-    Route::put('/{friendRequest}', [\App\Http\Controllers\FriendRequestController::class, 'update'])->name('update');
-    Route::delete('/{friendRequest}', [\App\Http\Controllers\FriendRequestController::class, 'destroy'])->name('destroy');
+    Route::get('/', [FriendRequestController::class, 'listFriendRequests'])->name('index');
+    Route::post('/', [FriendRequestController::class, 'sendFriendRequest'])->name('store');
+    Route::put('/{friendRequest}', [FriendRequestController::class, 'respondFriendRequest'])->name('update');
+    Route::delete('/{friendRequest}', [FriendRequestController::class, 'cancelFriendRequest'])->name('destroy');
 });
 
 Route::prefix('/friend-list')->name('friendList.')->group(function () {
-    Route::delete('/{friendList}', [\App\Http\Controllers\FriendListController::class, 'destroy'])->name('destroy');
+    Route::delete('/{friendList}', [FriendListController::class, 'deleteFriend'])->name('destroy');
 });
 
 // ====================== CHAT ======================

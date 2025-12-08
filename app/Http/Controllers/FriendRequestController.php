@@ -12,9 +12,9 @@ use Illuminate\Http\Request;
 class FriendRequestController extends Controller
 {
     /**
-     * Display a listing of the resource (incoming requests).
+     * Display a listing of incoming friend requests.
      */
-    public function index()
+    public function listFriendRequests()
     {
         $userId = session('user_id');
         $requests = FriendRequest::where('friend_id', $userId)
@@ -34,9 +34,9 @@ class FriendRequestController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage (send friend request).
+     * Send a new friend request.
      */
-    public function store(Request $request)
+    public function sendFriendRequest(Request $request)
     {
         $userId = session('user_id');
         $friendId = $request->input('friend_id');
@@ -88,9 +88,9 @@ class FriendRequestController extends Controller
     }
 
     /**
-     * Update the specified resource in storage (accept/reject request).
+     * Accept or reject a friend request.
      */
-    public function update(Request $request, FriendRequest $friendRequest)
+    public function respondFriendRequest(Request $request, FriendRequest $friendRequest)
     {
         $action = $request->input('action');
         
@@ -121,9 +121,9 @@ class FriendRequestController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage (cancel/delete request).
+     * Cancel or delete a friend request.
      */
-    public function destroy(FriendRequest $friendRequest)
+    public function cancelFriendRequest(FriendRequest $friendRequest)
     {
         $friendRequest->delete();
         return back()->with('success', 'Friend request dihapus');

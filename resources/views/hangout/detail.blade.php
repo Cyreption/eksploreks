@@ -3,6 +3,9 @@
 @section('title', '{{ $place["name"] }}')
 
 @section('content')
+
+<!-- Author: Satria Pinandita (5026231004) -->
+
 <!-- Header -->
 <header class="bg-white shadow-sm p-3 sticky-top">
     <div class="container-fluid d-flex justify-content-between align-items-center">
