@@ -11,35 +11,35 @@ use Illuminate\Support\Facades\Auth;
 class CalendarEventController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the calendar events.
      */
-    public function index()
+    public function listCalendarEvents()
     {
         $events = CalendarEvent::where('user_id', Auth::id())->get();
         return view('calendar.index', compact('events'));
     }
 
     /**
-     * Show month view
+     * Show month view of calendar events
      */
-    public function month()
+    public function showMonthView()
     {
         $events = CalendarEvent::where('user_id', Auth::id())->get();
         return view('calendar.month', compact('events'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new calendar event.
      */
-    public function create()
+    public function createCalendarEvent()
     {
         return view('calendar.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created calendar event in storage.
      */
-    public function store(Request $request)
+    public function storeCalendarEvent(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -61,25 +61,25 @@ class CalendarEventController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified calendar event.
      */
-    public function show(CalendarEvent $calendarEvent)
+    public function showCalendarEvent(CalendarEvent $calendarEvent)
     {
         return view('calendar.show', compact('calendarEvent'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified calendar event.
      */
-    public function edit(CalendarEvent $calendarEvent)
+    public function editCalendarEvent(CalendarEvent $calendarEvent)
     {
         return view('calendar.edit', compact('calendarEvent'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified calendar event in storage.
      */
-    public function update(Request $request, CalendarEvent $calendarEvent)
+    public function updateCalendarEvent(Request $request, CalendarEvent $calendarEvent)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -100,9 +100,9 @@ class CalendarEventController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified calendar event from storage.
      */
-    public function destroy(CalendarEvent $calendarEvent)
+    public function deleteCalendarEvent(CalendarEvent $calendarEvent)
     {
         $calendarEvent->delete();
         return redirect()->route('calendar.index')->with('success', 'Event berhasil dihapus');
