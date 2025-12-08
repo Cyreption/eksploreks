@@ -1,4 +1,4 @@
-@extends('layouts.app')
+xampp@extends('layouts.app')
 @section('title', 'Events')
 @section('content')
 
