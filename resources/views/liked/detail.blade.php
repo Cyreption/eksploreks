@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Coffee Shop')
 @section('content')
+<!-- Author: Satria Pinandita (5026231004) -->
+
 
 @php
     // Simulasi data berdasarkan ID

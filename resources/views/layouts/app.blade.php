@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- Author: Satria Pinandita (5026231004) -->
+
 <html lang="id">
 <head>
     <meta charset="UTF-8">

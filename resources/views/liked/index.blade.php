@@ -2,6 +2,8 @@
 @section('title', 'Liked List')
 @section('content')
 
+<!-- Author: Satria Pinandita (5026231004) -->
+
 <style>
     .cafe-card {
         transition: all 0.3s ease;

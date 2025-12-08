@@ -3,6 +3,9 @@
 @section('title', 'Detail Recruitment')
 
 @section('content')
+
+<!-- Author: Aulia Salma Anjani (5026231063) -->
+
 <!-- Header — 100% SAMA dengan index.blade.php kamu -->
 <div class="bg-purple-light text-black">
     <div class="container py-4 position-relative">

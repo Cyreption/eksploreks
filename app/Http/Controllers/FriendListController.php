@@ -12,9 +12,9 @@ use Illuminate\Http\Request;
 class FriendListController extends Controller
 {
     /**
-     * Display a listing of the resource (connect page with suggestions).
+     * Display a listing of friends and suggestions.
      */
-    public function index()
+    public function listFriends()
     {
         $userId = session('user_id');
         
@@ -109,9 +109,9 @@ class FriendListController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage (unfriend).
+     * Remove a friend from the friend list (unfriend).
      */
-    public function destroy(FriendList $friendList)
+    public function deleteFriend(FriendList $friendList)
     {
         $friendList->delete();
         return back()->with('success', 'Teman dihapus dari daftar');

@@ -3,6 +3,9 @@
 @section('title', 'Recruitment')
 
 @section('content')
+
+<!-- Author: Aulia Salma Anjani (5026231063) -->
+
 <!-- Header — Tombol back jadi lingkaran ungu tua + panah putih, judul tetap di tengah -->
 <div class="bg-purple-light text-white">
     <div class="container-fluid py-4 position-relative px-0">
