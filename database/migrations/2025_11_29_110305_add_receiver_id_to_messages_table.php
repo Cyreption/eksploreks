@@ -1,5 +1,7 @@
 <?php
 
+// Author: Nashita Aulia (5026231054)
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

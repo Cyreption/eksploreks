@@ -1,3 +1,5 @@
+<!-- Author: Hafizhan Yusra Sulistyo (5026231060) -->
+
 @extends('layouts.app')
 @section('title', 'Event Detail')
 @section('content')
@@ -14,7 +16,6 @@
 </div>
 @else
 
-<!-- created by Hafizhan Yusra Sulistyo - 5026231060 -->
 <!-- Header -->
 <header class="bg-white shadow-sm p-3 sticky-top">
     <div class="container-fluid d-flex justify-content-between align-items-center">

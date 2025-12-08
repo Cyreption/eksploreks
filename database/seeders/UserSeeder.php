@@ -1,5 +1,7 @@
 <?php
 
+// Author: Nashita Aulia (5026231054)
+
 namespace Database\Seeders;
 
 use App\Models\User;

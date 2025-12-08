@@ -1,5 +1,7 @@
 <?php
 
+// Author: Hafizhan Yusra Sulistyo (5026231060) & // Author: Aulia Salma Anjani (5026231063)
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;

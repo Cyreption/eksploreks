@@ -1,5 +1,7 @@
 <?php
 
+// Author: Satria Pinandita (5026231004)
+
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;

@@ -1,5 +1,7 @@
 <?php
 
+// Author: Aulia Salma Anjani (5026231063) & // Author: Hafizhan Yusra Sulistyo (5026231060)
+
 namespace App\Http\Controllers;
 
 use App\Models\AcademicCalendar;

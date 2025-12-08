@@ -1,6 +1,6 @@
 <?php
 
-// created by Hafizhan Yusra Sulistyo - 5026231060
+// Author: Hafizhan Yusra Sulistyo (5026231060)
 
 namespace App\Models;
 

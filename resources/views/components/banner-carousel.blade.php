@@ -1,3 +1,5 @@
+<!-- Author: Satria Pinandita (5026231004) -->
+
 @props([
     'banners' => [],
     'autorotate' => true,

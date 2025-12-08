@@ -1,5 +1,7 @@
 <?php
 
+//bareng-bareng
+
 namespace Database\Seeders;
 
 use App\Models\User;

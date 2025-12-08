@@ -1,3 +1,5 @@
+<!-- Author: Aulia Salma Anjani (5026231063) & // Author: Hafizhan Yusra Sulistyo (5026231060) --><!-- Author: Aulia Salma Anjani (5026231063) & // Author: Hafizhan Yusra Sulistyo (5026231060) -->
+
 {{-- resources/views/academic-calendar/month.blade.php --}}
 @extends('layouts.app')
 

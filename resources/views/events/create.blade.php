@@ -1,5 +1,5 @@
 <!--// filepath: [create.blade.php](http://_vscodecontentref_/0)-->
-<!-- created by Hafizhan Yusra Sulistyo - 5026231060 -->
+<!-- Author: Hafizhan Yusra Sulistyo (5026231060) -->
 
 @extends('layouts.app')
 @section('title', 'Create Event')

@@ -1,3 +1,5 @@
+<!-- Author: Aulia Salma Anjani (5026231063) & // Author: Hafizhan Yusra Sulistyo (5026231060) -->
+
 {{-- resources/views/academic-calendar/index.blade.php --}}
 @extends('layouts.app')
 @section('title', 'Calendar')

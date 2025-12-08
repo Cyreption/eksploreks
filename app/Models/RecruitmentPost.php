@@ -1,5 +1,7 @@
 <?php
 
+// Author: Aulia Salma Anjani (5026231063)
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

@@ -1,5 +1,7 @@
 <?php
 
+// Author: Satria Pinandita (5026231004)
+
 namespace Database\Seeders;
 
 use App\Models\User;

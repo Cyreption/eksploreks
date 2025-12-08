@@ -1,3 +1,5 @@
+<!-- Author: Hafizhan Yusra Sulistyo (5026231060) -->
+
 @extends('layouts.app')
 @section('title', 'Events')
 @section('content')

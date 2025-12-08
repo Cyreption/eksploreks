@@ -1,5 +1,7 @@
 <?php
 
+// Author: Hafizhan Yusra Sulistyo (5026231060) & // Author: Aulia Salma Anjani (5026231063)
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

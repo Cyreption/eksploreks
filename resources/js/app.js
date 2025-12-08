@@ -1,5 +1,7 @@
 import 'bootstrap';
 
+// Author: Hafizhan Yusra Sulistyo (5026231060)
+
 document.addEventListener('DOMContentLoaded', function () {
     // Lazy load images
     const images = document.querySelectorAll('img');
