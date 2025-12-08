@@ -16,7 +16,7 @@ class EventController extends Controller
      * Display a paginated list of events.
      * Supports searching by title and organizer via query string ?q=...
      */
-    public function index(\Illuminate\Http\Request $request)
+    public function listEvents(\Illuminate\Http\Request $request)
     {
         $q = trim($request->query('q', ''));
 
@@ -39,7 +39,7 @@ class EventController extends Controller
     /**
      * Show the form to create a new event.
      */
-    public function create()
+    public function createEvent()
     {
         return view('events.create');
     }
@@ -50,7 +50,7 @@ class EventController extends Controller
      * - Handles optional image upload to public/uploads/events
      * - Combines date + time inputs into start_time / end_time (Carbon)
      */
-    public function store(Request $request)
+    public function storeEvent(Request $request)
     {
         $data = $request->validate([
             'title'             => 'required|string|max:255',
@@ -97,7 +97,7 @@ class EventController extends Controller
     /**
      * Display the specified event.
      */
-    public function show(Event $event)
+    public function showEvent(Event $event)
     {
         return view('events.show.show', compact('event'));
     }
@@ -105,7 +105,7 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified event.
      */
-    public function edit(Event $event)
+    public function editEvent(Event $event)
     {
         return view('events.edit', compact('event'));
     }
@@ -115,7 +115,7 @@ class EventController extends Controller
      * - Validates input
      * - Handles optional image replacement (deletes old image file)
      */
-    public function update(Request $request, Event $event)
+    public function updateEvent(Request $request, Event $event)
     {
         $data = $request->validate([
             'title'             => 'required|string|max:255',
@@ -156,7 +156,7 @@ class EventController extends Controller
      * Remove the specified event from storage.
      * Also deletes uploaded image file if present.
      */
-    public function destroy(Event $event)
+    public function deleteEvent(Event $event)
     {
         if (!empty($event->image) && File::exists(public_path($event->image))) {
             File::delete(public_path($event->image));

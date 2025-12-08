@@ -28,19 +28,22 @@
 
 <div class="container py-4">
 
-    <!-- Search Bar warna ungu muda (sama persis header) -->
+    <!-- Search Bar Form (kirim ke backend) -->
     <div class="mb-5">
-        <div class="position-relative d-inline-block w-100">
-            <!-- Input -->
+        <form action="{{ route('recruitment.index') }}" method="get" class="position-relative d-inline-block w-100">
             <input type="text"
-                   id="searchInput"
+                   name="q"
                    class="form-control rounded-pill border-0 shadow-sm py-3 bg-purple-light text-white placeholder-white fw-medium pe-5"
-                   placeholder="Search ..."
+                   placeholder="Search recruitment..."
+                   value="{{ old('q', $searchQuery ?? '') }}"
                    style="height: 56px; padding-left: 20px; padding-right: 50px !important;">
-
-            <!-- Icon search di KANAN DALAM -->
-            <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y text-white pe-4"></i>
-        </div>
+            
+            <button type="submit"
+                    class="btn position-absolute top-50 end-0 translate-middle-y text-white pe-4"
+                    style="border: none; background: none; padding: 0; cursor: pointer;">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
     </div>
 
     <!-- List Recruitment — Ukuran gambar 375×182 px, responsive sempurna! -->
@@ -65,7 +68,13 @@
             </a>
         @empty
             <div class="alert alert-info text-center">
-                <p class="mb-0">Tidak ada recruitment yang tersedia saat ini</p>
+                <p class="mb-0">
+                    @if(!empty($searchQuery))
+                        Tidak ada recruitment yang cocok dengan "<strong>{{ $searchQuery }}</strong>"
+                    @else
+                        Tidak ada recruitment yang tersedia saat ini
+                    @endif
+                </p>
             </div>
         @endforelse
     </div>
@@ -107,20 +116,4 @@
         }
     }
 </style>
-
-<script>
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-        const searchValue = this.value.toLowerCase();
-        const items = document.querySelectorAll('#recruitmentList a');
-        
-        items.forEach(item => {
-            const title = item.querySelector('.fw-bold').textContent.toLowerCase();
-            if (title.includes(searchValue)) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    });
-</script>
 @endpush

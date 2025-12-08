@@ -9,24 +9,45 @@ use Illuminate\Http\Request;
 
 class RecruitmentController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of recruitment posts with optional search.
+     */
+    public function listRecruitments(Request $request)
     {
-        $recruitments = RecruitmentPost::all();
+        $searchQuery = trim($request->query('q', ''));
 
-        return view('recruitment.index', compact('recruitments'));
+        $recruitments = RecruitmentPost::query()
+            ->when($searchQuery !== '', function ($query) use ($searchQuery) {
+                $term = '%' . mb_strtolower($searchQuery, 'UTF-8') . '%';
+                $query->whereRaw('LOWER(title) LIKE ?', [$term])
+                    ->orWhereRaw('LOWER(organization) LIKE ?', [$term])
+                    ->orWhereRaw('LOWER(description) LIKE ?', [$term]);
+            })
+            ->get();
+
+        return view('recruitment.index', compact('recruitments', 'searchQuery'));
     }
 
-    public function show(RecruitmentPost $recruitment)
+    /**
+     * Display the specified recruitment post.
+     */
+    public function showRecruitment(RecruitmentPost $recruitment)
     {
         return view('recruitment.show', compact('recruitment'));
     }
 
-    public function create()
+    /**
+     * Show the form for creating a new recruitment post.
+     */
+    public function createRecruitment()
     {
         return view('recruitment.create');
     }
 
-    public function store(Request $request)
+    /**
+     * Store a newly created recruitment post in storage.
+     */
+    public function storeRecruitment(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -51,12 +72,18 @@ class RecruitmentController extends Controller
         return redirect()->route('recruitment.index')->with('success', 'Recruitment berhasil dibuat');
     }
 
-    public function edit(RecruitmentPost $recruitmentPost)
+    /**
+     * Show the form for editing the specified recruitment post.
+     */
+    public function editRecruitment(RecruitmentPost $recruitmentPost)
     {
         return view('recruitment.edit', compact('recruitmentPost'));
     }
 
-    public function update(Request $request, RecruitmentPost $recruitmentPost)
+    /**
+     * Update the specified recruitment post in storage.
+     */
+    public function updateRecruitment(Request $request, RecruitmentPost $recruitmentPost)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -84,7 +111,10 @@ class RecruitmentController extends Controller
         return redirect()->route('recruitment.show', $recruitmentPost)->with('success', 'Recruitment berhasil diupdate');
     }
 
-    public function destroy(RecruitmentPost $recruitmentPost)
+    /**
+     * Remove the specified recruitment post from storage.
+     */
+    public function deleteRecruitment(RecruitmentPost $recruitmentPost)
     {
         if ($recruitmentPost->image && file_exists(public_path($recruitmentPost->image))) {
             unlink(public_path($recruitmentPost->image));
@@ -93,5 +123,28 @@ class RecruitmentController extends Controller
         $recruitmentPost->delete();
 
         return redirect()->route('recruitment.index')->with('success', 'Recruitment berhasil dihapus');
+    }
+
+    /**
+     * Search recruitment posts by title, organization, or description.
+     * This method handles AJAX requests for real-time search.
+     */
+    public function searchRecruitments(Request $request)
+    {
+        $searchQuery = trim($request->query('q', ''));
+
+        $recruitments = RecruitmentPost::query()
+            ->when($searchQuery !== '', function ($query) use ($searchQuery) {
+                $term = '%' . mb_strtolower($searchQuery, 'UTF-8') . '%';
+                $query->whereRaw('LOWER(title) LIKE ?', [$term])
+                    ->orWhereRaw('LOWER(organization) LIKE ?', [$term])
+                    ->orWhereRaw('LOWER(description) LIKE ?', [$term]);
+            })
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $recruitments,
+        ]);
     }
 }

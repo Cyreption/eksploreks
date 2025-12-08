@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\EventController;
-
+use App\Http\Controllers\CalendarEventController;
 
 // Created by Satria Pinandita - 5026231004
 // Splash & Auth
@@ -21,9 +21,16 @@ Route::get('/profile', fn() => view('profile.index'))->name('profile');
 
 // Events
 
-Route::resource('events', EventController::class);
+Route::get('events', [EventController::class, 'listEvents'])->name('events.index');
+Route::get('events/create', [EventController::class, 'createEvent'])->name('events.create');
+Route::post('events', [EventController::class, 'storeEvent'])->name('events.store');
+Route::get('events/{event}', [EventController::class, 'showEvent'])->name('events.show');
+Route::get('events/{event}/edit', [EventController::class, 'editEvent'])->name('events.edit');
+Route::put('events/{event}', [EventController::class, 'updateEvent'])->name('events.update');
+Route::delete('events/{event}', [EventController::class, 'deleteEvent'])->name('events.destroy');
 Route::get('events/{event}/download-link', [EventController::class, 'downloadLink'])->name('events.downloadLink');
 Route::get('events/{event}/download-file', [EventController::class, 'downloadFile'])->name('events.downloadFile');
+
 
 // Hangout
 Route::get('/hangout', [\App\Http\Controllers\PlaceController::class, 'hangout'])->name('hangout');
@@ -64,18 +71,26 @@ Route::get('/appblade', fn() => view('connect.appblade'))->name('appblade');
 Route::get('/chatroom', fn() => view('connect.chatroom'))->name('chatroom');
 
 // === RECRUITMENT ROUTES ===
+Route::prefix('recruitment')->name('recruitment.')->group(function () {
+    Route::get('/', [RecruitmentController::class, 'listRecruitments'])->name('index');
+    Route::get('/search', [RecruitmentController::class, 'searchRecruitments'])->name('search');
+    Route::get('/create', [RecruitmentController::class, 'createRecruitment'])->name('create');
+    Route::post('/', [RecruitmentController::class, 'storeRecruitment'])->name('store');
+    Route::get('/{recruitment}', [RecruitmentController::class, 'showRecruitment'])->name('show');
+    Route::get('/{recruitment}/edit', [RecruitmentController::class, 'editRecruitment'])->name('edit');
+    Route::put('/{recruitment}', [RecruitmentController::class, 'updateRecruitment'])->name('update');
+    Route::delete('/{recruitment}', [RecruitmentController::class, 'deleteRecruitment'])->name('destroy');
+});
 
-Route::model('recruitment', \App\Models\RecruitmentPost::class);
-Route::resource('recruitment', RecruitmentController::class);
 
 // ====================== CALENDAR ======================
 Route::prefix('/calendar')->name('calendar.')->group(function () {
-    Route::get('/', [\App\Http\Controllers\CalendarEventController::class, 'index'])->name('index');
-    Route::get('/month', [\App\Http\Controllers\CalendarEventController::class, 'month'])->name('month');
-    Route::get('/create', [\App\Http\Controllers\CalendarEventController::class, 'create'])->name('create');
-    Route::post('/', [\App\Http\Controllers\CalendarEventController::class, 'store'])->name('store');
-    Route::get('/{calendarEvent}', [\App\Http\Controllers\CalendarEventController::class, 'show'])->name('show');
-    Route::get('/{calendarEvent}/edit', [\App\Http\Controllers\CalendarEventController::class, 'edit'])->name('edit');
-    Route::put('/{calendarEvent}', [\App\Http\Controllers\CalendarEventController::class, 'update'])->name('update');
-    Route::delete('/{calendarEvent}', [\App\Http\Controllers\CalendarEventController::class, 'destroy'])->name('destroy');
+    Route::get('/', [CalendarEventController::class, 'listCalendarEvents'])->name('index');
+    Route::get('/month', [CalendarEventController::class, 'showMonthView'])->name('month');
+    Route::get('/create', [CalendarEventController::class, 'createCalendarEvent'])->name('create');
+    Route::post('/', [CalendarEventController::class, 'storeCalendarEvent'])->name('store');
+    Route::get('/{calendarEvent}', [CalendarEventController::class, 'showCalendarEvent'])->name('show');
+    Route::get('/{calendarEvent}/edit', [CalendarEventController::class, 'editCalendarEvent'])->name('edit');
+    Route::put('/{calendarEvent}', [CalendarEventController::class, 'updateCalendarEvent'])->name('update');
+    Route::delete('/{calendarEvent}', [CalendarEventController::class, 'deleteCalendarEvent'])->name('destroy');
 });
