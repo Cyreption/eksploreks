@@ -221,11 +221,11 @@
 
     <!-- Header -->
 <!-- Header -->
-<div class="bg-purple-light text-white" style="border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; box-shadow: 0 4px 8px rgba(163, 132, 208, 0.15);">
+<div class="bg-purple-light text-white">
     <div class="container-fluid py-4 position-relative px-0">
         <div class="d-flex align-items-center justify-content-center position-relative">
-            <!-- Tombol Back: Lingkaran #70539A + panah putih -->
-            <a href="/dashboard" 
+            <!-- Tombol Back: tetap ke /dashboard -->
+            <a href="/dashboard"
                class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
                style="background-color: #70539A; width: 44px; height: 44px; left: 0; z-index: 10; margin-left: 12px;">
                 <i class="bi bi-arrow-left fs-4"></i>

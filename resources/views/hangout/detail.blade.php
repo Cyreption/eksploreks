@@ -7,17 +7,26 @@
 <!-- Author: Satria Pinandita (5026231004) -->
 
 <!-- Header -->
-<header class="bg-white shadow-sm p-3 sticky-top">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-        <a href="{{ route('hangout') }}" class="text-purple">
-            <i class="bi bi-arrow-left fs-4"></i>
-        </a>
-        <h1 class="h6 fw-bold text-purple">{{ $place['name'] }}</h1>
-        <a href="#" class="text-purple">
-            <i class="bi bi-share fs-4"></i>
-        </a>
+<div class="bg-purple-light text-white">
+    <div class="container-fluid py-4 position-relative px-0">
+        <div class="d-flex align-items-center justify-content-center position-relative">
+            <!-- Tombol Back: kembali ke daftar hangout -->
+            <a href="{{ route('hangout') }}"
+               class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+               style="background-color: #70539A; width: 44px; height: 44px; left: 0; z-index: 10; margin-left: 12px;">
+                <i class="bi bi-arrow-left fs-4"></i>
+            </a>
+
+            <!-- Judul HangOut! — di tengah & tebal & putih -->
+            <h5 class="mb-0 fw-bold text-white">{{ $place['name'] }}</h5>
+
+            <!-- Logo di kanan -->
+            <div class="position-absolute end-0" style="right: 0; margin-right: 12px;">
+                <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Logo" width="33" height="44">
+            </div>
+        </div>
     </div>
-</header>
+</div>
 
 <!-- Shop Image -->
 <div class="container-fluid px-0 mt-3">

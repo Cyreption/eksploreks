@@ -16,11 +16,13 @@ Route::get('/logout', [\App\Http\Controllers\ProfileController::class, 'logout']
 Route::get('/register', [\App\Http\Controllers\ProfileController::class, 'showRegister'])->name('register');
 Route::post('/register', [\App\Http\Controllers\ProfileController::class, 'register']);
 
+// Created by Satria Pinandita - 5026231004
 // Main Page
 Route::get('/dashboard', [\App\Http\Controllers\ProfileController::class, 'dashboard'])->name('dashboard');
 Route::get('/liked', [\App\Http\Controllers\PlaceController::class, 'likedList'])->name('liked');
 Route::get('/profile', fn() => view('profile.index'))->name('profile');
 
+// Author: Hafizhan Yusra Sulistyo (5026231060)
 // Events
 
 Route::get('events', [EventController::class, 'listEvents'])->name('events.index');
@@ -33,13 +35,14 @@ Route::delete('events/{event}', [EventController::class, 'deleteEvent'])->name('
 Route::get('events/{event}/download-link', [EventController::class, 'downloadLink'])->name('events.downloadLink');
 Route::get('events/{event}/download-file', [EventController::class, 'downloadFile'])->name('events.downloadFile');
 
-
+// Created by Satria Pinandita - 5026231004
 // Hangout
 Route::get('/hangout', [\App\Http\Controllers\PlaceController::class, 'hangout'])->name('hangout');
 Route::get('/hangout/{id}', [\App\Http\Controllers\PlaceController::class, 'hangoutDetail'])->name('hangout.detail');
 Route::post('/hangout/{id}/like', [\App\Http\Controllers\PlaceController::class, 'toggleLike'])->name('hangout.like');
 Route::post('/hangout/{id}/review', [\App\Http\Controllers\PlaceController::class, 'storeReview'])->name('hangout.review');
 
+// Author: Nashita Aulia (5026231054)
 // ====================== FITUR CONNECT ======================
 Route::prefix('/connect')->name('connect.')->group(function () {
     Route::get('/', [FriendListController::class, 'listFriends'])->name('index');
@@ -59,6 +62,7 @@ Route::prefix('/friend-list')->name('friendList.')->group(function () {
     Route::delete('/{friendList}', [FriendListController::class, 'deleteFriend'])->name('destroy');
 });
 
+// Author: Nashita Aulia (5026231054)
 // ====================== CHAT ======================
 Route::prefix('/chat')->name('chat.')->group(function () {
     Route::get('/', [\App\Http\Controllers\ChatController::class, 'index'])->name('index');
@@ -67,11 +71,13 @@ Route::prefix('/chat')->name('chat.')->group(function () {
     Route::post('/{friendId}/send', [\App\Http\Controllers\ChatController::class, 'sendMessage'])->name('send');
 });
 
+// Author: Nashita Aulia (5026231054)
 // Backward compatibility routes
 Route::get('/chat-old', fn() => redirect()->route('chat.index'))->name('chat-old');
 Route::get('/appblade', fn() => view('connect.appblade'))->name('appblade');
 Route::get('/chatroom', fn() => view('connect.chatroom'))->name('chatroom');
 
+// Author: Aulia Salma Anjani (5026231063)
 // === RECRUITMENT ROUTES ===
 Route::prefix('recruitment')->name('recruitment.')->group(function () {
     Route::get('/', [RecruitmentController::class, 'listRecruitments'])->name('index');
@@ -84,7 +90,7 @@ Route::prefix('recruitment')->name('recruitment.')->group(function () {
     Route::delete('/{recruitment}', [RecruitmentController::class, 'deleteRecruitment'])->name('destroy');
 });
 
-
+// Author: Aulia Salma Anjani (5026231063) & // Author: Hafizhan Yusra Sulistyo (5026231060)
 // ====================== CALENDAR ======================
 Route::prefix('/calendar')->name('calendar.')->group(function () {
     Route::get('/', [CalendarEventController::class, 'listCalendarEvents'])->name('index');
