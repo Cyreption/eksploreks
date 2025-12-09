@@ -71,7 +71,7 @@
         @if($recruitment->application_link)
             <a href="{{ $recruitment->application_link }}" target="_blank"
                class="d-flex align-items-center justify-content-between bg-purple-light text-white rounded-3 py-4 px-4 shadow-lg hover-shadow-lg text-decoration-none">
-                <span class="fw-bold fs-5">Daftar Sekarang</span>
+                <span class="fw-bold fs-5">Registration Link</span>
                 <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
                      style="background-color: #70539A; width: 50px; height: 50px;">
                     <i class="bi bi-box-arrow-up-right fs-4"></i>
@@ -81,10 +81,10 @@
 
         @if($recruitment->file_link)
             <a href="{{ $recruitment->file_link }}" target="_blank"
-               class="d-flex align-items-center justify-content-between bg-secondary text-white rounded-3 py-4 px-4 shadow-lg hover-shadow-lg text-decoration-none">
-                <span class="fw-bold fs-5">Unduh File</span>
+            class="d-flex align-items-center justify-content-between bg-purple-light text-white rounded-3 py-4 px-4 shadow-lg hover-shadow-lg text-decoration-none">
+                <span class="fw-bold fs-5">Download File</span>
                 <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
-                     style="background-color: #6c757d; width: 50px; height: 50px;">
+                    style="background-color: #70539A; width: 50px; height: 50px;">
                     <i class="bi bi-download fs-4"></i>
                 </div>
             </a>

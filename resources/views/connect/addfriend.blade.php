@@ -6,28 +6,25 @@
 <div style="background-color: #f3e8ff; min-height: 100vh;">
 
     <!-- Header -->
-    <div class="position-relative text-center py-3 mb-4"
-         style="background-color: #C5A8E0;
-                color: #fff;
-                font-weight: 700;
-                border-bottom-left-radius: 20px;
-                border-bottom-right-radius: 20px;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+    <div class="bg-purple-light text-white">
+        <div class="container-fluid py-4 position-relative px-0">
+            <div class="d-flex align-items-center justify-content-center position-relative">
+                <!-- Tombol Back: kembali ke daftar connect -->
+                <a href="{{ route('connect.index') }}"
+                class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+                style="background-color: #70539A; width: 44px; height: 44px; left: 0; z-index: 10; margin-left: 12px;">
+                    <i class="bi bi-arrow-left fs-4"></i>
+                </a>
 
-        <!-- Back Arrow -->
-        <a href="{{ route('connect.index') }}" 
-           class="position-absolute start-0 ms-3 text-white"
-           style="top: 50%; transform: translateY(-50%);">
-            <i class="bi bi-arrow-left fs-5"></i>
-        </a>
+                <!-- Judul Add Friend — di tengah & tebal & putih -->
+                <h5 class="mb-0 fw-bold text-white">Add Friend</h5>
 
-        Add Friend
-
-        <!-- Logo kanan atas (ukuran sesuai Figma: 32×46 px) -->
-        <img src="/images/logo-pin-purple.png"
-            alt="Logo"
-            class="position-absolute end-0 me-3"
-            style="top: 50%; transform: translateY(-50%); width: 24px; height: 34px;">
+                <!-- Logo di kanan -->
+                <div class="position-absolute end-0" style="right: 0; margin-right: 12px;">
+                    <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Logo" width="33" height="44">
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Alert Messages -->

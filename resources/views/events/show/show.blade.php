@@ -17,20 +17,32 @@
 @else
 
 <!-- Header -->
-<header class="bg-white shadow-sm p-3 sticky-top">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-        <a href="{{ route('events.index') }}" class="text-purple">
-            <i class="bi bi-arrow-left fs-4"></i>
-        </a>
-        <h1 class="h5 fw-bold text-purple">Event in ITS!</h1>
-        <img src="https://via.placeholder.com/40/9333ea/ffffff?text=ITS" class="rounded-circle" width="40">
+<div class="bg-purple-light text-white sticky-top">
+    <div class="container-fluid py-4 position-relative px-0">
+        <div class="d-flex align-items-center justify-content-center position-relative">
+            <!-- Tombol Back: Lingkaran #70539A + panah putih (kembali ke daftar events) -->
+            <a href="{{ route('events.index') }}"
+               class="position-absolute start-0 d-flex align-items-center justify-content-center rounded-circle shadow-sm text-white"
+               style="background-color: #70539A; width: 44px; height: 44px; left: 0; z-index: 10; margin-left: 12px;">
+                <i class="bi bi-arrow-left fs-4"></i>
+            </a>
+
+            <!-- Judul Event in ITS! — di tengah & tebal & putih -->
+            <h5 class="mb-0 fw-bold text-white">Event in ITS!</h5>
+
+            <!-- Logo di kanan -->
+            <div class="position-absolute end-0" style="right: 0; margin-right: 12px;">
+                <img src="{{ asset('images/logo-pin-purple.png') }}" alt="Logo" width="33" height="44">
+            </div>
+        </div>
     </div>
-</header>
+</div>
 
 <!-- GANTI SELURUH BAGIAN GAMBAR LAMA DENGAN INI -->
 <div class="container mt-4">
     <h4 class="fw-bold">{{ $event->title }}</h4>
-    <p class="text-muted">{{ $event->organizer }}</p>
+    <p class="text-muted mb-1">{{ $event->organizer }}</p>
+    <p class="text-muted mb-1">{{ $event->location }}</p>
     <p class="text-muted small">
         {{ $event->start_time?->format('d F Y H:i') }}
         @if($event->end_time) - {{ $event->end_time->format('d F Y H:i') }} @endif
